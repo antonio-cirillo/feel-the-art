@@ -1,4 +1,4 @@
-import 'package:feel_the_art/screens/introduction/introduction_screen.dart';
+import 'package:feel_the_art/screens/menu/menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,6 +19,6 @@ class MyApp extends StatelessWidget {
         title: 'Feel the ART',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(scaffoldBackgroundColor: kPrimaryColor),
-        home: OnBoardingPage());
+        home: Menu());
   }
 }
