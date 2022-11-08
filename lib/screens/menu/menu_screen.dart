@@ -41,7 +41,7 @@ class MenuState extends State<Menu> {
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.search),
+        icon: const Icon(CupertinoIcons.collections),
         title: ("Collection"),
         activeColorPrimary: kPrimaryColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
