@@ -6,7 +6,6 @@ import 'package:device_preview/device_preview.dart';
 import 'package:feel_the_art/utils/colors.dart';
 
 void main() {
-
   runApp(
     DevicePreview(
       enabled: true,

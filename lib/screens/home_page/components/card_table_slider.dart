@@ -11,24 +11,27 @@ class CardTableSlider extends StatelessWidget {
   const CardTableSlider({Key? key}) : super(key: key);
 
   List<Widget> _buildCards() {
+    double topMargin = SizeConfig.getProportionateScreenHeight(10);
+    double middleMargin = SizeConfig.getProportionateScreenHeight(5);
+    double heightImage = SizeConfig.getProportionateScreenHeight(450);
+    double fontSize = SizeConfig.getProportionateScreenHeight(36);
     return imgList
         .map((item) => Container(
             // color: Colors.red,
             width: double.infinity,
             child: Column(
               children: <Widget>[
-                const Spacer(),
+                SizedBox(height: topMargin),
                 FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text("Tavolo da gioco",
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: SizeConfig.getProportionateScreenWidth(36),
+                          fontSize: fontSize,
                           fontFamily: 'ElsieSwashCaps')),
                 ),
-                SizedBox(height: SizeConfig.getProportionateScreenHeight(10)),
-                Image.asset(item),
-                const Spacer(flex: 2)
+                SizedBox(height: middleMargin),
+                Image.asset(item, height: heightImage),
               ],
             )))
         .toList();
@@ -36,9 +39,10 @@ class CardTableSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = SizeConfig.getProportionateScreenHeight(650);
     return CarouselSlider(
       options: CarouselOptions(
-          height: SizeConfig.getProportionateScreenHeight(650),
+          height: height,
           autoPlay: false,
           enableInfiniteScroll: false,
           initialPage: 0,
