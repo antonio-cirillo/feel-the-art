@@ -27,7 +27,7 @@ class CardTableSlider extends StatelessWidget {
                           fontFamily: 'ElsieSwashCaps')),
                 ),
                 SizedBox(height: SizeConfig.getProportionateScreenHeight(10)),
-                Stack(children: <Widget>[Image.asset(item)]),
+                Image.asset(item),
                 const Spacer(flex: 2)
               ],
             )))
