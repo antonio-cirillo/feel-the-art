@@ -13,10 +13,10 @@ class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
 
   @override
-  MenuState createState() => MenuState();
+  State<Menu> createState() => _MenuState();
 }
 
-class MenuState extends State<Menu> {
+class _MenuState extends State<Menu> {
   late final PersistentTabController _controller;
 
   @override

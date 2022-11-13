@@ -1,5 +1,6 @@
-import 'package:feel_the_art/screens/home_page/components/card_table_slider.dart';
 import 'package:flutter/material.dart';
+
+import 'grid_cards.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -15,9 +16,10 @@ class _BodyState extends State<Body> {
         child: Column(
       children: <Widget>[
         Expanded(flex: 2, child: Container(color: Colors.black)),
-        const Expanded(
+        Expanded(
             flex: 7,
-            child: Align(alignment: Alignment.center, child: CardTableSlider()))
+            child: Container(
+                padding: const EdgeInsets.all(20), child: GridCards()))
       ],
     ));
   }
