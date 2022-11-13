@@ -20,6 +20,7 @@ class CardTableSlider extends StatelessWidget {
             // color: Colors.red,
             width: double.infinity,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(height: topMargin),
                 FittedBox(
@@ -47,7 +48,7 @@ class CardTableSlider extends StatelessWidget {
           enableInfiniteScroll: false,
           initialPage: 0,
           enlargeCenterPage: true,
-          viewportFraction: 0.75),
+          viewportFraction: 0.7),
       items: _buildCards(),
     );
   }

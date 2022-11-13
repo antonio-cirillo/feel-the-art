@@ -13,13 +13,12 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Column(
-          children: <Widget>[
-            Expanded(flex: 2, child: Container(color: Colors.black)),
-            const Expanded(
-                flex: 7,
-                child: Align(
-                    alignment: Alignment.center, child: CardTableSlider()))
-          ],
-        ));
+      children: <Widget>[
+        Expanded(flex: 2, child: Container(color: Colors.black)),
+        const Expanded(
+            flex: 7,
+            child: Align(alignment: Alignment.center, child: CardTableSlider()))
+      ],
+    ));
   }
 }
