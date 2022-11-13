@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:feel_the_art/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -30,8 +31,37 @@ class CardTableSlider extends StatelessWidget {
                           fontSize: fontSize,
                           fontFamily: 'ElsieSwashCaps')),
                 ),
-                SizedBox(height: middleMargin),
-                Image.asset(item, height: heightImage),
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: <Widget>[
+                    Image.asset(item, height: heightImage),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 20), //Button_play padding from bottom image
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(70)),
+                            backgroundColor: Colors.green
+                          ),
+                          onPressed: () => {},
+                          child: DefaultTextStyle(
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20, //Size of Play Now text
+                                fontFamily: 'ElsieSwashCaps'
+                            ),
+                            child: AnimatedTextKit(
+                              animatedTexts: [
+                                WavyAnimatedText('GIOCA ORA!'),
+                              ],
+                              repeatForever: true,
+                              isRepeatingAnimation: true,
+                            ),
+                          )
+                      ),
+                    )
+                  ]
+                )
               ],
             )))
         .toList();
