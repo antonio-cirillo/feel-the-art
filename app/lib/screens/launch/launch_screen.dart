@@ -4,14 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({super.key});
+class LaunchScreen extends StatefulWidget {
+  const LaunchScreen({super.key});
 
   @override
-  OnBoardingPageState createState() => OnBoardingPageState();
+  State<LaunchScreen> createState() => _LaunchScreen();
 }
 
-class OnBoardingPageState extends State<OnBoardingPage> {
+class _LaunchScreen extends State<LaunchScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   static const bodyStyle = TextStyle(fontSize: 19.0);
@@ -30,7 +30,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
 
   void _onIntroEnd(context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const Login()),
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
     );
   }
 

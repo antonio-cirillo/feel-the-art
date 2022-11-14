@@ -27,9 +27,9 @@ class _MenuState extends State<Menu> {
 
   List<Widget> _buildScreens() {
     return [
-      const HomePage(),
-      const Collection(),
-      const DailyQuestion(),
+      const HomePageScreen(),
+      const CollectionScreen(),
+      const DailyQuestionScreen(),
       const Account()
     ];
   }
