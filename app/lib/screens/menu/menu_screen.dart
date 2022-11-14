@@ -30,7 +30,7 @@ class _MenuState extends State<Menu> {
       const HomePageScreen(),
       const CollectionScreen(),
       const DailyQuestionScreen(),
-      const Account()
+      const AccountScreen()
     ];
   }
 
