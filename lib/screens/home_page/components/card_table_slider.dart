@@ -16,6 +16,8 @@ class CardTableSlider extends StatelessWidget {
     double middleMargin = SizeConfig.getProportionateScreenHeight(5);
     double heightImage = SizeConfig.getProportionateScreenHeight(450);
     double fontSize = SizeConfig.getProportionateScreenHeight(36);
+    double buttonBottomMargin = SizeConfig.getProportionateScreenHeight(65);
+    double textButtonPadding = SizeConfig.getProportionateScreenWidth(10);
     return imgList
         .map((item) => Container(
             // color: Colors.red,
@@ -37,18 +39,19 @@ class CardTableSlider extends StatelessWidget {
                   children: <Widget>[
                     Image.asset(item, height: heightImage),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 20), //Button_play padding from bottom image
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, buttonBottomMargin), //Button_play padding from bottom image
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(70)),
+                            padding: EdgeInsets.all(textButtonPadding),
                             backgroundColor: Colors.green
                           ),
                           onPressed: () => {},
                           child: DefaultTextStyle(
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20, //Size of Play Now text
+                                fontSize: fontSize, //Size of Play Now text
                                 fontFamily: 'ElsieSwashCaps'
                             ),
                             child: AnimatedTextKit(
