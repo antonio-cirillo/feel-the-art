@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/size_config.dart';
 import 'grid_cards.dart';
 
 class Body extends StatefulWidget {
@@ -19,7 +20,11 @@ class _BodyState extends State<Body> {
         Expanded(
             flex: 7,
             child: Container(
-                padding: const EdgeInsets.all(20), child: GridCards()))
+                padding: EdgeInsets.only(
+                    left: SizeConfig.getProportionateScreenHeight(20),
+                    right: SizeConfig.getProportionateScreenHeight(20)
+                ),
+                child: GridCards()))
       ],
     ));
   }
