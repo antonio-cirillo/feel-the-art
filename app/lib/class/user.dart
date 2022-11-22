@@ -1,12 +1,14 @@
+import 'dart:math';
+
 import 'package:feel_the_art/utils/local_web_request.dart';
 
 class User {
   String name;
   int _exp, _level, _avatar;
 
-  User._(this.name, this._exp, this._level, this._avatar);
+  User._(this.name, this._level, this._exp, this._avatar);
 
-  static User build(Map<String, dynamic> json) {
+  static User buildFromJson(Map<String, dynamic> json) {
     return User._(
       json['name'],
       json['level'],
@@ -32,5 +34,7 @@ class User {
     _avatar = num;
   }
 
-  static const Map<String, dynamic> debug = {'name': 'DEBUG', 'level': 1, 'exp': 0, 'avatar': 1};
+  static Map<String, dynamic> debug(String name) {
+    return {'name': name, 'level': Random().nextInt(10), 'exp': Random().nextInt(10), 'avatar': Random().nextInt(10)};
+  }
 }

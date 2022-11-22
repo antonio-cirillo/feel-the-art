@@ -36,50 +36,11 @@ class _MyAppState extends State<MyApp> {
     _controller = PersistentTabController(initialIndex: 0);
   }
 
-  List<Widget> _buildScreens() {
-    return [
-      const HomePageScreen(),
-      const CollectionScreen(),
-      const DailyQuestionScreen(),
-      const AccountScreen()
-    ];
-  }
-
-  List<PersistentBottomNavBarItem> _navBarsItems() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.game_controller),
-        title: ("Home"),
-        activeColorPrimary: kPrimaryColor,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.collections),
-        title: ("Collection"),
-        activeColorPrimary: kPrimaryColor,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.question_square),
-        title: ("Question"),
-        activeColorPrimary: kPrimaryColor,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.person_crop_circle),
-        title: ("Account"),
-        activeColorPrimary: kPrimaryColor,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      )
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MaterialApp(
       title: 'Feel the ART',
       useInheritedMediaQuery: true,
@@ -87,15 +48,49 @@ class _MyAppState extends State<MyApp> {
       builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(scaffoldBackgroundColor: kPrimaryColor),
+      routes: {
+        '/game': (context) => const Scaffold(),
+      },
       home: Scaffold(
         body: PersistentTabView(
           context,
           controller: _controller,
-          screens: _buildScreens(),
-          items: _navBarsItems(),
+          screens: const [HomePageScreen(), CollectionScreen(), DailyQuestionScreen(), AccountScreen()],
+          items: [
+            PersistentBottomNavBarItem(
+              icon: const Icon(CupertinoIcons.game_controller),
+              title: ("Home"),
+              activeColorPrimary: kPrimaryColor,
+              inactiveColorPrimary: CupertinoColors.systemGrey,
+            ),
+            PersistentBottomNavBarItem(
+              icon: const Icon(CupertinoIcons.collections),
+              title: ("Collection"),
+              activeColorPrimary: kPrimaryColor,
+              inactiveColorPrimary: CupertinoColors.systemGrey,
+            ),
+            PersistentBottomNavBarItem(
+              icon: const Icon(CupertinoIcons.question_square),
+              title: ("Question"),
+              activeColorPrimary: kPrimaryColor,
+              inactiveColorPrimary: CupertinoColors.systemGrey,
+            ),
+            PersistentBottomNavBarItem(
+              icon: const Icon(CupertinoIcons.person_crop_circle),
+              title: ("Account"),
+              activeColorPrimary: kPrimaryColor,
+              inactiveColorPrimary: CupertinoColors.systemGrey,
+            )
+          ],
           navBarStyle: NavBarStyle.style3,
         ),
       ),
     );
+
+    // MultiProvider(
+    //   providers: [
+    //     ChangeNotifierProvider(create: (_) => UserModel('GIGI')),
+    // ],
+    // child: ;
   }
 }

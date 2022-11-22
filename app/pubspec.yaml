@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   http: ^0.13.5
+  provider: ^6.0.4
   flutter:
     sdk: flutter
 
@@ -34,7 +35,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/icons/
     - assets/images/
 
   fonts:

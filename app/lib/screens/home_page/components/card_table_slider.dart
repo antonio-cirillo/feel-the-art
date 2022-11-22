@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:feel_the_art/utils/size_config.dart';
@@ -11,7 +13,7 @@ final List<String> imgList = [
 class CardTableSlider extends StatelessWidget {
   const CardTableSlider({Key? key}) : super(key: key);
 
-  List<Widget> _buildCards() {
+  List<Widget> _buildCards(BuildContext context) {
     double topMargin = SizeConfig.getProportionateScreenHeight(10);
     double middleMargin = SizeConfig.getProportionateScreenHeight(5);
     double heightImage = SizeConfig.getProportionateScreenHeight(450);
@@ -44,7 +46,7 @@ class CardTableSlider extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(70)),
                             backgroundColor: Colors.green
                           ),
-                          onPressed: () => {},
+                          onPressed: () {Navigator.pushNamed(context, '/game');},
                           child: DefaultTextStyle(
                             style: const TextStyle(
                                 color: Colors.white,
@@ -79,7 +81,7 @@ class CardTableSlider extends StatelessWidget {
           initialPage: 0,
           enlargeCenterPage: true,
           viewportFraction: 0.7),
-      items: _buildCards(),
+      items: _buildCards(context),
     );
   }
 }
