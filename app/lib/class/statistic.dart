@@ -21,9 +21,9 @@ class Statistic {
   int get lose => _lose;
   int get tot => _tot;
 
-  void addGame(int pos) {
+  void addGame(int place) {
     _tot++;
-    switch (pos) {
+    switch (place) {
       case 1:
         _first++;
         break;
@@ -49,11 +49,7 @@ class Statistic {
   }
 
   static Statistic debug() {
-    int first = Random().nextInt(10),
-        second = Random().nextInt(10),
-        third = Random().nextInt(10),
-        lose = Random().nextInt(10),
-        tot = Random().nextInt(10);
+    int first = Random().nextInt(10), second = Random().nextInt(10), third = Random().nextInt(10), lose = Random().nextInt(10), tot = Random().nextInt(10);
     return Statistic._(first, second, third, lose, tot);
   }
 }

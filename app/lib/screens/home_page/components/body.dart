@@ -14,16 +14,15 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     final accountInfo = Provider.of<AccountModel>(context);
-    return SafeArea(
-        child: Column(
+    return Column(
       children: <Widget>[
         Expanded(
           flex: 1,
-          child: Text('${accountInfo.name()} ${accountInfo.level()} ${accountInfo.exp()}'),
+          child: Text('${accountInfo.name} ${accountInfo.level} ${accountInfo.exp}'),
         ),
         Expanded(flex: 1, child: ElevatedButton(onPressed: () => {accountInfo.addExp(10)}, child: const Text('Add EXP'))),
         const Expanded(flex: 7, child: Align(alignment: Alignment.center, child: CardTableSlider())),
       ],
-    ));
+    );
   }
 }
