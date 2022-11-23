@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:feel_the_art/utils/local_web_request.dart';
-
 class User {
   String name;
   int _exp, _level, _avatar;
@@ -24,17 +22,21 @@ class User {
   void addExp(int exp) {
     _exp = _exp + exp;
     if (_exp >= _level * 10) {
-      _exp = _exp % _level * 10;
+      _exp = _exp % (_level * 10);
       _level++;
     }
   }
 
   void changeAvatar(int num) {
-    LocalWebRequest.changeAvatar(name, num);
     _avatar = num;
   }
 
-  static Map<String, dynamic> debug(String name) {
+  static Map<String, dynamic> debugJson(String name) {
     return {'name': name, 'level': Random().nextInt(10), 'exp': Random().nextInt(10), 'avatar': Random().nextInt(10)};
+  }
+
+  static User debug() {
+    int level = Random().nextInt(10), exp = Random().nextInt(10), avatar = Random().nextInt(10);
+    return User._('DEBUG', level, exp, avatar);
   }
 }

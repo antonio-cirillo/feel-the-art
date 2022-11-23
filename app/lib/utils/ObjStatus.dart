@@ -1,0 +1,1 @@
+enum ObjStatus { loading, ready, error }

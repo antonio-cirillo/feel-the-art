@@ -16,11 +16,11 @@ class LocalWebRequest {
   };
 
   static Future<Map<String, dynamic>> getUser(String name) async {
-    return debugOffline ? User.debug(name) : await _call('$baseURL/user/$name');
+    return debugOffline ? User.debugJson(name) : await _call('$baseURL/user/$name');
   }
 
   static Future<Map<String, dynamic>> getStatistics(String name) async {
-    return debugOffline ? Statistic.debug() : await _call('$baseURL/statistics/$name');
+    return debugOffline ? Statistic.debugJson() : await _call('$baseURL/statistics/$name');
   }
 
   static Future<Map<String, dynamic>> changeAvatar(String name, int num) async {
