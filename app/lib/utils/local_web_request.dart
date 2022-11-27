@@ -1,7 +1,7 @@
-import 'package:feel_the_art/class/statistic.dart';
-import 'package:feel_the_art/class/user.dart';
+import 'help.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:feel_the_art/class/user/user.dart';
 
 enum WebMethod { get, post, put, patch, delete }
 
@@ -19,13 +19,16 @@ class LocalWebRequest {
     return debugOffline ? User.debugJson(name) : await _call('$baseURL/user/$name');
   }
 
-  static Future<Map<String, dynamic>> getStatistics(String name) async {
-    return debugOffline ? Statistic.debugJson() : await _call('$baseURL/statistics/$name');
+  static Future<Map<String, dynamic>> setAvatar(String name, String el) async {
+    return debugOffline ? {'result': true} : await _call('$baseURL/avatar/$name', verb: WebMethod.post, obj: {'avatar': el});
+  }
+  static Future<Map<String, dynamic>> addAvatar(String name) async {
+    return debugOffline ? {'result': true} : await _call('$baseURL/avatar/$name');
+  }
+  static Future<Map<String, dynamic>> generateAvatar(String name) async {
+    return debugOffline ? {'result': Help.generateRandomString(5)} : await _call('$baseURL/avatar/$name');
   }
 
-  static Future<Map<String, dynamic>> changeAvatar(String name, int num) async {
-    return debugOffline ? {'result': true} : await _call('$baseURL/user/$name', verb: WebMethod.post, obj: {'avatar': num});
-  }
 
   static Future<Map<String, dynamic>> _call(String url, {WebMethod verb = WebMethod.get, Object? obj}) async {
     final http.Response response;
