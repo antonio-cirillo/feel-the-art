@@ -3,6 +3,7 @@ import 'package:feel_the_art/screens/collection/collection_screen.dart';
 import 'package:feel_the_art/screens/daily_question/daily_question_screen.dart';
 import 'package:feel_the_art/screens/debug/debug_screen.dart';
 import 'package:feel_the_art/screens/home_page/home_page_screen.dart';
+import 'package:feel_the_art/screens/leaderboard/leaderboard_screen.dart';
 import 'package:feel_the_art/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _MenuState extends State<Menu> {
   }
 
   List<Widget> _buildScreens() {
-    return [const HomePageScreen(), const CollectionScreen(), const DailyQuestionScreen(), const AccountScreen(), const DebugScreen()];
+    return [const HomePageScreen(), const CollectionScreen(), const LeaderBoardScreen(), const AccountScreen(), const DebugScreen()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -46,7 +47,7 @@ class _MenuState extends State<Menu> {
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.question_square),
-        title: ("Question"),
+        title: ("LeaderBoard"),
         activeColorPrimary: kPrimaryColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),

@@ -10,7 +10,7 @@ import 'package:feel_the_art/screens/menu/menu_screen.dart';
 import 'package:flutter/rendering.dart';
 
 void main() {
-  debugPaintSizeEnabled=true;
+  //debugPaintSizeEnabled=true;
   runApp(
     DevicePreview(
       enabled: true,
