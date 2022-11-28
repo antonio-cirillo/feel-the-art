@@ -77,7 +77,7 @@ class _AvatarState extends State<Avatar> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        accountInfo.addAvatar();
+                        if (_gen) accountInfo.addAvatar();
                         setState(() {
                           _mod = false;
                           _gen = false;
