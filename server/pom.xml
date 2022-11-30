@@ -96,6 +96,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>6.11.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -121,7 +127,7 @@
                 <version>2.2</version>
                 <configuration>
                     <server>maven-tomcat-war-deployment-server</server>
-                    <url>http://localhost:10000/manager/text</url>
+                    <url>http://localhost:8080/manager/text</url>
                     <path>/feel_the_art</path>
                 </configuration>
             </plugin>

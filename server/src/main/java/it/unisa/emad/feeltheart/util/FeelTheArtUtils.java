@@ -92,33 +92,4 @@ public class FeelTheArtUtils {
             return StringUtils.EMPTY;
         }
     }
-
-    /**
-     * this method values LIMIT and OFFSET fields for the paged search query
-     * @param params map containing the parameters to be passed to the query
-     * @param elementForPage number of items per page
-     * @param pageNumber page number
-     */
-    public void setLimitAndOffset(Map<String, Object> params, Long elementForPage, Long pageNumber) {
-        log.info(LogMessage.START);
-
-        if(pageNumber == -1 && elementForPage == -1) {
-            log.info(LogMessage.OFFSET_VALUE, "null");
-            params.put(Constant.UTILITY_KEY_OFFSET, null);
-        }
-        else {
-            if(pageNumber <= 1) {
-                log.info(LogMessage.OFFSET_VALUE, "0");
-                params.put(Constant.UTILITY_KEY_OFFSET, 0);
-            }
-            else {
-                log.info(LogMessage.OFFSET_VALUE, ((pageNumber - 1) * elementForPage));
-                params.put(Constant.UTILITY_KEY_OFFSET, (pageNumber - 1) * elementForPage);
-            }
-            log.info(LogMessage.LIMIT_VALUE, elementForPage);
-            params.put(Constant.UTILITY_KEY_LIMIT, elementForPage);
-        }
-
-        log.info(LogMessage.END);
-    }
 }

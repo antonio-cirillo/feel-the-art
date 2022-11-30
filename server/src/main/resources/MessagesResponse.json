@@ -1,0 +1,22 @@
+{
+  "0001": {
+    "IT": "Operazione avvenuta con successo",
+    "EN": "Successful operation"
+  },
+
+  "0002": {
+    "IT": "Operazione non avvenuta",
+    "EN": "Operation failed"
+  },
+
+  "0003": {
+    "IT": "Richiesta non valida",
+    "EN": "Bad request"
+  },
+
+  "0004": {
+    "IT": "I seguenti campi non sono validi: ",
+    "EN": "The following fields are not valid: "
+  }
+
+}
