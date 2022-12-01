@@ -1,3 +1,4 @@
+import 'package:feel_the_art/utils/obj_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,7 +22,9 @@ class _AvatarState extends State<Avatar> {
   @override
   Widget build(BuildContext context) {
     AccountModel accountInfo = Provider.of<AccountModel>(context);
-
+    if(accountInfo.status != ObjStatus.ready){
+      return const Text('Caricamento');
+    }
     return Column(
       children: <Widget>[
         Row(

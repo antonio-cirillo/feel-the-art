@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 class AccountModel with ChangeNotifier {
   late User _user;
-  ObjStatus status = ObjStatus.loading;
+  ObjStatus _status = ObjStatus.loading;
 
   AccountModel(String name) {
     fetch(name);
-    if (status == ObjStatus.error) {
+    if (_status == ObjStatus.error) {
       throw Exception('Init Failed');
     }
   }
@@ -18,11 +18,13 @@ class AccountModel with ChangeNotifier {
       var request = await LocalWebRequest.getUser(name);
       _user = User.buildFromJson(request);
     } catch (e) {
-      status = ObjStatus.error;
+      _status = ObjStatus.error;
     }
-    status = ObjStatus.ready;
+    _status = ObjStatus.ready;
     notifyListeners();
   }
+
+  ObjStatus get status => _status;
 
   String get name => _user.personaInfo.name;
 
@@ -37,19 +39,19 @@ class AccountModel with ChangeNotifier {
   String get generatedAvatar => _user.avatar.lastGenerated;
   List<String> get allAvatar => _user.avatar.getAll;
   void generateNewAvatar() async {
-    status = ObjStatus.loading;
+    _status = ObjStatus.loading;
     try {
       var request = await LocalWebRequest.generateAvatar(name);
       _user.avatar.lastGenerated = request['result'];
       notifyListeners();
     } catch (e) {
-      status = ObjStatus.error;
+      _status = ObjStatus.error;
     }
-    status = ObjStatus.ready;
+    _status = ObjStatus.ready;
   }
   //Cosa conviene? Check locale e successivo check online? far restituire bool e decidere se fare la chiamata o meno.
   void setAvatar(String el) async {
-    status = ObjStatus.loading;
+    _status = ObjStatus.loading;
     try {
       var request = await LocalWebRequest.setAvatar(name, el);
       if (request['result']) {
@@ -57,12 +59,12 @@ class AccountModel with ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      status = ObjStatus.error;
+      _status = ObjStatus.error;
     }
-    status = ObjStatus.ready;
+    _status = ObjStatus.ready;
   }
   void addAvatar() async{
-    status = ObjStatus.loading;
+    _status = ObjStatus.loading;
     try {
       var request = await LocalWebRequest.addAvatar(name);
       if (request['result']) {
@@ -70,9 +72,9 @@ class AccountModel with ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      status = ObjStatus.error;
+      _status = ObjStatus.error;
     }
-    status = ObjStatus.ready;
+    _status = ObjStatus.ready;
   }
 
 

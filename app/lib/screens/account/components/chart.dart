@@ -1,3 +1,4 @@
+import 'package:feel_the_art/utils/obj_status.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,10 @@ class _ChartWinState extends State<ChartWin> {
 
   @override
   Widget build(BuildContext context) {
+    final accountInfo = Provider.of<AccountModel>(context);
+    if(accountInfo.status != ObjStatus.error){
+      return const Text("Caricamento");
+    }
     return AspectRatio(
       aspectRatio: 1,
       child: PieChart(
@@ -37,14 +42,13 @@ class _ChartWinState extends State<ChartWin> {
           ),
           sectionsSpace: 5,
           centerSpaceRadius: 0,
-          sections: showingSections(context),
+          sections: showingSections(accountInfo),
         ),
       ),
     );
   }
 
-  List<PieChartSectionData> showingSections(BuildContext contex) {
-    final accountInfo = Provider.of<AccountModel>(context);
+  List<PieChartSectionData> showingSections(AccountModel accountInfo) {
     double firstPlace = accountInfo.firstPlaces / accountInfo.totalGames * 100;
     double secondPlace = accountInfo.secondPlaces / accountInfo.totalGames * 100;
     double thirdPlace = accountInfo.thirdPlaces / accountInfo.totalGames * 100;
