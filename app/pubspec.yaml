@@ -12,9 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  http: ^0.13.5
-  provider: ^6.0.4
-  percent_indicator: ^4.2.2
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.1.6
   persistent_bottom_nav_bar_v2: any
@@ -25,22 +22,46 @@ dependencies:
   animated_text_kit: ^4.2.2
   auto_animated: any
   animations: ^2.0.7
-  fl_chart: ^0.55.2
+  shared_preferences: ^2.0.5
+  flutter_animation_progress_bar: ^2.3.1
   multiavatar: ^0.1.5
+  fl_chart: ^0.55.2
+  http: ^0.13.5
+  provider: ^6.0.4
+  percent_indicator: ^4.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: any
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/icon.png"
 
 flutter:
   uses-material-design: true
 
   assets:
+    - assets/icons/
     - assets/images/
+    - assets/background/
+    - assets/cards/images/
+    - assets/cards/cards.json
 
   fonts:
+    - family: Hind
+      fonts:
+        - asset: assets/fonts/Hind-Regular.ttf
+        - asset: assets/fonts/Hind-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Hind-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Hind-Bold.ttf
+          weight: 700
     - family: ElsieSwashCaps
       fonts:
         - asset: assets/fonts/ElsieSwashCaps-Regular.ttf

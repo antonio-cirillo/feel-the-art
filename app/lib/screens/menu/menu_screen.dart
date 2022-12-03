@@ -1,65 +1,75 @@
-import 'package:feel_the_art/screens/account/account_screen.dart';
-import 'package:feel_the_art/screens/collection/collection_screen.dart';
-import 'package:feel_the_art/screens/daily_question/daily_question_screen.dart';
-import 'package:feel_the_art/screens/debug/debug_screen.dart';
-import 'package:feel_the_art/screens/home_page/home_page_screen.dart';
-import 'package:feel_the_art/screens/leaderboard/leaderboard_screen.dart';
-import 'package:feel_the_art/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
-import '../../utils/size_config.dart';
+import '../../utils/colors.dart';
+import '../account/account_screen.dart';
+import '../collection/collection_screen.dart';
+import '../debug/debug_screen.dart';
+import '../home_page/home_page_screen.dart';
+import '../leader_board/leader_board_screen.dart';
 
-class Menu extends StatefulWidget {
-  const Menu({Key? key}) : super(key: key);
+class MenuScreen extends StatefulWidget {
+  const MenuScreen({Key? key}) : super(key: key);
 
   @override
-  State<Menu> createState() => _MenuState();
+  MenuScreenState createState() => MenuScreenState();
 }
 
-class _MenuState extends State<Menu> {
+class MenuScreenState extends State<MenuScreen> {
   late final PersistentTabController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: 3);
+    _controller = PersistentTabController(initialIndex: 0);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   List<Widget> _buildScreens() {
-    return [const HomePageScreen(), const CollectionScreen(), const LeaderBoardScreen(), const AccountScreen(), const DebugScreen()];
+    return [
+      const HomePageScreen(),
+      const CollectionScreen(),
+      const LeaderBoardScreen(),
+      const AccountScreen(),
+      const DebugScreen()
+    ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.game_controller),
-        title: ("Home"),
-        activeColorPrimary: kPrimaryColor,
+        title: ("Gioca"),
+        activeColorPrimary: purpleColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.collections),
-        title: ("Collection"),
-        activeColorPrimary: kPrimaryColor,
+        title: ("Collezione"),
+        activeColorPrimary: purpleColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.question_square),
-        title: ("LeaderBoard"),
-        activeColorPrimary: kPrimaryColor,
+        title: ("Classifica"),
+        activeColorPrimary: purpleColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.person_crop_circle),
-        title: ("Account"),
-        activeColorPrimary: kPrimaryColor,
+        title: ("Profilo"),
+        activeColorPrimary: purpleColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.ellipsis_circle),
-        title: ("DEBUG"),
+        title: ("Debug"),
         activeColorPrimary: kPrimaryColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       )
@@ -68,7 +78,11 @@ class _MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
-    return PersistentTabView(context, controller: _controller, screens: _buildScreens(), items: _navBarsItems(), navBarStyle: NavBarStyle.style3);
+    return Scaffold(
+        body: PersistentTabView(context,
+            controller: _controller,
+            screens: _buildScreens(),
+            items: _navBarsItems(),
+            navBarStyle: NavBarStyle.style3));
   }
 }

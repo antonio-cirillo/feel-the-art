@@ -2,7 +2,7 @@
     package="it.unisa.feel_the_art">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="feel_the_art"
+        android:label="Feel the ART"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
        <activity

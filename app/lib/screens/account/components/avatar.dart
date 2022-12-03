@@ -1,10 +1,9 @@
-import 'package:feel_the_art/utils/obj_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:multiavatar/multiavatar.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
+
 import '../../../model/account_model.dart';
 import '../../../utils/size_config.dart';
 
@@ -22,9 +21,7 @@ class _AvatarState extends State<Avatar> {
   @override
   Widget build(BuildContext context) {
     AccountModel accountInfo = Provider.of<AccountModel>(context);
-    if(accountInfo.status != ObjStatus.ready){
-      return const Text('Caricamento');
-    }
+
     return Column(
       children: <Widget>[
         Row(
@@ -40,9 +37,13 @@ class _AvatarState extends State<Avatar> {
                   radius: SizeConfig.getProportionateScreenWidth(100),
                   lineWidth: SizeConfig.getProportionateScreenWidth(8),
                   startAngle: 180,
-                  percent: accountInfo.exp == 0 ? 0.1 : (accountInfo.exp) / (accountInfo.level * 10),
+                  percent: accountInfo.exp == 0
+                      ? 0.1
+                      : (accountInfo.exp) / (accountInfo.level * 10),
                   center: SvgPicture.string(
-                    multiavatar(_gen ? accountInfo.generatedAvatar : accountInfo.avatar),
+                    multiavatar(_gen
+                        ? accountInfo.generatedAvatar
+                        : accountInfo.avatar),
                     height: SizeConfig.getProportionateScreenWidth(184),
                   ),
                 ),
@@ -102,7 +103,6 @@ class _AvatarState extends State<Avatar> {
               //     Expanded(child: GridView.count(crossAxisCount: 4, children: List.generate(4, (index) => Text('$index')),))
               //   ],
               // ),
-
               Row(
                 children: accountInfo.allAvatar
                     .map(
@@ -121,7 +121,8 @@ class _AvatarState extends State<Avatar> {
                               },
                               child: SvgPicture.string(
                                 multiavatar(e),
-                                height: SizeConfig.getProportionateScreenWidth(70),
+                                height:
+                                    SizeConfig.getProportionateScreenWidth(70),
                               ),
                             ),
                           ],
@@ -137,7 +138,8 @@ class _AvatarState extends State<Avatar> {
           children: [
             Text(
               accountInfo.name,
-              style: const TextStyle(letterSpacing: 2, fontSize: 28, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  letterSpacing: 2, fontSize: 28, fontWeight: FontWeight.bold),
             ),
           ],
         ),

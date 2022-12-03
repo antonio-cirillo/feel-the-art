@@ -1,5 +1,4 @@
-import 'package:feel_the_art/screens/_common/column_label.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/account_model.dart';
@@ -9,15 +8,16 @@ class Statistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // AccountModel accountInfo = Provider.of<AccountModel>(context);
+    AccountModel accountInfo = Provider.of<AccountModel>(context);
 
     return Column(
       children: const [
-         Align(
+        Align(
           alignment: Alignment.centerLeft,
           child: Text(
             'Statistiche',
-            style: TextStyle(letterSpacing: 2, fontSize: 28, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                letterSpacing: 2, fontSize: 28, fontWeight: FontWeight.bold),
           ),
         ),
         // ColumnLabel(image: '/assets/images/card.png', text: 'Partite giocate: ${accountInfo.totalGames}'),

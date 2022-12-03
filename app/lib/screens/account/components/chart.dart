@@ -1,6 +1,4 @@
-import 'package:feel_the_art/utils/obj_status.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,10 +16,6 @@ class _ChartWinState extends State<ChartWin> {
 
   @override
   Widget build(BuildContext context) {
-    final accountInfo = Provider.of<AccountModel>(context);
-    if(accountInfo.status != ObjStatus.error){
-      return const Text("Caricamento");
-    }
     return AspectRatio(
       aspectRatio: 1,
       child: PieChart(
@@ -29,11 +23,14 @@ class _ChartWinState extends State<ChartWin> {
           pieTouchData: PieTouchData(
             touchCallback: (FlTouchEvent event, pieTouchResponse) {
               setState(() {
-                if (!event.isInterestedForInteractions || pieTouchResponse == null || pieTouchResponse.touchedSection == null) {
+                if (!event.isInterestedForInteractions ||
+                    pieTouchResponse == null ||
+                    pieTouchResponse.touchedSection == null) {
                   touchedIndex = -1;
                   return;
                 }
-                touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
+                touchedIndex =
+                    pieTouchResponse.touchedSection!.touchedSectionIndex;
               });
             },
           ),
@@ -42,15 +39,17 @@ class _ChartWinState extends State<ChartWin> {
           ),
           sectionsSpace: 5,
           centerSpaceRadius: 0,
-          sections: showingSections(accountInfo),
+          sections: showingSections(context),
         ),
       ),
     );
   }
 
-  List<PieChartSectionData> showingSections(AccountModel accountInfo) {
+  List<PieChartSectionData> showingSections(BuildContext contex) {
+    final accountInfo = Provider.of<AccountModel>(context);
     double firstPlace = accountInfo.firstPlaces / accountInfo.totalGames * 100;
-    double secondPlace = accountInfo.secondPlaces / accountInfo.totalGames * 100;
+    double secondPlace =
+        accountInfo.secondPlaces / accountInfo.totalGames * 100;
     double thirdPlace = accountInfo.thirdPlaces / accountInfo.totalGames * 100;
     double lose = accountInfo.loseGames / accountInfo.totalGames * 100;
 
@@ -62,26 +61,32 @@ class _ChartWinState extends State<ChartWin> {
 
       switch (i) {
         case 0:
-          return slice(firstPlace, const Color(0xff0293ee), "🥇", radius, fontSize, widgetSize);
+          return slice(firstPlace, const Color(0xff0293ee), "🥇", radius,
+              fontSize, widgetSize);
         case 1:
-          return slice(secondPlace, const Color(0xfff8b250), "🥈", radius, fontSize, widgetSize);
+          return slice(secondPlace, const Color(0xfff8b250), "🥈", radius,
+              fontSize, widgetSize);
         case 2:
-          return slice(thirdPlace, const Color(0xff845bef), "🥉", radius, fontSize, widgetSize);
+          return slice(thirdPlace, const Color(0xff845bef), "🥉", radius,
+              fontSize, widgetSize);
         case 3:
-          return slice(lose, const Color(0xff13d38e), "L", radius, fontSize, widgetSize);
+          return slice(
+              lose, const Color(0xff13d38e), "L", radius, fontSize, widgetSize);
         default:
           throw Exception('Oh no');
       }
     });
   }
 
-  PieChartSectionData slice(double percent, Color color, String badgeContent, double radius, double fontSize, double widgetSize) {
+  PieChartSectionData slice(double percent, Color color, String badgeContent,
+      double radius, double fontSize, double widgetSize) {
     return PieChartSectionData(
       color: color,
       value: percent,
       title: '${double.parse((percent).toStringAsFixed(1))}%',
       radius: radius,
-      titleStyle: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white),
+      titleStyle: TextStyle(
+          fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white),
       badgePositionPercentageOffset: .98,
       badgeWidget: _Badge(widgetSize, color, badgeContent),
     );

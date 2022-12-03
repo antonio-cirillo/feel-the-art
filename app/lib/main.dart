@@ -1,19 +1,27 @@
-import 'package:feel_the_art/model/account_model.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:device_preview/device_preview.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:feel_the_art/utils/colors.dart';
-import 'package:provider/provider.dart';
-import 'package:feel_the_art/screens/menu/menu_screen.dart';
+import 'screens/loading/loading_screen.dart';
+import 'screens/on_boarding/on_boarding_screen.dart';
+import 'utils/colors.dart';
+import 'utils/size_config.dart';
 
-import 'package:flutter/rendering.dart';
+int? isViewed;
 
-void main() {
-  //debugPaintSizeEnabled=true;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // debugPaintSizeEnabled=true;
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  isViewed = prefs.getInt('onBoard');
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (context) => const MyApp(), // Wrap your app
     ),
   );
@@ -24,27 +32,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (ctx) => AccountModel('GIGI'))],
-      child: SafeArea(
-        child: MaterialApp(
-          title: 'Feel the ART',
-          useInheritedMediaQuery: true,
-          locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            scaffoldBackgroundColor: kPrimaryColor,
-          ),
-          routes: {
-            '/game': (context) => const Scaffold(),
-          },
-          home: const Scaffold(
-            body: Menu(),
-          ),
-        ),
-      ),
-    );
+    return MaterialApp(
+        title: 'Feel the ART',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            scaffoldBackgroundColor: kPrimaryColor, fontFamily: 'Hind'),
+        home: const FeelTheArt());
+  }
+}
+
+class FeelTheArt extends StatefulWidget {
+  const FeelTheArt({super.key});
+
+  @override
+  State<FeelTheArt> createState() => _FeelTheArt();
+}
+
+class _FeelTheArt extends State<FeelTheArt> {
+  @override
+  Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    return isViewed != 0 ? const OnBoardingScreen() : const LoadingScreen();
   }
 }

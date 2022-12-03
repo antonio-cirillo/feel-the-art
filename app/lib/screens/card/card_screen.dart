@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 
+import '../../classes/card/game_card.dart';
+import 'components/app_bar.dart';
+import 'components/body.dart';
+
 class CardScreen extends StatelessWidget {
-  const CardScreen({super.key});
+  final GameCard gameCard;
+
+  const CardScreen({Key? key, required this.gameCard}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('DA IMPLEMENTARE'),
+    return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(AppBar().preferredSize.height),
+          child: const CardScreenBar(deck: "Mazzo di Appartenenza")
       ),
+      body: CardScreenBody(gameCard: gameCard)
     );
   }
 }
