@@ -18,6 +18,10 @@ public class Constant {
     public static final String MESSAGE_RESPONSE_CODE_OPERATION_KO = "0002";
     public static final String MESSAGE_RESPONSE_CODE_BAD_REQUEST = "0003";
     public static final String MESSAGE_RESPONSE_CODE_FIELDS_NOT_VALID = "0004";
+    public static final String MESSAGE_RESPONSE_FOUND_KO= "0005";
+
+    public static final String SEPARATOR = ", ";
+    public static final String CREATE_USER_KO = "Error during user creation";
 
     private Constant(){
 

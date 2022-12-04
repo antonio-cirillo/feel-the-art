@@ -1,13 +1,17 @@
 package it.unisa.emad.feeltheart.service;
 
+import it.unisa.emad.feeltheart.dto.user.InitializeUserRequestDto;
+import it.unisa.emad.feeltheart.dto.user.UserDto;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
 
-    //TODO:Declare the following methods
+    String insertUser(UserDto request);
 
-    //UserDto getUserByIdDevice(String idDevice);
+    UserDto getUserByDeviceId(String deviceId);
 
-    //UserDto initializeUser(String idDevice);
+    String initializeUser(InitializeUserRequestDto request);
+
+    Boolean updateUser(UserDto request);
 }

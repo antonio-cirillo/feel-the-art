@@ -66,13 +66,14 @@ public class FeelTheArtUtils {
     /**
      * This method retrieves the response message in the chosen language
      * @param messageCode unique message code
-     * @param languageCode unique language code
      * @return response message in chosen language
      */
-    public String getMessageResponse(String messageCode, String languageCode) {
+    public String getMessageResponse(String messageCode) {
         log.info(LogMessage.START);
 
         try {
+            String languageCode = getLanguage();
+
             var url = new URL(pathMultilanguage);
             BufferedReader read = new BufferedReader(
                     new InputStreamReader(url.openStream()));

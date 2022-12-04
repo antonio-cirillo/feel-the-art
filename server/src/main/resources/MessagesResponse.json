@@ -17,6 +17,11 @@
   "0004": {
     "IT": "I seguenti campi non sono validi: ",
     "EN": "The following fields are not valid: "
+  },
+
+  "0005": {
+    "IT": "Nessun elemento trovato",
+    "EN": "No items found"
   }
 
 }

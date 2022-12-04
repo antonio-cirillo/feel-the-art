@@ -12,6 +12,7 @@ public class LogMessage {
     public static final String END_SERVER_ERROR = "*** END WITH SERVER ERROR: {} ***";
 
     public static final String ERROR = "Error: {}.";
+    public static final String EXCEPTION_CAPTURED = "Captured exception: {}";
 
     public static final String OPERATION_OK = "Operation successful";
     public static final String OPERATION_KO = "Operation failed";
@@ -21,6 +22,10 @@ public class LogMessage {
 
     public static final String OFFSET_VALUE = "offset = {}";
     public static final String LIMIT_VALUE = "limit = {}";
+    public static final String DOCUMENT_FOUND = "Document found";
+    public static final String DOCUMENT_NOT_FOUND = "Document not found";
+    public static final String USER_NOT_FOUND = "User doesn't exist";
+    public static final String USER_FOUND = "User found";
 
     private LogMessage(){
     }
