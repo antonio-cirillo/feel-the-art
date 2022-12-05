@@ -6,6 +6,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:feel_the_art/screens/main_screen.dart';
 import 'package:feel_the_art/model/account_model.dart';
 import 'package:feel_the_art/utils/theme/colors.dart';
+import 'package:feel_the_art/utils/request/storage_request.dart';
 
 void main() {
   // debugPaintSizeEnabled=true;
@@ -30,6 +31,7 @@ class FeelTheArt extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => AccountModel('GIGI')),
+        ChangeNotifierProvider(create: (ctx) => StorageRequest()),
       ],
       child: MaterialApp(
         title: 'Feel the ART',
@@ -45,7 +47,10 @@ class FeelTheArt extends StatelessWidget {
         routes: {
           '/game': (context) => const Scaffold(),
         },
-        home: const SafeArea(child: MainScreen()),
+        home: const SafeArea(
+          bottom: false,
+          child: MainScreen(),
+        ),
       ),
     );
   }

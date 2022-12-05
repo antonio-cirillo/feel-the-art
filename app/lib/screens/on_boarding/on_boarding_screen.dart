@@ -1,8 +1,8 @@
-import 'package:feel_the_art/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:feel_the_art/utils/theme/colors.dart';
+import 'package:provider/provider.dart';
+import '../../utils/request/storage_request.dart';
 import '../loading/components/background.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -41,14 +41,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     ];
   }
 
-  void _storeOnBoardInfo() async {
-    int isViewed = 0;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('onBoard', isViewed);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final sr = Provider.of<StorageRequest>(context);
+
     return Stack(children: <Widget>[
       Container(color: amethystColor),
       const LoadingScreenBackground(),
@@ -56,8 +52,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         globalBackgroundColor: Colors.transparent,
         pages: _buildPages(),
         onDone: () {
-          _storeOnBoardInfo();
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen()));
+          sr.setOnBoard(false);
         },
         showBackButton: false,
         showSkipButton: true,

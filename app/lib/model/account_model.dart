@@ -18,17 +18,16 @@ class AccountModel with ChangeNotifier {
     try {
       var request = await WebRequest.getUser(name);
       _user = User.buildFromJson(request);
+      status = ObjStatus.ready;
     } catch (e) {
       status = ObjStatus.error;
+    } finally {
+      notifyListeners();
     }
-    status = ObjStatus.ready;
-    notifyListeners();
   }
 
   String get name => _user.personaInfo.name;
-
   int get exp => _user.progression.exp;
-
   int get level => _user.progression.level;
 
   void addExp(int exp) {
@@ -37,9 +36,7 @@ class AccountModel with ChangeNotifier {
   }
 
   String get avatar => _user.avatar.get;
-
   String get generatedAvatar => _user.avatar.lastGenerated;
-
   List<String> get allAvatar => _user.avatar.getAll;
 
   void generateNewAvatar() async {
@@ -47,11 +44,12 @@ class AccountModel with ChangeNotifier {
     try {
       var request = await WebRequest.generateAvatar(name);
       _user.avatar.lastGenerated = request['result'];
-      notifyListeners();
+      status = ObjStatus.ready;
     } catch (e) {
       status = ObjStatus.error;
+    } finally {
+      notifyListeners();
     }
-    status = ObjStatus.ready;
   }
 
   // Cosa conviene?
@@ -63,12 +61,13 @@ class AccountModel with ChangeNotifier {
       var request = await WebRequest.setAvatar(name, el);
       if (request['result']) {
         _user.avatar.setAvatar(el);
-        notifyListeners();
+        status = ObjStatus.ready;
       }
     } catch (e) {
       status = ObjStatus.error;
+    } finally {
+      notifyListeners();
     }
-    status = ObjStatus.ready;
   }
 
   void addAvatar() async {
@@ -77,22 +76,19 @@ class AccountModel with ChangeNotifier {
       var request = await WebRequest.addAvatar(name);
       if (request['result']) {
         _user.avatar.addAvatar();
-        notifyListeners();
+        status = ObjStatus.ready;
       }
     } catch (e) {
       status = ObjStatus.error;
+    } finally {
+      notifyListeners();
     }
-    status = ObjStatus.ready;
   }
 
   int get firstPlaces => _user.statistics.first;
-
   int get secondPlaces => _user.statistics.second;
-
   int get thirdPlaces => _user.statistics.third;
-
   int get totalGames => _user.statistics.tot;
-
   int get loseGames => _user.statistics.lose;
 
   void addGame(int place) {

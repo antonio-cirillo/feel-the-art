@@ -1,7 +1,10 @@
+import 'package:feel_the_art/screens/loading/loading_screen.dart';
+import 'package:feel_the_art/utils/request/obj_status.dart';
+import 'package:feel_the_art/utils/request/storage_request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:feel_the_art/utils/theme/colors.dart';
+import 'package:provider/provider.dart';
 import 'account/account_screen.dart';
 import 'collection/collection_screen.dart';
 import 'debug/debug_screen.dart';
@@ -18,24 +21,11 @@ class MainScreen extends StatefulWidget {
 
 class MainScreenState extends State<MainScreen> {
   late final PersistentTabController _controller;
-  late bool firstTimeView = false; //funzione per modificare da onboarding_screen
-
-  // void setFirstTimeView(val) {
-  //   setState(() {
-  //     firstTimeView = val;
-  //   });
-  // }
 
   @override
   void initState() {
     super.initState();
     _controller = PersistentTabController(initialIndex: 0);
-  }
-
-  void init() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // var tmp = prefs.getInt('onBoard') as bool;
-    // setFirstTimeView(tmp);
   }
 
   @override
@@ -45,7 +35,13 @@ class MainScreenState extends State<MainScreen> {
   }
 
   List<Widget> _buildScreens() {
-    return [const HomePageScreen(), const CollectionScreen(), const LeaderBoardScreen(), const AccountScreen(), const DebugScreen()];
+    return [
+      const HomePageScreen(),
+      const CollectionScreen(),
+      const LeaderBoardScreen(),
+      const AccountScreen(),
+      const DebugScreen(),
+    ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -85,14 +81,20 @@ class MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return firstTimeView
-        ? const OnBoardingScreen()
-        : PersistentTabView(
-            context,
-            controller: _controller,
-            screens: _buildScreens(),
-            items: _navBarsItems(),
-            navBarStyle: NavBarStyle.style3,
-          );
+    final sr = Provider.of<StorageRequest>(context);
+
+    if (sr.status == ObjStatus.loading) {
+      return const LoadingScreen();
+    } else if (sr.onBoard) {
+      return const OnBoardingScreen();
+    } else {
+      return PersistentTabView(
+        context,
+        controller: _controller,
+        screens: _buildScreens(),
+        items: _navBarsItems(),
+        navBarStyle: NavBarStyle.style3,
+      );
+    }
   }
 }
