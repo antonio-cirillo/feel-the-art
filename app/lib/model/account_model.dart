@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../classes/account/user.dart';
-import '../utils/local_web_requests.dart';
-import '../utils/obj_status.dart';
+import 'package:feel_the_art/utils/request/web_request.dart';
+import 'package:feel_the_art/utils/request/obj_status.dart';
 
 class AccountModel with ChangeNotifier {
   late User _user;
@@ -17,7 +16,7 @@ class AccountModel with ChangeNotifier {
 
   void fetch(String name) async {
     try {
-      var request = await LocalWebRequest.getUser(name);
+      var request = await WebRequest.getUser(name);
       _user = User.buildFromJson(request);
     } catch (e) {
       status = ObjStatus.error;
@@ -46,7 +45,7 @@ class AccountModel with ChangeNotifier {
   void generateNewAvatar() async {
     status = ObjStatus.loading;
     try {
-      var request = await LocalWebRequest.generateAvatar(name);
+      var request = await WebRequest.generateAvatar(name);
       _user.avatar.lastGenerated = request['result'];
       notifyListeners();
     } catch (e) {
@@ -61,7 +60,7 @@ class AccountModel with ChangeNotifier {
   void setAvatar(String el) async {
     status = ObjStatus.loading;
     try {
-      var request = await LocalWebRequest.setAvatar(name, el);
+      var request = await WebRequest.setAvatar(name, el);
       if (request['result']) {
         _user.avatar.setAvatar(el);
         notifyListeners();
@@ -75,7 +74,7 @@ class AccountModel with ChangeNotifier {
   void addAvatar() async {
     status = ObjStatus.loading;
     try {
-      var request = await LocalWebRequest.addAvatar(name);
+      var request = await WebRequest.addAvatar(name);
       if (request['result']) {
         _user.avatar.addAvatar();
         notifyListeners();

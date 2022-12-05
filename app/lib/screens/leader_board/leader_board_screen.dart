@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:multiavatar/multiavatar.dart';
 
-import '../../utils/size_config.dart';
+import '../../utils/theme/size_config.dart';
 
 class LeaderBoardScreen extends StatelessWidget {
   const LeaderBoardScreen({Key? key}) : super(key: key);
@@ -10,13 +10,13 @@ class LeaderBoardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextStyle r = const TextStyle(color: Colors.purpleAccent, fontSize: 34);
-    double borderSize = SizeConfig.getProportionateScreenWidth(5);
-    double nameSize = SizeConfig.getProportionateScreenWidth(17);
-    double avatarSize = SizeConfig.getProportionateScreenHeight(30);
-    double scoreSize = SizeConfig.getProportionateScreenWidth(25);
-    double positionSize = SizeConfig.getProportionateScreenWidth(17);
-    double titleSize = SizeConfig.getProportionateScreenWidth(40);
-    double namePlayerPadding = SizeConfig.getProportionateScreenWidth(15);
+    double borderSize = MediaQuery.of(context).getProportionateScreenWidth(5);
+    double nameSize = MediaQuery.of(context).getProportionateScreenWidth(17);
+    double avatarSize = MediaQuery.of(context).getProportionateScreenHeight(30);
+    double scoreSize = MediaQuery.of(context).getProportionateScreenWidth(25);
+    double positionSize = MediaQuery.of(context).getProportionateScreenWidth(17);
+    double titleSize = MediaQuery.of(context).getProportionateScreenWidth(40);
+    double namePlayerPadding = MediaQuery.of(context).getProportionateScreenWidth(15);
     return Scaffold(
         body: Column(children: <Widget>[
       Expanded(

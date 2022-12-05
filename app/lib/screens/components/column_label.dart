@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../utils/size_config.dart';
+import '../../utils/theme/size_config.dart';
 
 class ColumnLabel extends StatelessWidget {
   final String image;
@@ -11,25 +11,25 @@ class ColumnLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double padding = SizeConfig.getProportionateScreenWidth(20);
+    double padding = MediaQuery.of(context).getProportionateScreenWidth(20);
     return Container(
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
-              Radius.circular(SizeConfig.getProportionateScreenWidth(30))),
+              Radius.circular(MediaQuery.of(context).getProportionateScreenWidth(30))),
         ),
         padding: EdgeInsets.only(
             left: padding,
             right: padding,
-            top: SizeConfig.getProportionateScreenWidth(10),
-            bottom: SizeConfig.getProportionateScreenWidth(10)),
+            top: MediaQuery.of(context).getProportionateScreenWidth(10),
+            bottom: MediaQuery.of(context).getProportionateScreenWidth(10)),
         margin: EdgeInsets.symmetric(horizontal: padding),
         child: Row(
           children: [
             Expanded(
                 child: SvgPicture.asset(image,
-                    height: SizeConfig.getProportionateScreenHeight(50))),
-            SizedBox(width: SizeConfig.getProportionateScreenWidth(5)),
+                    height: MediaQuery.of(context).getProportionateScreenHeight(50))),
+            SizedBox(width: MediaQuery.of(context).getProportionateScreenWidth(5)),
             Expanded(
                 flex: 4,
                 child: Align(
@@ -40,7 +40,7 @@ class ColumnLabel extends StatelessWidget {
                           text,
                           style: TextStyle(
                             fontSize:
-                                SizeConfig.getProportionateScreenHeight(20),
+                                MediaQuery.of(context).getProportionateScreenHeight(20),
                             fontWeight: FontWeight.w600,
                           ),
                         ))))

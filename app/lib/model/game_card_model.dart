@@ -1,6 +1,6 @@
 import '../classes/card/game_card.dart';
-import '../utils/local_web_requests.dart';
-import '../utils/obj_status.dart';
+import 'package:feel_the_art/utils/request/web_request.dart';
+import 'package:feel_the_art/utils/request/obj_status.dart';
 
 class GameCardModel {
   static List<GameCard> _gameCards = <GameCard>[];
@@ -12,7 +12,7 @@ class GameCardModel {
 
   void fetch(String url) async {
     try {
-      _gameCards = await LocalWebRequest.getGameCards(url);
+      _gameCards = await WebRequest.getGameCards(url);
     } catch (e) {
       status = ObjStatus.error;
     }

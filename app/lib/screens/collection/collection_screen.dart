@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/size_config.dart';
+import '../../utils/theme/size_config.dart';
 import 'components/grid_cards_widget.dart';
 
 class CollectionScreen extends StatelessWidget {
@@ -8,7 +8,7 @@ class CollectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double proportionate20px = SizeConfig.getProportionateScreenHeight(20);
+    double proportionate20px = MediaQuery.of(context).getProportionateScreenHeight(20);
     return Scaffold(
         body: Column(
           children: <Widget>[

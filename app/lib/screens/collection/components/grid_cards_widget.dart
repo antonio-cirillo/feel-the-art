@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../classes/card/game_card.dart';
 import '../../../model/game_card_model.dart';
-import '../../../utils/size_config.dart';
+import '../../../utils/theme/size_config.dart';
 import '../../card/card_screen.dart';
 
 class GridCards extends StatelessWidget {
@@ -29,7 +29,7 @@ class GridCards extends StatelessWidget {
               ).animate(animation),
               child: Padding(
                   padding: EdgeInsets.only(
-                      bottom: SizeConfig.getProportionateScreenHeight(10)),
+                      bottom: MediaQuery.of(context).getProportionateScreenHeight(10)),
                   child: OpenContainer(
                       openBuilder: (context, _) =>
                           CardScreen(gameCard: cards[index]),
@@ -45,8 +45,8 @@ class GridCards extends StatelessWidget {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: 0.6,
           crossAxisCount: 3,
-          crossAxisSpacing: SizeConfig.getProportionateScreenHeight(20),
-          // mainAxisSpacing: SizeConfig.getProportionateScreenHeight(20),
+          crossAxisSpacing: MediaQuery.of(context).getProportionateScreenHeight(20),
+          // mainAxisSpacing: MediaQuery.of(context).getProportionateScreenHeight(20),
         ),
         itemCount: cards.length);
   }

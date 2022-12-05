@@ -2,7 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/size_config.dart';
+import '../../../utils/theme/size_config.dart';
 
 final List<String> imgList = [
   'assets/images/card.png',
@@ -13,10 +13,10 @@ class CardTableSlider extends StatelessWidget {
   const CardTableSlider({Key? key}) : super(key: key);
 
   List<Widget> _buildCards(BuildContext context) {
-    double heightImage = SizeConfig.getProportionateScreenHeight(450);
-    double fontSize = SizeConfig.getProportionateScreenHeight(36);
-    double buttonBottomMargin = SizeConfig.getProportionateScreenHeight(65);
-    double textButtonPadding = SizeConfig.getProportionateScreenWidth(10);
+    double heightImage = MediaQuery.of(context).getProportionateScreenHeight(450);
+    double fontSize = MediaQuery.of(context).getProportionateScreenHeight(36);
+    double buttonBottomMargin = MediaQuery.of(context).getProportionateScreenHeight(65);
+    double textButtonPadding = MediaQuery.of(context).getProportionateScreenWidth(10);
 
     return imgList
         .map((item) => SizedBox(
@@ -68,7 +68,7 @@ class CardTableSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = SizeConfig.getProportionateScreenHeight(570);
+    double height = MediaQuery.of(context).getProportionateScreenHeight(570);
     return CarouselSlider(
       options: CarouselOptions(
           height: height,

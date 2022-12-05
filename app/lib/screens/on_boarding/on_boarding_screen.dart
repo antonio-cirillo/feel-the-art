@@ -1,10 +1,9 @@
+import 'package:feel_the_art/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../utils/colors.dart';
+import 'package:feel_the_art/utils/theme/colors.dart';
 import '../loading/components/background.dart';
-import '../loading/loading_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -36,14 +35,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       PageViewModel(
           image: Image.asset("assets/icons/icon.png", width: 300),
           title: 'Feel the ART',
-          body:
-              'Instead of having to buy an entire share, invest any amount you want.',
+          body: 'Instead of having to buy an entire share, invest any amount you want.',
           decoration: pageDecoration),
-      PageViewModel(
-          title: 'Title of first page',
-          body:
-              'Here you can write the description of the page, to explain someting...',
-          decoration: pageDecoration)
+      PageViewModel(title: 'Title of first page', body: 'Here you can write the description of the page, to explain someting...', decoration: pageDecoration)
     ];
   }
 
@@ -56,28 +50,26 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
-      Container(color: kPrimaryColor),
+      Container(color: amethystColor),
       const LoadingScreenBackground(),
       IntroductionScreen(
         globalBackgroundColor: Colors.transparent,
         pages: _buildPages(),
         onDone: () {
           _storeOnBoardInfo();
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const LoadingScreen()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen()));
         },
         showBackButton: false,
         showSkipButton: true,
         showNextButton: false,
         skip: const Text('Salta', style: TextStyle(color: Colors.white)),
         skipStyle: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(pinkColor),
+          backgroundColor: MaterialStateProperty.all(princessPerfumeColor),
           shadowColor: MaterialStateProperty.all(Colors.black),
         ),
-        done: const Text('Continua',
-            style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
+        done: const Text('Continua', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
         doneStyle: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(greenColor),
+          backgroundColor: MaterialStateProperty.all(robinEggBlueColor),
           shadowColor: MaterialStateProperty.all(Colors.black),
         ),
         curve: Curves.fastLinearToSlowEaseIn,
@@ -86,7 +78,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           size: Size(10.0, 10.0),
           color: Color(0xFFBDBDBD),
           activeSize: Size(22.0, 10.0),
-          activeColor: yellowColor,
+          activeColor: maizeColor,
           activeShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(25.0)),
           ),

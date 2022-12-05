@@ -5,7 +5,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/account_model.dart';
-import '../../../utils/size_config.dart';
+import '../../../utils/theme/size_config.dart';
 
 class Avatar extends StatefulWidget {
   const Avatar({Key? key}) : super(key: key);
@@ -34,8 +34,8 @@ class _AvatarState extends State<Avatar> {
                   animation: true,
                   animateFromLastPercent: true,
                   animationDuration: 3000,
-                  radius: SizeConfig.getProportionateScreenWidth(100),
-                  lineWidth: SizeConfig.getProportionateScreenWidth(8),
+                  radius: MediaQuery.of(context).getProportionateScreenWidth(100),
+                  lineWidth: MediaQuery.of(context).getProportionateScreenWidth(8),
                   startAngle: 180,
                   percent: accountInfo.exp == 0
                       ? 0.1
@@ -44,7 +44,7 @@ class _AvatarState extends State<Avatar> {
                     multiavatar(_gen
                         ? accountInfo.generatedAvatar
                         : accountInfo.avatar),
-                    height: SizeConfig.getProportionateScreenWidth(184),
+                    height: MediaQuery.of(context).getProportionateScreenWidth(184),
                   ),
                 ),
                 ElevatedButton(
@@ -122,7 +122,7 @@ class _AvatarState extends State<Avatar> {
                               child: SvgPicture.string(
                                 multiavatar(e),
                                 height:
-                                    SizeConfig.getProportionateScreenWidth(70),
+                                    MediaQuery.of(context).getProportionateScreenWidth(70),
                               ),
                             ),
                           ],
