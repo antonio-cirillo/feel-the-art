@@ -28,6 +28,8 @@ public class LogMessage {
     public static final String USER_AUTHENTICATE = "User authentication";
     public static final String AVATAR_FOUND = "Avatar found";
     public static final String AVATAR_NOT_FOUND = "Avatar not found";
+    public static final String ACCESS_KO = "Invalid login case";
+
     private LogMessage(){
     }
 }
