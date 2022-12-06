@@ -18,7 +18,7 @@ class _HomePageScreen extends State<HomePageScreen> {
           children: const <Widget>[
             Expanded(flex: 2, child: HomePageScreenBar()),
             Expanded(flex: 7, child: CardTableSlider()),
-            Expanded(flex: 1, child: Text("DOMANDA DEL GIORNO"))
+            // Expanded(flex: 1, child: Text("DOMANDA DEL GIORNO"))
           ],
         )
     );

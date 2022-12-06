@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import '../../classes/account/user.dart';
-import '../../classes/card/game_card.dart';
+import '../../classes/game_card.dart';
 import '../help.dart';
 
 enum WebMethod { get, post, put, patch, delete }
@@ -34,7 +34,7 @@ class WebRequest {
     return debugOffline ? {'result': Help.generateRandomString(5)} : await _call('$baseURL/avatar/$name');
   }
 
-  static Future<List<GameCard>> getGameCards(String url) async {
+  static Future<List<GameCard>> getGameCards() async {
     var input = await rootBundle.loadString("assets/cards/cards.json");
     Iterable gameCardsIterable = await jsonDecode(input);
     List<GameCard> gameCards = <GameCard>[];
