@@ -1,4 +1,4 @@
-package it.unisa.emad.feeltheart.dto.user;
+package it.unisa.emad.feeltheart.dto.avatar;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -12,11 +12,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class InitializeUserRequestDto implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1655258000101904128L;
+public class SetAvatarRequestDto implements Serializable {
 
-    private String password;
+    @Serial
+    private static final long serialVersionUID = -6491963162062884127L;
 
     private String deviceId;
+
+    private String avatar;
 }

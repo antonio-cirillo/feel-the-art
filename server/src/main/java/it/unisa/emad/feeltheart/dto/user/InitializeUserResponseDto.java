@@ -12,11 +12,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class InitializeUserRequestDto implements Serializable {
+public class InitializeUserResponseDto implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1655258000101904128L;
+    private static final long serialVersionUID = -5876548086379160702L;
 
     private String password;
 
-    private String deviceId;
+    private UserDto user;
 }

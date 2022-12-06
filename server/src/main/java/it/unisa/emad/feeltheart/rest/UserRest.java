@@ -6,6 +6,7 @@ import it.unisa.emad.feeltheart.constant.Constant;
 import it.unisa.emad.feeltheart.constant.LogMessage;
 import it.unisa.emad.feeltheart.dto.common.ResultDto;
 import it.unisa.emad.feeltheart.dto.user.InitializeUserRequestDto;
+import it.unisa.emad.feeltheart.dto.user.InitializeUserResponseDto;
 import it.unisa.emad.feeltheart.dto.user.UserDto;
 import it.unisa.emad.feeltheart.service.UserService;
 import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
@@ -110,7 +111,7 @@ public class UserRest {
     @CrossOrigin
     @PutMapping(value = "/1.0/initializeUser", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare l'inizializzazione di un utente")
-    public ResponseEntity<ResultDto<String>> initializeUser(
+    public ResponseEntity<ResultDto<InitializeUserResponseDto>> initializeUser(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
             @RequestBody @Valid InitializeUserRequestDto request) {
 
@@ -121,9 +122,10 @@ public class UserRest {
 
 
         var result = userService.initializeUser(request);
-        var response = new ResultDto<String>();
+        var response = new ResultDto<InitializeUserResponseDto>();
 
-        if(StringUtils.isBlank(result)){
+        if(null == result
+                || (StringUtils.isBlank(result.getPassword()) && null == result.getUser())){
             log.info(LogMessage.OPERATION_KO);
 
             response.setFailureResponse(

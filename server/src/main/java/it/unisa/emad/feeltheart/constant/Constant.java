@@ -22,6 +22,8 @@ public class Constant {
 
     public static final String SEPARATOR = ", ";
     public static final String CREATE_USER_KO = "Error during user creation";
+    public static final String UPDATE_USER_KO = "Error during user update";
+    public static final String USER_NOT_FOUND = "User not found";
 
     private Constant(){
 

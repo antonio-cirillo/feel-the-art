@@ -20,13 +20,14 @@ public class LogMessage {
     public static final String CHOSEN_LANGUAGE = "Chosen language: {}";
     public static final String DEFAULT_LANGUAGE = "Default language";
 
-    public static final String OFFSET_VALUE = "offset = {}";
-    public static final String LIMIT_VALUE = "limit = {}";
     public static final String DOCUMENT_FOUND = "Document found";
     public static final String DOCUMENT_NOT_FOUND = "Document not found";
     public static final String USER_NOT_FOUND = "User doesn't exist";
     public static final String USER_FOUND = "User found";
-
+    public static final String USER_FIRST_ACCESS = "User's first access";
+    public static final String USER_AUTHENTICATE = "User authentication";
+    public static final String AVATAR_FOUND = "Avatar found";
+    public static final String AVATAR_NOT_FOUND = "Avatar not found";
     private LogMessage(){
     }
 }

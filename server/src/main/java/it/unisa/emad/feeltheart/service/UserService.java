@@ -1,6 +1,7 @@
 package it.unisa.emad.feeltheart.service;
 
 import it.unisa.emad.feeltheart.dto.user.InitializeUserRequestDto;
+import it.unisa.emad.feeltheart.dto.user.InitializeUserResponseDto;
 import it.unisa.emad.feeltheart.dto.user.UserDto;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ public interface UserService {
 
     UserDto getUserByDeviceId(String deviceId);
 
-    String initializeUser(InitializeUserRequestDto request);
+    InitializeUserResponseDto initializeUser(InitializeUserRequestDto request);
 
     Boolean updateUser(UserDto request);
 }
