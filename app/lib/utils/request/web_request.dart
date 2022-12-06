@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-import '../classes/account/user.dart';
-import '../classes/card/game_card.dart';
-import 'help.dart';
+import '../../classes/account/user.dart';
+import '../../classes/game_card.dart';
+import '../help.dart';
 
 enum WebMethod { get, post, put, patch, delete }
 
-class LocalWebRequest {
+class WebRequest {
   static const bool debugOffline = true;
   static const String baseURL = "localhost:8080";
 
@@ -34,7 +34,7 @@ class LocalWebRequest {
     return debugOffline ? {'result': Help.generateRandomString(5)} : await _call('$baseURL/avatar/$name');
   }
 
-  static Future<List<GameCard>> getGameCards(String url) async {
+  static Future<List<GameCard>> getGameCards() async {
     var input = await rootBundle.loadString("assets/cards/cards.json");
     Iterable gameCardsIterable = await jsonDecode(input);
     List<GameCard> gameCards = <GameCard>[];
@@ -42,10 +42,6 @@ class LocalWebRequest {
       gameCards.add(GameCard.buildFromJson(gameCard));
     }
     return gameCards;
-  }
-
-  static Future<Map<String, dynamic>> generateLeaderBoard() async {
-    return debugOffline ? User.debugJsonMultiUser() : await _call('$baseURL/leaderboard');
   }
 
   static Future<Map<String, dynamic>> _call(String url, {WebMethod verb = WebMethod.get, Object? obj}) async {
@@ -67,7 +63,6 @@ class LocalWebRequest {
       default:
         response = await http.get(Uri.parse(url), headers: headers);
     }
-
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {

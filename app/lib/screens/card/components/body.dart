@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../classes/card/game_card.dart';
-import '../../../utils/size_config.dart';
+import '../../../classes/game_card.dart';
+import '../../../utils/theme/size_config.dart';
 import '../../components/column_label.dart';
 
 class CardScreenBody extends StatelessWidget {
@@ -11,8 +11,8 @@ class CardScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double proportionate10px = SizeConfig.getProportionateScreenWidth(10);
-    double proportionate20px = SizeConfig.getProportionateScreenWidth(20);
+    double proportionate10px = MediaQuery.of(context).getProportionateScreenWidth(10);
+    double proportionate20px = MediaQuery.of(context).getProportionateScreenWidth(20);
     return Column(
       children: [
         Align(
@@ -20,7 +20,7 @@ class CardScreenBody extends StatelessWidget {
             child: Padding(
                 padding: EdgeInsets.all(proportionate20px),
                 child: SizedBox(
-                  width: SizeConfig.getProportionateScreenWidth(400),
+                  width: MediaQuery.of(context).getProportionateScreenWidth(400),
                   child: AspectRatio(
                     aspectRatio: 1,
                     child: Image.asset(gameCard.image),
@@ -46,7 +46,7 @@ class CardScreenBody extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(
-                      SizeConfig.getProportionateScreenWidth(30))),
+                      MediaQuery.of(context).getProportionateScreenWidth(30))),
                 ),
                 padding: EdgeInsets.only(
                     left: proportionate20px,
@@ -60,7 +60,7 @@ class CardScreenBody extends StatelessWidget {
                       gameCard.description,
                       style: TextStyle(
                           fontSize:
-                              SizeConfig.getProportionateScreenHeight(16)),
+                              MediaQuery.of(context).getProportionateScreenHeight(16)),
                     ))),
             SizedBox(height: proportionate20px)
           ],

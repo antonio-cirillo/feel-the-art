@@ -22,7 +22,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   auto_animated: any
   animations: ^2.0.7
-  shared_preferences: ^2.0.5
+  shared_preferences: ^2.0.15
   flutter_animation_progress_bar: ^2.3.1
   multiavatar: ^0.1.5
   fl_chart: ^0.55.2

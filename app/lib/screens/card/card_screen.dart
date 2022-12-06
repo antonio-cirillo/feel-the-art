@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../classes/card/game_card.dart';
+import '../../classes/game_card.dart';
 import 'components/app_bar.dart';
 import 'components/body.dart';
 

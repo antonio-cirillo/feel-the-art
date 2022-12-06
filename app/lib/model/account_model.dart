@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../classes/account/user.dart';
-import '../utils/local_web_requests.dart';
-import '../utils/obj_status.dart';
+import 'package:feel_the_art/utils/request/web_request.dart';
+import 'package:feel_the_art/utils/request/obj_status.dart';
 
 class AccountModel with ChangeNotifier {
   late User _user;
@@ -17,19 +16,18 @@ class AccountModel with ChangeNotifier {
 
   void fetch(String name) async {
     try {
-      var request = await LocalWebRequest.getUser(name);
+      var request = await WebRequest.getUser(name);
       _user = User.buildFromJson(request);
+      status = ObjStatus.ready;
     } catch (e) {
       status = ObjStatus.error;
+    } finally {
+      notifyListeners();
     }
-    status = ObjStatus.ready;
-    notifyListeners();
   }
 
   String get name => _user.personaInfo.name;
-
   int get exp => _user.progression.exp;
-
   int get level => _user.progression.level;
 
   void addExp(int exp) {
@@ -38,21 +36,20 @@ class AccountModel with ChangeNotifier {
   }
 
   String get avatar => _user.avatar.get;
-
   String get generatedAvatar => _user.avatar.lastGenerated;
-
   List<String> get allAvatar => _user.avatar.getAll;
 
   void generateNewAvatar() async {
     status = ObjStatus.loading;
     try {
-      var request = await LocalWebRequest.generateAvatar(name);
+      var request = await WebRequest.generateAvatar(name);
       _user.avatar.lastGenerated = request['result'];
-      notifyListeners();
+      status = ObjStatus.ready;
     } catch (e) {
       status = ObjStatus.error;
+    } finally {
+      notifyListeners();
     }
-    status = ObjStatus.ready;
   }
 
   // Cosa conviene?
@@ -61,39 +58,37 @@ class AccountModel with ChangeNotifier {
   void setAvatar(String el) async {
     status = ObjStatus.loading;
     try {
-      var request = await LocalWebRequest.setAvatar(name, el);
+      var request = await WebRequest.setAvatar(name, el);
       if (request['result']) {
         _user.avatar.setAvatar(el);
-        notifyListeners();
+        status = ObjStatus.ready;
       }
     } catch (e) {
       status = ObjStatus.error;
+    } finally {
+      notifyListeners();
     }
-    status = ObjStatus.ready;
   }
 
   void addAvatar() async {
     status = ObjStatus.loading;
     try {
-      var request = await LocalWebRequest.addAvatar(name);
+      var request = await WebRequest.addAvatar(name);
       if (request['result']) {
         _user.avatar.addAvatar();
-        notifyListeners();
+        status = ObjStatus.ready;
       }
     } catch (e) {
       status = ObjStatus.error;
+    } finally {
+      notifyListeners();
     }
-    status = ObjStatus.ready;
   }
 
   int get firstPlaces => _user.statistics.first;
-
   int get secondPlaces => _user.statistics.second;
-
   int get thirdPlaces => _user.statistics.third;
-
   int get totalGames => _user.statistics.tot;
-
   int get loseGames => _user.statistics.lose;
 
   void addGame(int place) {

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/size_config.dart';
+import '../../../utils/theme/size_config.dart';
 
 class LoadingScreenBackground extends StatelessWidget {
   const LoadingScreenBackground({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double topLeft = SizeConfig.getProportionateScreenWidth(200);
-    double topRight = SizeConfig.getProportionateScreenWidth(150);
-    double bottomLeft = SizeConfig.getProportionateScreenWidth(100);
+    double topLeft = MediaQuery.of(context).getProportionateScreenWidth(200);
+    double topRight = MediaQuery.of(context).getProportionateScreenWidth(150);
+    double bottomLeft = MediaQuery.of(context).getProportionateScreenWidth(100);
     return Stack(
       children: <Widget>[
         Positioned(

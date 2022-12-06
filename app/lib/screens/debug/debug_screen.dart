@@ -15,10 +15,19 @@ class DebugScreen extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-                flex: 1,
-                child: ElevatedButton(
-                    onPressed: () => {accountInfo.addExp(10)},
-                    child: const Text('Add EXP'))),
+              flex: 1,
+              child: ElevatedButton(
+                onPressed: () => {accountInfo.addExp(10)},
+                child: const Text('Add EXP'),
+              ),
+            ),
+            // Expanded(
+            //   flex: 1,
+            //   child: ElevatedButton(
+            //     onPressed: () => Navigator.pop(context),
+            //     child: const Text('POP'),
+            //   ),
+            // ),
           ],
         ),
       ),

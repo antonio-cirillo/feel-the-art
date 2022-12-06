@@ -1,22 +1,25 @@
+import 'package:feel_the_art/screens/loading/loading_screen.dart';
+import 'package:feel_the_art/utils/request/obj_status.dart';
+import 'package:feel_the_art/utils/request/storage_request.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:feel_the_art/utils/theme/colors.dart';
+import 'package:provider/provider.dart';
+import 'account/account_screen.dart';
+import 'collection/collection_screen.dart';
+import 'debug/debug_screen.dart';
+import 'home_page/home_page_screen.dart';
+import 'leader_board/leader_board_screen.dart';
+import 'on_boarding/on_boarding_screen.dart';
 
-import '../../utils/colors.dart';
-import '../account/account_screen.dart';
-import '../collection/collection_screen.dart';
-import '../debug/debug_screen.dart';
-import '../home_page/home_page_screen.dart';
-import '../leader_board/leader_board_screen.dart';
-
-class MenuScreen extends StatefulWidget {
-  const MenuScreen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  MenuScreenState createState() => MenuScreenState();
+  MainScreenState createState() => MainScreenState();
 }
 
-class MenuScreenState extends State<MenuScreen> {
+class MainScreenState extends State<MainScreen> {
   late final PersistentTabController _controller;
 
   @override
@@ -37,7 +40,7 @@ class MenuScreenState extends State<MenuScreen> {
       const CollectionScreen(),
       const LeaderBoardScreen(),
       const AccountScreen(),
-      const DebugScreen()
+      const DebugScreen(),
     ];
   }
 
@@ -46,31 +49,31 @@ class MenuScreenState extends State<MenuScreen> {
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.game_controller),
         title: ("Gioca"),
-        activeColorPrimary: purpleColor,
+        activeColorPrimary: blueVioletColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.collections),
         title: ("Collezione"),
-        activeColorPrimary: purpleColor,
+        activeColorPrimary: blueVioletColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.question_square),
         title: ("Classifica"),
-        activeColorPrimary: purpleColor,
+        activeColorPrimary: blueVioletColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.person_crop_circle),
         title: ("Profilo"),
-        activeColorPrimary: purpleColor,
+        activeColorPrimary: blueVioletColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.ellipsis_circle),
         title: ("Debug"),
-        activeColorPrimary: kPrimaryColor,
+        activeColorPrimary: blueVioletColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       )
     ];
@@ -78,11 +81,20 @@ class MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: PersistentTabView(context,
-            controller: _controller,
-            screens: _buildScreens(),
-            items: _navBarsItems(),
-            navBarStyle: NavBarStyle.style3));
+    final sr = Provider.of<StorageRequest>(context);
+
+    if (sr.status == ObjStatus.loading) {
+      return const LoadingScreen();
+    } else if (sr.onBoard) {
+      return const OnBoardingScreen();
+    } else {
+      return PersistentTabView(
+        context,
+        controller: _controller,
+        screens: _buildScreens(),
+        items: _navBarsItems(),
+        navBarStyle: NavBarStyle.style3,
+      );
+    }
   }
 }
