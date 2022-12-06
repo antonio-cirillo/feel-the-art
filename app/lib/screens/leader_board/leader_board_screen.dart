@@ -1,7 +1,9 @@
+import 'package:feel_the_art/utils/obj_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:multiavatar/multiavatar.dart';
 
+import '../../model/leaderboard_model.dart';
 import '../../utils/size_config.dart';
 
 class LeaderBoardScreen extends StatelessWidget {
@@ -17,6 +19,12 @@ class LeaderBoardScreen extends StatelessWidget {
     double positionSize = SizeConfig.getProportionateScreenWidth(17);
     double titleSize = SizeConfig.getProportionateScreenWidth(40);
     double namePlayerPadding = SizeConfig.getProportionateScreenWidth(15);
+
+    //Controllare lo stato dell'oggetto
+    LeaderBoardModel leaderboard = LeaderBoardModel();
+    while(leaderboard.status != ObjStatus.ready){ /*DO NOTHING*/ }
+    var users = leaderboard.userList;
+
     return Scaffold(
         body: Column(children: <Widget>[
       Expanded(
@@ -26,30 +34,19 @@ class LeaderBoardScreen extends StatelessWidget {
             child: RichText(
                 text: TextSpan(
                     text: "Leader",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: titleSize,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'ElsieSwashCaps'),
+                    style: TextStyle(color: Colors.white, fontSize: titleSize, fontWeight: FontWeight.bold, fontFamily: 'ElsieSwashCaps'),
                     children: [
-                  TextSpan(
-                      text: " Board",
-                      style: TextStyle(
-                          color: Colors.pink,
-                          fontSize: titleSize,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'ElsieSwashCaps'))
+                  TextSpan(text: " Board", style: TextStyle(color: Colors.pink, fontSize: titleSize, fontWeight: FontWeight.bold, fontFamily: 'ElsieSwashCaps'))
                 ]))),
       ),
       Expanded(
           flex: 7,
           child: ListView.builder(
               padding: const EdgeInsets.all(8),
-              itemCount: 20,
+              itemCount: leaderboard.userList.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 5.0, vertical: 5.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
                   child: InkWell(
                     child: Container(
                       decoration: BoxDecoration(
@@ -71,22 +68,14 @@ class LeaderBoardScreen extends StatelessWidget {
                           Row(
                             children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10.0,
-                                    left: 15.0,
-                                    right: namePlayerPadding),
+                                padding: EdgeInsets.only(top: 10.0, left: 15.0, right: namePlayerPadding),
                                 child: Row(
                                   children: <Widget>[
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10),
+                                      padding: const EdgeInsets.only(bottom: 10),
                                       child: CircleAvatar(
                                         radius: avatarSize,
-                                        child: SvgPicture.string(
-                                            multiavatar('random-string')),
-                                        /*child: Container(
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle, image: DecorationImage(image: NetworkImage('assets/images/card.png'), fit: BoxFit.fill)))*/
+                                        child: SvgPicture.string(multiavatar('random-string')),
                                       ),
                                     )
                                   ],
@@ -105,15 +94,10 @@ class LeaderBoardScreen extends StatelessWidget {
                                               "🥉",
                                               style: r,
                                             )
-                                          : Text(index.toString(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: positionSize)),
+                                          : Text(index.toString(), style: TextStyle(color: Colors.white, fontSize: positionSize)),
                               Flexible(child: Container()),
                               Padding(
-                                padding: EdgeInsets.only(
-                                    left: namePlayerPadding,
-                                    right: namePlayerPadding),
+                                padding: EdgeInsets.only(left: namePlayerPadding, right: namePlayerPadding),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,24 +105,19 @@ class LeaderBoardScreen extends StatelessWidget {
                                     Container(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "Nome Giocatore",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: nameSize,
-                                              fontFamily: 'ElsieSwashCaps'),
+                                          leaderboard.userList[index].personaInfo.name,
+                                          style: TextStyle(color: Colors.white, fontSize: nameSize, fontFamily: 'ElsieSwashCaps'),
                                           maxLines: 6,
                                         )),
                                   ],
                                 ),
                               ),
                               Text(
-                                "56",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: scoreSize),
+                                leaderboard.userList[index].statistics.first.toString(),
+                                style: TextStyle(color: Colors.white, fontSize: scoreSize),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    left: 20.0, top: 13.0, right: 10.0),
+                                padding: EdgeInsets.only(left: 20.0, top: 13.0, right: 10.0),
                               ),
                             ],
                           ),

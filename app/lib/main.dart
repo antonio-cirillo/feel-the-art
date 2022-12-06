@@ -13,15 +13,13 @@ int? isViewed;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // debugPaintSizeEnabled=true;
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isViewed = prefs.getInt('onBoard');
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => const MyApp(), // Wrap your app
     ),
   );
@@ -35,8 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Feel the ART',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            scaffoldBackgroundColor: kPrimaryColor, fontFamily: 'Hind'),
+        theme: ThemeData(scaffoldBackgroundColor: kPrimaryColor, fontFamily: 'Hind'),
         home: const FeelTheArt());
   }
 }
