@@ -34,6 +34,10 @@ class WebRequest {
     return debugOffline ? {'result': Help.generateRandomString(5)} : await _call('$baseURL/avatar/$name');
   }
 
+  static Future<Map<String, dynamic>> generateLeaderBoard() async {
+    return debugOffline ? User.debugJsonMultiUser() : await _call('$baseURL/leaderboard');
+  }
+
   static Future<List<GameCard>> getGameCards() async {
     var input = await rootBundle.loadString("assets/cards/cards.json");
     Iterable gameCardsIterable = await jsonDecode(input);

@@ -1,6 +1,6 @@
 import 'package:feel_the_art/classes/account/user.dart';
-import 'package:feel_the_art/utils/obj_status.dart';
-import 'package:feel_the_art/utils/local_web_requests.dart';
+import 'package:feel_the_art/utils/request/obj_status.dart';
+import 'package:feel_the_art/utils/request/web_request.dart';
 import 'package:flutter/material.dart';
 
 class LeaderBoardModel with ChangeNotifier {
@@ -15,15 +15,18 @@ class LeaderBoardModel with ChangeNotifier {
     }
   }
 
+  // rendere questo fetch un ritorno Future<List<User>>
   void fetch() async {
     try {
-      var request = await LocalWebRequest.generateLeaderBoard();
+      var request = await WebRequest.generateLeaderBoard();
       _userList = User.buildFromJsonList(request);
+      _status = ObjStatus.ready;
     } catch (e) {
       _status = ObjStatus.error;
     }
-    _status = ObjStatus.ready;
-    notifyListeners();
+    finally{
+      notifyListeners();
+    }
   }
 
 
