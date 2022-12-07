@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:feel_the_art/classes/leaderboard.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,7 +36,7 @@ class WebRequest {
   }
 
   static Future<Map<String, dynamic>> generateLeaderBoard() async {
-    return debugOffline ? User.debugJsonMultiUser() : await _call('$baseURL/leaderboard');
+    return debugOffline ? LeaderBoard.debugJson() : await _call('$baseURL/leaderboard');
   }
 
   static Future<List<GameCard>> getGameCards() async {
