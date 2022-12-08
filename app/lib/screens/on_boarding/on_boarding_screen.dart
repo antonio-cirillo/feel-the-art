@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:feel_the_art/utils/theme/colors.dart';
 import 'package:provider/provider.dart';
-import '../../utils/request/storage_request.dart';
+import '../../model/account_model.dart';
 import '../loading/components/background.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -43,7 +43,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final sr = Provider.of<StorageRequest>(context);
+    AccountModel accountInfo = Provider.of<AccountModel>(context);
 
     return Stack(children: <Widget>[
       Container(color: amethystColor),
@@ -52,7 +52,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         globalBackgroundColor: Colors.transparent,
         pages: _buildPages(),
         onDone: () {
-          sr.setOnBoard(false);
+          accountInfo.setOnboardOff();
         },
         showBackButton: false,
         showSkipButton: true,

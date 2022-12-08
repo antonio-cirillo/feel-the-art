@@ -133,7 +133,7 @@ class LeaderBoardScreen extends StatelessWidget {
               );
             }
           }
-          return const LoadingScreen();
+          return const Text("data");
         },
       )
     ]));

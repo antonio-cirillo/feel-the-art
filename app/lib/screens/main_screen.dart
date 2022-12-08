@@ -1,10 +1,10 @@
 import 'package:feel_the_art/screens/loading/loading_screen.dart';
 import 'package:feel_the_art/utils/request/obj_status.dart';
-import 'package:feel_the_art/utils/request/storage_request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:feel_the_art/utils/theme/colors.dart';
 import 'package:provider/provider.dart';
+import '../model/account_model.dart';
 import 'account/account_screen.dart';
 import 'collection/collection_screen.dart';
 import 'debug/debug_screen.dart';
@@ -81,20 +81,24 @@ class MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final sr = Provider.of<StorageRequest>(context);
+    AccountModel accountInfo = Provider.of<AccountModel>(context);
 
-    if (sr.status == ObjStatus.loading) {
+    if (accountInfo.status == ObjStatus.ready) {
+      if (accountInfo.onBoard) {
+        return const OnBoardingScreen();
+      } else {
+        return PersistentTabView(
+          context,
+          controller: _controller,
+          screens: _buildScreens(),
+          items: _navBarsItems(),
+          navBarStyle: NavBarStyle.style3,
+        );
+      }
+    } else if (accountInfo.status == ObjStatus.loading) {
       return const LoadingScreen();
-    } else if (sr.onBoard) {
-      return const OnBoardingScreen();
     } else {
-      return PersistentTabView(
-        context,
-        controller: _controller,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        navBarStyle: NavBarStyle.style3,
-      );
+      return const Text('ERROR SCREEN');
     }
   }
 }
