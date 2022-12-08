@@ -1,10 +1,9 @@
 package it.unisa.emad.feeltheart.service;
 
-import it.unisa.emad.feeltheart.dto.user.InitializeUserRequestDto;
-import it.unisa.emad.feeltheart.dto.user.InitializeUserResponseDto;
-import it.unisa.emad.feeltheart.dto.user.InsertUserRequestDto;
-import it.unisa.emad.feeltheart.dto.user.UserDto;
+import it.unisa.emad.feeltheart.dto.user.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface UserService {
@@ -16,4 +15,6 @@ public interface UserService {
     InitializeUserResponseDto initializeUser(InitializeUserRequestDto request);
 
     Boolean updateUser(UserDto request);
+
+    List<UserDto> getLeaderboard(GetLeaderboardRequestDto request);
 }

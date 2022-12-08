@@ -5,10 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import it.unisa.emad.feeltheart.constant.Constant;
 import it.unisa.emad.feeltheart.constant.LogMessage;
 import it.unisa.emad.feeltheart.dto.common.ResultDto;
-import it.unisa.emad.feeltheart.dto.user.InitializeUserRequestDto;
-import it.unisa.emad.feeltheart.dto.user.InitializeUserResponseDto;
-import it.unisa.emad.feeltheart.dto.user.InsertUserRequestDto;
-import it.unisa.emad.feeltheart.dto.user.UserDto;
+import it.unisa.emad.feeltheart.dto.user.*;
 import it.unisa.emad.feeltheart.service.UserService;
 import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
 import lombok.extern.log4j.Log4j2;
@@ -23,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Log4j2
 @RestController
@@ -170,6 +168,41 @@ public class UserRest {
 
             return ResponseEntity
                     .status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                    .body(response);
+        }
+
+        response.setSuccessTrueResponse(
+                feelTheArtUtils.getMessageResponse(
+                        Constant.MESSAGE_RESPONSE_CODE_OPERATION_OK));
+        response.setData(result);
+
+        log.info(LogMessage.END);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/1.0/getLeaderboard", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(description = "Servizio REST utile ad effettuare il recupero della classifica degli utenti")
+    public ResponseEntity<ResultDto<List<UserDto>>> getLeaderboard(
+            @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestBody @Valid GetLeaderboardRequestDto request) {
+
+        log.info(LogMessage.START);
+        log.info(LogMessage.REQUEST, new Gson().toJson(request));
+
+        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
+
+        var result = userService.getLeaderboard(request);
+        var response = new ResultDto<List<UserDto>>();
+
+        if(result.isEmpty()){
+            log.info(LogMessage.USER_NOT_FOUND);
+
+            response.setSuccessFalseResponse(
+                    feelTheArtUtils.getMessageResponse(Constant.MESSAGE_RESPONSE_FOUND_KO));
+
+            return ResponseEntity
+                    .status(HttpStatus.SC_OK)
                     .body(response);
         }
 

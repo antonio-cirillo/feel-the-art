@@ -1,16 +1,17 @@
 package it.unisa.emad.feeltheart.dao;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.gson.Gson;
 import it.unisa.emad.feeltheart.constant.LogMessage;
+import it.unisa.emad.feeltheart.dto.user.GetLeaderboardRequestDto;
 import it.unisa.emad.feeltheart.dto.user.UserDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Log4j2
@@ -65,5 +66,25 @@ public class UserDaoImpl implements UserDao{
                 .set(request);
 
         log.info(LogMessage.END);
+    }
+
+    @Override
+    public List<UserDto> getLeaderboard(GetLeaderboardRequestDto request) throws ExecutionException, InterruptedException {
+        log.info(LogMessage.START);
+
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        List<UserDto> result = new ArrayList<>();
+
+        QuerySnapshot documentSnapshots = dbFirestore
+                .collection(USER_COLLECTION)
+                .get()
+                .get();
+
+        documentSnapshots.forEach(document -> {
+            result.add(document.toObject(UserDto.class));
+        });
+
+        log.info(LogMessage.END);
+        return result;
     }
 }
