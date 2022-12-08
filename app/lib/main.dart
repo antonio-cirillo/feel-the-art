@@ -30,7 +30,8 @@ class FeelTheArt extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (ctx) => AccountModel('GIGI')),
+        ChangeNotifierProvider(create: (ctx) =>
+            AccountModel('GIGI')),
         ChangeNotifierProvider(create: (ctx) => StorageRequest()),
       ],
       child: MaterialApp(
