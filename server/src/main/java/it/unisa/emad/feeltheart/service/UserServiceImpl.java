@@ -36,10 +36,15 @@ public class UserServiceImpl implements UserService{
 
         userToInsert.clearUser(deviceId, authCode);
 
-        userDao.insertUser(userToInsert);
+        try {
+            userDao.insertUser(userToInsert);
 
-        log.info(LogMessage.END);
-        return deviceId;
+            log.info(LogMessage.END);
+            return deviceId;
+        }catch (Exception e){
+            log.error(LogMessage.ERROR, e.getMessage());
+            return null;
+        }
     }
 
     @Override

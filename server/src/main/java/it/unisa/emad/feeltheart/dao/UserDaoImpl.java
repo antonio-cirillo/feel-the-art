@@ -1,8 +1,11 @@
 package it.unisa.emad.feeltheart.dao;
 
+import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.gson.Gson;
 import it.unisa.emad.feeltheart.constant.LogMessage;
 import it.unisa.emad.feeltheart.dto.user.UserDto;
 import lombok.extern.log4j.Log4j2;
@@ -17,7 +20,7 @@ public class UserDaoImpl implements UserDao{
     private static final String USER_COLLECTION = "User";
 
     @Override
-    public void insertUser(UserDto request) {
+    public void insertUser(UserDto request) throws ExecutionException, InterruptedException {
         log.info(LogMessage.START);
 
         String deviceId = request.getUser_info().getId_device();
@@ -26,7 +29,8 @@ public class UserDaoImpl implements UserDao{
         dbFirestore
                 .collection(USER_COLLECTION)
                 .document(deviceId)
-                .create(request);
+                .create(request)
+                .get();
 
         log.info(LogMessage.END);
     }

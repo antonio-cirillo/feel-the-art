@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutionException;
 @Repository
 public interface UserDao {
 
-    void insertUser(UserDto request);
+    void insertUser(UserDto request) throws ExecutionException, InterruptedException;
     UserDto getUserByDeviceId(String deviceId) throws ExecutionException, InterruptedException;
 
     void updateUser(UserDto request);

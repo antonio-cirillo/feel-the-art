@@ -12,6 +12,7 @@ import it.unisa.emad.feeltheart.dto.user.UserDto;
 import it.unisa.emad.feeltheart.service.UserService;
 import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,17 @@ public class UserRest {
 
         var result = userService.insertUser(request);
         var response = new ResultDto<String>();
+
+        if(StringUtils.isBlank(result)){
+            response.setFailureResponse(
+                    feelTheArtUtils.getMessageResponse(
+                            Constant.MESSAGE_RESPONSE_CODE_OPERATION_KO),
+                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
+
+            return ResponseEntity
+                    .status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                    .body(response);
+        }
 
         response.setSuccessTrueResponse(
                 feelTheArtUtils.getMessageResponse(

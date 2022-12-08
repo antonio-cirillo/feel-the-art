@@ -7,6 +7,7 @@ import it.unisa.emad.feeltheart.dto.avatar.GeneratedAvatarRequestDto;
 import it.unisa.emad.feeltheart.dto.avatar.GeneratedAvatarResponseDto;
 import it.unisa.emad.feeltheart.dto.avatar.SetAvatarRequestDto;
 import it.unisa.emad.feeltheart.dto.user.UserDto;
+import it.unisa.emad.feeltheart.exception.AvatarExistException;
 import it.unisa.emad.feeltheart.exception.UpdateUserException;
 import it.unisa.emad.feeltheart.exception.UserNotFoundException;
 import lombok.extern.log4j.Log4j2;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Service(value = "AvatarServiceImpl")
@@ -33,7 +33,7 @@ public class AvatarServiceImpl implements AvatarService{
     public Boolean setAvatar(SetAvatarRequestDto request) {
         log.info(LogMessage.START);
 
-        String deviceId = request.getDeviceId();
+        String deviceId = request.getId_device();
         String avatar = request.getAvatar();
 
         try {
@@ -65,7 +65,7 @@ public class AvatarServiceImpl implements AvatarService{
     public Boolean addAvatar(AddAvatarRequestDto request) {
         log.info(LogMessage.START);
 
-        String deviceId = request.getDeviceId();
+        String deviceId = request.getId_device();
         String lastGeneratedAvatar = request.getLast_generated();
 
         try {
@@ -90,7 +90,7 @@ public class AvatarServiceImpl implements AvatarService{
 
         try {
             UserDto user = getUserByDeviceId(deviceId);
-            String avatar = RandomStringUtils.random(10, true, true);
+            String avatar = RandomStringUtils.random(Constant.AVATAR_CODE_SIZE, true, true);
 
             addAvatarToUser(user, avatar, Boolean.TRUE);
 
@@ -105,9 +105,9 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     /**
-     *
-     * @param deviceId
-     * @return
+     * This method allows the retrieval of a user by device identifier
+     * @param deviceId device identifier
+     * @return user
      */
     private UserDto getUserByDeviceId(String deviceId){
         log.info(LogMessage.START);
@@ -124,10 +124,10 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     /**
-     *
-     * @param user
-     * @param avatar
-     * @param generateAvatar
+     * This method allows an avatar to be added to the user
+     * @param user User to add avatar to
+     * @param avatar String containing the avatar to be added
+     * @param generateAvatar Flag indicating whether the avatar has been generated
      */
     private void addAvatarToUser(UserDto user, String avatar, Boolean generateAvatar){
         log.info(LogMessage.START);
@@ -143,11 +143,13 @@ public class AvatarServiceImpl implements AvatarService{
             avatarList.add(0, avatar);
             user.getAvatar().setLibrary(avatarList);
         }
-        else{
-            if(Boolean.TRUE.equals(generateAvatar)){
-                avatar = RandomStringUtils.random(10, true, true);
-                addAvatarToUser(user, avatar, Boolean.TRUE);
-            }
+        else if(Boolean.TRUE.equals(generateAvatar)){
+            avatar = RandomStringUtils.random(Constant.AVATAR_CODE_SIZE, true, true);
+            addAvatarToUser(user, avatar, Boolean.TRUE);
+        }
+        else {
+            log.error(LogMessage.OPERATION_KO);
+            throw new AvatarExistException(Constant.AVATAR_ALREADY_EXISTS);
         }
 
         if(Boolean.FALSE.equals(userService.updateUser(user))){
