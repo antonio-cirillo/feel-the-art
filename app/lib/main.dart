@@ -17,7 +17,7 @@ void main() {
   runApp(
     // const FeelTheArt(),
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (context) => const FeelTheArt(),
     ),
   );
@@ -41,7 +41,7 @@ class FeelTheArt extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           // primaryColor: ,
-          scaffoldBackgroundColor: amethystColor,
+          scaffoldBackgroundColor: amethystColor.withOpacity(0.8),
           fontFamily: 'Hind',
         ),
         routes: {

@@ -3,7 +3,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:feel_the_art/utils/theme/colors.dart';
 import 'package:provider/provider.dart';
 import '../../model/account_model.dart';
-import '../loading/components/background.dart';
+import '../../components/background.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -47,7 +47,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
     return Stack(children: <Widget>[
       Container(color: amethystColor),
-      const LoadingScreenBackground(),
+      const BackgroundScreen(),
       IntroductionScreen(
         globalBackgroundColor: Colors.transparent,
         pages: _buildPages(),
