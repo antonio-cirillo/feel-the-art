@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:feel_the_art/classes/leaderboard.dart';
+import 'package:feel_the_art/classes/game/deck_list.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-import '../../classes/account/user.dart';
-import '../../classes/game_card.dart';
-import '../help.dart';
+import 'package:feel_the_art/classes/account/user.dart';
+import 'package:feel_the_art/classes/leaderboard.dart';
+import 'package:feel_the_art/utils/help.dart';
 
 enum WebMethod { get, post, put, patch, delete }
 
@@ -18,6 +18,8 @@ class WebRequest {
     'Content-type': 'application/json',
     'Accept': 'application/json',
   };
+  //ScureStorage per autenticazione
+  //https://levelup.gitconnected.com/the-4-ways-to-store-data-locally-in-your-flutter-app-that-youre-going-to-need-abdafa991ae3
 
   static Future<Map<String, dynamic>> getUser(String name) async {
     return debugOffline ? User.debugJson(name) : await _call('$baseURL/user/$name');
@@ -39,14 +41,13 @@ class WebRequest {
     return debugOffline ? LeaderBoard.debugJson() : await _call('$baseURL/leaderboard');
   }
 
-  static Future<List<GameCard>> getGameCards() async {
-    var input = await rootBundle.loadString("assets/cards/cards.json");
-    Iterable gameCardsIterable = await jsonDecode(input);
-    List<GameCard> gameCards = <GameCard>[];
-    for (var gameCard in gameCardsIterable) {
-      gameCards.add(GameCard.buildFromJson(gameCard));
-    }
-    return gameCards;
+  static Future<Map<String, dynamic>> getDecks() async {
+    //Retrive data.
+    // String s = await rootBundle.loadString("assets/cards/cards.json");//Usare hive o localstorage perchè questo da errore!
+    return DeckList.debugJson();
+    //Check if need update
+    //Update if needed
+    //Use
   }
 
   static Future<Map<String, dynamic>> _call(String url, {WebMethod verb = WebMethod.get, Object? obj}) async {

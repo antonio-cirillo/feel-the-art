@@ -5,15 +5,17 @@ import '_parts/progression.dart';
 import '_parts/statistic.dart';
 
 class User {
+  bool onBoard;
   final PersonalInfo personaInfo;
   final Progression progression;
   final Avatar avatar;
   final Statistic statistics;
 
-  User._(this.personaInfo, this.progression, this.avatar, this.statistics);
+  User._(this.onBoard, this.personaInfo, this.progression, this.avatar, this.statistics);
 
   static User buildFromJson(Map<String, dynamic> json) {
     return User._(
+      json['on_board'],
       PersonalInfo.buildFromJson(json['personaInfo']),
       Progression.buildFromJson(json['progression']),
       Avatar.buildFromJson(json['avatar']),
@@ -23,6 +25,7 @@ class User {
 
   static Map<String, dynamic> debugJson(String name) {
     return {
+      'on_board': true,
       'personaInfo': PersonalInfo.debugJson(name),
       'progression': Progression.debugJson(),
       'avatar': Avatar.debugJson(),
@@ -31,6 +34,6 @@ class User {
   }
 
   static User debug() {
-    return User._(PersonalInfo.debug(), Progression.debug(), Avatar.debug(), Statistic.debug());
+    return User._(true, PersonalInfo.debug(), Progression.debug(), Avatar.debug(), Statistic.debug());
   }
 }

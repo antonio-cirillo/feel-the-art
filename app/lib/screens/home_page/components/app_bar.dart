@@ -17,42 +17,38 @@ class HomePageScreenBar extends StatelessWidget {
     double avatarSize = MediaQuery.of(context).getProportionateScreenHeight(50);
     double paddingSize = MediaQuery.of(context).getProportionateScreenHeight(20);
 
-    return Container(
-      color: Colors.black,
-      padding: EdgeInsets.only(top: paddingSize, right: paddingSize),
-      child: Column(children: <Widget>[
-        Row(
-          children: <Widget>[
-            Expanded(
-                flex: 1,
-                child:
-                Align(alignment: Alignment.center, child: CircleAvatar(radius: avatarSize, child: SvgPicture.string(multiavatar(accountInfo.avatar))))),
-            Expanded(
-                flex: 2,
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-                  FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        accountInfo.name,
-                        style: const TextStyle(color: Colors.white, fontSize: 32),
-                      )),
-                  FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        "Livello ${accountInfo.level}",
-                        style: const TextStyle(color: Colors.white, fontSize: 18),
-                      )),
-                  SizedBox(height: paddingSize / 2),
-                  FAProgressBar(
-                    backgroundColor: Colors.white,
-                    progressColor: amethystColor,
-                    currentValue: accountInfo.exp.toDouble(),
-                    displayText: "",
-                  )
-                ])),
-          ],
-        )
-      ]),
-    );
+    return  Column(children: <Widget>[
+      Row(
+        children: <Widget>[
+          Expanded(
+              flex: 1,
+              child:
+              Align(alignment: Alignment.center, child: CircleAvatar(radius: avatarSize, child: SvgPicture.string(multiavatar(accountInfo.avatar))))),
+          Expanded(
+              flex: 2,
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      accountInfo.name,
+                      style: const TextStyle(color: Colors.white, fontSize: 32),
+                    )),
+                FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      "Livello ${accountInfo.level}",
+                      style: const TextStyle(color: Colors.white, fontSize: 18),
+                    )),
+                SizedBox(height: paddingSize / 2),
+                FAProgressBar(
+                  backgroundColor: Colors.white,
+                  progressColor: princessPerfumeColor,
+                  currentValue: accountInfo.exp.toDouble(),
+                  displayText: "",
+                )
+              ])),
+        ],
+      )
+    ]);
   }
 }

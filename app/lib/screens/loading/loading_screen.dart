@@ -1,7 +1,7 @@
 import 'package:feel_the_art/utils/theme/size_config.dart';
 import 'package:feel_the_art/utils/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'components/background.dart';
+import '../../components/background.dart';
 
 
 class LoadingScreen extends StatelessWidget {
@@ -11,7 +11,7 @@ class LoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: <Widget>[
-          const LoadingScreenBackground(),
+          const BackgroundScreen(),
           Align(
             alignment: Alignment.center,
             child: SizedBox(

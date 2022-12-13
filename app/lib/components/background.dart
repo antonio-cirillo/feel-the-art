@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/theme/size_config.dart';
+import '../utils/theme/size_config.dart';
 
-class LoadingScreenBackground extends StatelessWidget {
-  const LoadingScreenBackground({super.key});
+class BackgroundScreen extends StatelessWidget {
+  const BackgroundScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

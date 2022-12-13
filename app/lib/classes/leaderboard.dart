@@ -5,56 +5,72 @@ import 'account/_parts/progression.dart';
 import 'account/_parts/statistic.dart';
 import 'account/user.dart';
 
-class LeaderBoard{
+class LeaderBoard {
+  // Refactor list_user
   final List<User> _userList;
 
   LeaderBoard._(this._userList);
 
   static LeaderBoard buildFromJson(Map<String, dynamic> json) {
-    List<User> userList = [];
-    json["list"].forEach((user) => userList.add(User.buildFromJson(user)));
-    return LeaderBoard._(userList);
+    List<User> list = [];
+    json["list"].forEach((user) {
+      list.add(User.buildFromJson(user));
+    });
+    return LeaderBoard._(list);
   }
 
   static Map<String, dynamic> debugJson() {
     return {
       "list": [
         {
+          'on_board': true,
           'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
           'progression': Progression.debugJson(),
           'avatar': Avatar.debugJson(),
           'statistics': Statistic.debugJson()
         },
         {
+          'on_board': true,
           'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
           'progression': Progression.debugJson(),
           'avatar': Avatar.debugJson(),
           'statistics': Statistic.debugJson()
         },
         {
+          'on_board': true,
           'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
           'progression': Progression.debugJson(),
           'avatar': Avatar.debugJson(),
           'statistics': Statistic.debugJson()
         },
         {
+          'on_board': true,
           'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
           'progression': Progression.debugJson(),
           'avatar': Avatar.debugJson(),
           'statistics': Statistic.debugJson()
         },
         {
+          'on_board': true,
           'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
           'progression': Progression.debugJson(),
           'avatar': Avatar.debugJson(),
           'statistics': Statistic.debugJson()
         },
         {
+          'on_board': true,
           'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
           'progression': Progression.debugJson(),
           'avatar': Avatar.debugJson(),
           'statistics': Statistic.debugJson()
-        }
+        },
+        {
+          'on_board': true,
+          'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
+          'progression': Progression.debugJson(),
+          'avatar': Avatar.debugJson(),
+          'statistics': Statistic.debugJson()
+        },
       ]
     };
   }
