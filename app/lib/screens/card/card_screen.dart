@@ -105,6 +105,7 @@ class CardScreen extends StatelessWidget {
                     behavior: const MaterialScrollBehavior()
                         .copyWith(overscroll: false),
                     child: ListView(
+                      physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       children: [

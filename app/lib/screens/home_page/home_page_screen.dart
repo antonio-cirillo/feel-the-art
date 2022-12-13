@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../components/background.dart';
+import '../../utils/theme/colors.dart';
 import 'components/app_bar.dart';
 import 'components/card_table_slider.dart';
 
@@ -13,14 +15,18 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreen extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
-          children: const <Widget>[
-            Expanded(flex: 2, child: HomePageScreenBar()),
-            Expanded(flex: 7, child: CardTableSlider()),
-            // Expanded(flex: 1, child: Text("DOMANDA DEL GIORNO"))
-          ],
-        )
-    );
+    return Stack(children: [
+      Container(color: amethystColor.withOpacity(0.8)),
+      const BackgroundScreen(),
+      Scaffold(
+        backgroundColor: Colors.transparent,
+          body: Column(
+        children: const <Widget>[
+          Expanded(flex: 2, child: HomePageScreenBar()),
+          Expanded(flex: 7, child: CardTableSlider()),
+          // Expanded(flex: 1, child: Text("DOMANDA DEL GIORNO"))
+        ],
+      ))
+    ]);
   }
 }
