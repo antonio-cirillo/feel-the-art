@@ -15,10 +15,11 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
-  static const bodyStyle = TextStyle(fontSize: 19.0);
+  static const bodyStyle = TextStyle(fontSize: 19.0, color: Colors.white);
 
   static const pageDecoration = PageDecoration(
-    titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
+    titleTextStyle: TextStyle(
+        fontSize: 28.0, fontWeight: FontWeight.w700, color: Colors.white),
     bodyTextStyle: bodyStyle,
     imageFlex: 3,
     bodyFlex: 2,
@@ -35,9 +36,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       PageViewModel(
           image: Image.asset("assets/icons/icon.png", width: 300),
           title: 'Feel the ART',
-          body: 'Instead of having to buy an entire share, invest any amount you want.',
+          body:
+              'Instead of having to buy an entire share, invest any amount you want.',
           decoration: pageDecoration),
-      PageViewModel(title: 'Title of first page', body: 'Here you can write the description of the page, to explain someting...', decoration: pageDecoration)
+      PageViewModel(
+          title: 'Title of first page',
+          body:
+              'Here you can write the description of the page, to explain someting...',
+          decoration: pageDecoration)
     ];
   }
 
@@ -62,7 +68,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           backgroundColor: MaterialStateProperty.all(princessPerfumeColor),
           shadowColor: MaterialStateProperty.all(Colors.black),
         ),
-        done: const Text('Continua', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
+        done: const Text('Continua',
+            style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
         doneStyle: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(robinEggBlueColor),
           shadowColor: MaterialStateProperty.all(Colors.black),
