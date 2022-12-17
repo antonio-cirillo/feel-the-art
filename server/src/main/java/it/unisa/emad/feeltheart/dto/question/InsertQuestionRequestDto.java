@@ -14,13 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class QuestionDto implements Serializable {
+public class InsertQuestionRequestDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 504184795674239L;
-
-    @Schema(description = "")
-    private String id;
+    private static final long serialVersionUID = -3770048997561534035L;
 
     @Schema(description = "")
     private String image_url;

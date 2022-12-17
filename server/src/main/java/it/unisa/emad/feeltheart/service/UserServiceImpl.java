@@ -42,7 +42,12 @@ public class UserServiceImpl implements UserService{
 
             log.info(LogMessage.END);
             return deviceId;
-        }catch (Exception e){
+        }catch (InterruptedException e){
+            log.warn(LogMessage.INTERRUPTED_EXCEPTION, e.getMessage());
+            Thread.currentThread().interrupt();
+            return null;
+        }
+        catch (Exception e){
             log.error(LogMessage.ERROR, e.getMessage());
             return null;
         }
@@ -59,7 +64,7 @@ public class UserServiceImpl implements UserService{
             return userToRecover;
         }
         catch (InterruptedException e){
-            log.warn("Interrupted exception: {}", e.getMessage());
+            log.warn(LogMessage.INTERRUPTED_EXCEPTION, e.getMessage());
             Thread.currentThread().interrupt();
             return null;
         }
@@ -120,7 +125,7 @@ public class UserServiceImpl implements UserService{
             log.info(LogMessage.END);
             return result;
         } catch (InterruptedException e){
-            log.warn("Interrupted exception: {}", e.getMessage());
+            log.warn(LogMessage.INTERRUPTED_EXCEPTION, e.getMessage());
             Thread.currentThread().interrupt();
             return Collections.emptyList();
         }

@@ -1,6 +1,7 @@
 package it.unisa.emad.feeltheart.service;
 
 import it.unisa.emad.feeltheart.dto.question.GetQuestionByTypeRequestDto;
+import it.unisa.emad.feeltheart.dto.question.InsertQuestionRequestDto;
 import it.unisa.emad.feeltheart.dto.question.QuestionDto;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +10,9 @@ import java.util.List;
 @Service
 public interface QuestionService {
 
-    String insertQuestion(QuestionDto request);
+    String insertQuestion(InsertQuestionRequestDto request);
 
-    QuestionDto getQuestionById(Long questionId);
+    QuestionDto getQuestionById(String questionId);
 
     QuestionDto getRandomQuestion();
 

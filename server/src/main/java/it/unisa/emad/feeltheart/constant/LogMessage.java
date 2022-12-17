@@ -30,6 +30,9 @@ public class LogMessage {
     public static final String AVATAR_NOT_FOUND = "Avatar not found";
     public static final String ACCESS_KO = "Invalid login case";
 
+    public static final String INTERRUPTED_EXCEPTION = "Interrupted exception: {}";
+    public static final String QUESTION_NOT_FOUND = "Question doesn't exist";
+
     private LogMessage(){
     }
 }

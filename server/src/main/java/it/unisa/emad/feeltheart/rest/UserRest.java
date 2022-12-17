@@ -78,13 +78,13 @@ public class UserRest {
     @Operation(description = "Servizio REST utile ad effettuare il recupero di un utente")
     public ResponseEntity<ResultDto<UserDto>> getUserByDeviceId(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
-            @RequestParam @NotBlank(message = "Campo id_device non valorizzato") String device_id) {
+            @RequestParam(value = "id_device") @NotBlank(message = "Campo id_device non valorizzato") String deviceId) {
 
         log.info(LogMessage.START);
 
         httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
-        var userToRecover = userService.getUserByDeviceId(device_id);
+        var userToRecover = userService.getUserByDeviceId(deviceId);
         var response = new ResultDto<UserDto>();
 
         if(null == userToRecover){

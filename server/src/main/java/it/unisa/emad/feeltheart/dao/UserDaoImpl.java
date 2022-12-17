@@ -81,9 +81,7 @@ public class UserDaoImpl implements UserDao{
                 .get()
                 .get();
 
-        documentSnapshots.forEach(document -> {
-            result.add(document.toObject(UserDto.class));
-        });
+        documentSnapshots.forEach(document -> result.add(document.toObject(UserDto.class)));
 
         log.info(LogMessage.END);
         return result;
