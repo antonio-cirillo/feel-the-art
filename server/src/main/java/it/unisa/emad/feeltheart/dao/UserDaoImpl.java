@@ -77,6 +77,7 @@ public class UserDaoImpl implements UserDao{
 
         QuerySnapshot documentSnapshots = dbFirestore
                 .collection(USER_COLLECTION)
+                .limit(25)
                 .get()
                 .get();
 

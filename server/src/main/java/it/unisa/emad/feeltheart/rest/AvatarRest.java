@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.Operation;
 import it.unisa.emad.feeltheart.constant.Constant;
 import it.unisa.emad.feeltheart.constant.LogMessage;
-import it.unisa.emad.feeltheart.dto.avatar.AddAvatarRequestDto;
+import it.unisa.emad.feeltheart.dto.avatar.SaveGeneratedAvatarRequestDto;
 import it.unisa.emad.feeltheart.dto.avatar.GeneratedAvatarRequestDto;
 import it.unisa.emad.feeltheart.dto.avatar.GeneratedAvatarResponseDto;
 import it.unisa.emad.feeltheart.dto.avatar.SetAvatarRequestDto;
@@ -39,7 +39,7 @@ public class AvatarRest {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/1.0/setAvatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/1.0/set-avatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare la modifica dell'avatar di un utente")
     public ResponseEntity<ResultDto<Boolean>> setAvatar(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
@@ -75,18 +75,18 @@ public class AvatarRest {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/1.0/addAvatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/1.0/save-generated-avatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare l'aggiunta di un avatar all'utente")
-    public ResponseEntity<ResultDto<Boolean>> addAvatar(
+    public ResponseEntity<ResultDto<Boolean>> saveGeneratedAvatar(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
-            @RequestBody @Valid AddAvatarRequestDto request) {
+            @RequestBody @Valid SaveGeneratedAvatarRequestDto request) {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
 
         httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
-        Boolean result = avatarService.addAvatar(request);
+        Boolean result = avatarService.saveGeneratedAvatar(request);
         var response = new ResultDto<Boolean>();
 
         if(result.equals(Boolean.FALSE)){
@@ -111,7 +111,7 @@ public class AvatarRest {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/1.0/generateAvatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/1.0/generate-avatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare la generazione di un avatar")
     public ResponseEntity<ResultDto<GeneratedAvatarResponseDto>> generateAvatar(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,

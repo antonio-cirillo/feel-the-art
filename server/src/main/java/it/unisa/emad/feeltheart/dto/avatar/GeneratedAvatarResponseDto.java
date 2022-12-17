@@ -17,5 +17,5 @@ public class GeneratedAvatarResponseDto implements Serializable {
     @Serial
     private static final long serialVersionUID = -2373991982114165355L;
 
-    private String avatarGenerated;
+    private String avatar_generated;
 }

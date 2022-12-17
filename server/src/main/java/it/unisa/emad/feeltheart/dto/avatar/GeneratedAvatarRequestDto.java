@@ -1,10 +1,12 @@
 package it.unisa.emad.feeltheart.dto.avatar;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -17,6 +19,8 @@ public class GeneratedAvatarRequestDto implements Serializable {
     @Serial
     private static final long serialVersionUID = -8798950242994711807L;
 
-    private String deviceId;
+    @NotBlank(message = "Il campo id_device non è valorizzato")
+    @Schema(description = "User device identifier")
+    private String id_device;
 
 }

@@ -39,7 +39,7 @@ public class UserRest {
     }
 
     @CrossOrigin
-    @PutMapping(value = "/1.0/insertUser", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/1.0/insert-user", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare l'inserimento di un utente")
     public ResponseEntity<ResultDto<String>> insertUser(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
@@ -74,7 +74,7 @@ public class UserRest {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/1.0/getUserByDeviceId", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/1.0/get-user-by-device-id", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare il recupero di un utente")
     public ResponseEntity<ResultDto<UserDto>> getUserByDeviceId(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
@@ -108,7 +108,7 @@ public class UserRest {
     }
 
     @CrossOrigin
-    @PutMapping(value = "/1.0/initializeUser", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/1.0/initialize-user", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare l'inizializzazione di un utente")
     public ResponseEntity<ResultDto<InitializeUserResponseDto>> initializeUser(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
@@ -144,7 +144,7 @@ public class UserRest {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/1.0/updateUser", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/1.0/update-user", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare la modifica di un utente")
     public ResponseEntity<ResultDto<Boolean>> updateUser(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
@@ -181,7 +181,7 @@ public class UserRest {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/1.0/getLeaderboard", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/1.0/get-leaderboard", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare il recupero della classifica degli utenti")
     public ResponseEntity<ResultDto<List<UserDto>>> getLeaderboard(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,

@@ -2,7 +2,7 @@ package it.unisa.emad.feeltheart.service;
 
 import it.unisa.emad.feeltheart.constant.Constant;
 import it.unisa.emad.feeltheart.constant.LogMessage;
-import it.unisa.emad.feeltheart.dto.avatar.AddAvatarRequestDto;
+import it.unisa.emad.feeltheart.dto.avatar.SaveGeneratedAvatarRequestDto;
 import it.unisa.emad.feeltheart.dto.avatar.GeneratedAvatarRequestDto;
 import it.unisa.emad.feeltheart.dto.avatar.GeneratedAvatarResponseDto;
 import it.unisa.emad.feeltheart.dto.avatar.SetAvatarRequestDto;
@@ -62,7 +62,7 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     @Override
-    public Boolean addAvatar(AddAvatarRequestDto request) {
+    public Boolean saveGeneratedAvatar(SaveGeneratedAvatarRequestDto request) {
         log.info(LogMessage.START);
 
         String deviceId = request.getId_device();
@@ -85,7 +85,7 @@ public class AvatarServiceImpl implements AvatarService{
     public GeneratedAvatarResponseDto generateAvatar(GeneratedAvatarRequestDto request) {
         log.info(LogMessage.START);
 
-        String deviceId = request.getDeviceId();
+        String deviceId = request.getId_device();
         var result = new GeneratedAvatarResponseDto();
 
         try {
@@ -94,7 +94,7 @@ public class AvatarServiceImpl implements AvatarService{
 
             addAvatarToUser(user, avatar, Boolean.TRUE);
 
-            result.setAvatarGenerated(avatar);
+            result.setAvatar_generated(avatar);
 
             log.info(LogMessage.END);
             return result;

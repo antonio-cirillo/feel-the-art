@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class AddAvatarRequestDto implements Serializable {
+public class SaveGeneratedAvatarRequestDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 7260524887560856448L;
