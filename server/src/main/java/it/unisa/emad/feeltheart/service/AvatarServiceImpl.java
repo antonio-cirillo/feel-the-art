@@ -2,16 +2,15 @@ package it.unisa.emad.feeltheart.service;
 
 import it.unisa.emad.feeltheart.constant.Constant;
 import it.unisa.emad.feeltheart.constant.LogMessage;
-import it.unisa.emad.feeltheart.dto.avatar.SaveGeneratedAvatarRequestDto;
-import it.unisa.emad.feeltheart.dto.avatar.GeneratedAvatarRequestDto;
-import it.unisa.emad.feeltheart.dto.avatar.GeneratedAvatarResponseDto;
-import it.unisa.emad.feeltheart.dto.avatar.SetAvatarRequestDto;
+import it.unisa.emad.feeltheart.dto.avatar.*;
 import it.unisa.emad.feeltheart.dto.user.UserDto;
 import it.unisa.emad.feeltheart.exception.AvatarExistException;
+import it.unisa.emad.feeltheart.exception.InsufficientPointException;
 import it.unisa.emad.feeltheart.exception.UpdateUserException;
 import it.unisa.emad.feeltheart.exception.UserNotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +29,8 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     @Override
-    public Boolean setAvatar(SetAvatarRequestDto request) {
+    public SetAvatarResponseDto setAvatar(SetAvatarRequestDto request) {
         log.info(LogMessage.START);
-
-        //TODO: spostare avatar in cima
 
         String deviceId = request.getId_device();
         String avatar = request.getAvatar();
@@ -51,37 +48,34 @@ public class AvatarServiceImpl implements AvatarService{
                 userService.updateUser(user);
 
                 log.info(LogMessage.END);
-                return Boolean.TRUE;
+                return new SetAvatarResponseDto(Boolean.TRUE);
             }else{
                 log.error(LogMessage.AVATAR_NOT_FOUND);
                 log.info(LogMessage.END);
-                return Boolean.FALSE;
+                return new SetAvatarResponseDto(Boolean.FALSE);
             }
         } catch (Exception e){
             log.error(LogMessage.ERROR, e.getMessage());
-            return Boolean.FALSE;
+            return new SetAvatarResponseDto(Boolean.FALSE);
         }
     }
 
     @Override
-    public Boolean saveGeneratedAvatar(SaveGeneratedAvatarRequestDto request) {
+    public SaveGeneratedAvatarResponseDto saveGeneratedAvatar(SaveGeneratedAvatarRequestDto request) {
         log.info(LogMessage.START);
 
-        //TODO: spostare last_generated in cima
-
         String deviceId = request.getId_device();
-        String lastGeneratedAvatar = request.getLast_generated();
 
         try {
             UserDto user = getUserByDeviceId(deviceId);
 
-            addAvatarToUser(user, lastGeneratedAvatar, Boolean.FALSE);
+            addAvatarToUser(user);
 
             log.info(LogMessage.END);
-            return Boolean.TRUE;
+            return new SaveGeneratedAvatarResponseDto(Boolean.TRUE);
         }catch (Exception e){
             log.error(LogMessage.ERROR, e.getMessage());
-            return Boolean.FALSE;
+            return new SaveGeneratedAvatarResponseDto(Boolean.FALSE);
         }
     }
 
@@ -89,18 +83,12 @@ public class AvatarServiceImpl implements AvatarService{
     public GeneratedAvatarResponseDto generateAvatar(GeneratedAvatarRequestDto request) {
         log.info(LogMessage.START);
 
-        //TODO: scalare un punto di sblocco
-        //TODO: salvare avatare in last_
-
         String deviceId = request.getId_device();
         var result = new GeneratedAvatarResponseDto();
 
         try {
             UserDto user = getUserByDeviceId(deviceId);
-            String avatar = RandomStringUtils.random(Constant.AVATAR_CODE_SIZE, true, true);
-
-            addAvatarToUser(user, avatar, Boolean.TRUE);
-
+            String avatar = addGeneratedAvatarToUser(user);
             result.setAvatar_generated(avatar);
 
             log.info(LogMessage.END);
@@ -131,32 +119,21 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     /**
-     * This method allows an avatar to be added to the user
+     * This method allows an avatar to be added to the user's avatar
      * @param user User to add avatar to
-     * @param avatar String containing the avatar to be added
-     * @param generateAvatar Flag indicating whether the avatar has been generated
      */
-    private void addAvatarToUser(UserDto user, String avatar, Boolean generateAvatar){
+    private void addAvatarToUser(UserDto user){
         log.info(LogMessage.START);
 
+        String lastGeneratedAvatar = user.getAvatar().getLast_generated();
         List<String> avatarList = user.getAvatar().getLibrary();
 
-        if(null == avatarList){
-            log.info("The user's library is null");
-            user.getAvatar().setLibrary(Collections.singletonList(avatar));
-        }
-        else if(!avatarList.contains(avatar)){
-            log.info("The user's library doesn't contain the avatar");
-            avatarList.add(0, avatar);
+        if(null == avatarList || avatarList.isEmpty()){
+            log.info("The user's library is null or empty");
+            user.getAvatar().setLibrary(Collections.singletonList(lastGeneratedAvatar));
+        }else{
+            avatarList.add(0, lastGeneratedAvatar);
             user.getAvatar().setLibrary(avatarList);
-        }
-        else if(Boolean.TRUE.equals(generateAvatar)){
-            avatar = RandomStringUtils.random(Constant.AVATAR_CODE_SIZE, true, true);
-            addAvatarToUser(user, avatar, Boolean.TRUE);
-        }
-        else {
-            log.error(LogMessage.OPERATION_KO);
-            throw new AvatarExistException(Constant.AVATAR_ALREADY_EXISTS);
         }
 
         if(Boolean.FALSE.equals(userService.updateUser(user))){
@@ -165,6 +142,38 @@ public class AvatarServiceImpl implements AvatarService{
         }
 
         log.info(LogMessage.END);
+    }
+
+    /**
+     * This method allows an avatar to be added to the user
+     * @param user User to add avatar to
+     */
+    private String addGeneratedAvatarToUser(UserDto user){
+        log.info(LogMessage.START);
+
+        Double points = user.getProgression().getUnlock_counter();
+        List<String> avatarList = user.getAvatar().getLibrary();
+        String generatedAvatar = RandomStringUtils.random(Constant.AVATAR_CODE_SIZE, true, true);
+
+        if(points < 1) {
+            log.error("Insufficient points");
+            throw new InsufficientPointException("Insufficient points");
+        }
+
+        while (avatarList.contains(generatedAvatar)) {
+            generatedAvatar = RandomStringUtils.random(Constant.AVATAR_CODE_SIZE, true, true);
+        }
+
+        user.getProgression().setUnlock_counter(points - 1);
+        user.getAvatar().setLast_generated(generatedAvatar);
+
+        if(Boolean.FALSE.equals(userService.updateUser(user))){
+            log.error(LogMessage.OPERATION_KO);
+            throw new UpdateUserException(Constant.UPDATE_USER_KO);
+        }
+
+        log.info(LogMessage.END);
+        return generatedAvatar;
     }
 
 }

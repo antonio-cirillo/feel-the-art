@@ -23,9 +23,4 @@ public class SaveGeneratedAvatarRequestDto implements Serializable {
     @Schema(description = "User device identifier")
     private String id_device;
 
-    //TODO: Eliminare campo
-    @NotBlank(message = "Il campo last_generated non è valorizzato")
-    @Schema(description = "Stringa contenente l'ultimo avat generato")
-    private String last_generated;
-
 }
