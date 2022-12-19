@@ -41,31 +41,32 @@ class LeaderBoardScreen extends StatelessWidget {
       Container(color: amethystColor.withOpacity(0.8)),
       const BackgroundScreen(),
       Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Column(children: <Widget>[
+        backgroundColor: Colors.transparent,
+        body: Column(
+          children: <Widget>[
             Expanded(
-                flex: 1,
-                child: Align(
-                    alignment: Alignment.center,
-                    child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Stack(children: [
-                          Text("Classifica",
-                              style: TextStyle(
-                                  fontSize: 50,
-                                  fontWeight: FontWeight.w600,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 5
-                                    ..color = amethystColor,
-                                  fontFamily: "ElsieSwashCaps")),
-                          const Text("Classifica",
-                              style: TextStyle(
-                                  fontSize: 50,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: "ElsieSwashCaps"))
-                        ])))),
+              flex: 1,
+              child: Align(
+                alignment: Alignment.center,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Stack(
+                    children: [
+                      Text("Classifica",
+                          style: TextStyle(
+                              fontSize: 50,
+                              fontWeight: FontWeight.w600,
+                              foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 5
+                                ..color = amethystColor,
+                              fontFamily: "ElsieSwashCaps")),
+                      const Text("Classifica", style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "ElsieSwashCaps"))
+                    ],
+                  ),
+                ),
+              ),
+            ),
             FutureBuilder(
               future: LeaderBoardService.fetch(),
               builder: (ctx, snapshot) {
@@ -79,15 +80,11 @@ class LeaderBoardScreen extends StatelessWidget {
                         color: Colors.transparent,
                         child: ListView.builder(
                           physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.only(
-                            left: 8,
-                            right: 8
-                          ),
+                          padding: const EdgeInsets.only(left: 8, right: 8),
                           itemCount: leaderboard.userList.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  16, 0, 16, 12),
+                              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 12),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
@@ -116,69 +113,43 @@ class LeaderBoardScreen extends StatelessWidget {
                                         padding: const EdgeInsets.only(left: 8),
                                         child: CircleAvatar(
                                           radius: avatarSize,
-                                          child: SvgPicture.string(multiavatar(
-                                              leaderboard
-                                                  .userList[index].avatar.get)),
+                                          child: SvgPicture.string(multiavatar(leaderboard.userList[index].avatar.get)),
                                         ),
                                       ),
                                     ),
                                     Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              8, 8, 4, 8),
+                                      padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 4, 8),
                                       child: Container(
                                         width: 4,
                                         height: 90,
                                         decoration: BoxDecoration(
                                           color: const Color(0xff8022d5),
-                                          borderRadius:
-                                              BorderRadius.circular(4),
+                                          borderRadius: BorderRadius.circular(4),
                                         ),
                                       ),
                                     ),
                                     Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              12, 12, 16, 12),
+                                      padding: const EdgeInsetsDirectional.fromSTEB(12, 12, 16, 12),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            index == 0
-                                                ? "ooooooooo"
-                                                : leaderboard.userList[index]
-                                                    .personaInfo.name,
-                                            style: FlutterFlowTheme.of(context)
-                                                .title2
-                                                .override(
-                                                    fontFamily: "Outfit",
-                                                    color:
-                                                        const Color(0xFF101213),
-                                                    fontSize: MediaQuery.of(
-                                                            context)
-                                                        .getProportionateScreenWidth(
-                                                            16),
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                            index == 0 ? "ooooooooo" : leaderboard.userList[index].personaInfo.name,
+                                            style: FlutterFlowTheme.of(context).title2.override(
+                                                fontFamily: "Outfit",
+                                                color: const Color(0xFF101213),
+                                                fontSize: MediaQuery.of(context).getProportionateScreenWidth(16),
+                                                fontWeight: FontWeight.w500),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsetsDirectional
-                                                .fromSTEB(0, 4, 0, 0),
+                                            padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                                             child: Text(
                                               "Win : ${leaderboard.userList[index].statistics.first}",
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyText1
-                                                  .override(
+                                              style: FlutterFlowTheme.of(context).bodyText1.override(
                                                     fontFamily: "Outfit",
-                                                    color:
-                                                        const Color(0xff8022d5),
-                                                    fontSize: MediaQuery.of(
-                                                            context)
-                                                        .getProportionateScreenWidth(
-                                                            14),
+                                                    color: const Color(0xff8022d5),
+                                                    fontSize: MediaQuery.of(context).getProportionateScreenWidth(14),
                                                     fontWeight: FontWeight.w500,
                                                   ),
                                             ),
@@ -190,28 +161,18 @@ class LeaderBoardScreen extends StatelessWidget {
                                       flex: 4,
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 20),
+                                            padding: const EdgeInsets.only(right: 20),
                                             child: index == 0
-                                                ? Text((index + 1).toString(),
-                                                    style: firstPosition)
+                                                ? Text((index + 1).toString(), style: firstPosition)
                                                 : index == 1
-                                                    ? Text(
-                                                        (index + 1).toString(),
-                                                        style: secondPosition)
+                                                    ? Text((index + 1).toString(), style: secondPosition)
                                                     : index == 2
-                                                        ? Text(
-                                                            (index + 1)
-                                                                .toString(),
-                                                            style:
-                                                                thirdPosition)
+                                                        ? Text((index + 1).toString(), style: thirdPosition)
                                                         : Text(
-                                                            (index + 1)
-                                                                .toString(),
+                                                            (index + 1).toString(),
                                                             style: position,
                                                           ),
                                           ),
@@ -227,11 +188,17 @@ class LeaderBoardScreen extends StatelessWidget {
                       ),
                     );
                   }
+                } else if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text("Loading");
+                } else if (snapshot.connectionState == ConnectionState.none) {
+                  return const Text("No Connection");
                 }
                 return const Text("data");
               },
             )
-          ]))
+          ],
+        ),
+      ),
     ]);
   }
 }

@@ -25,49 +25,49 @@ class LeaderBoard {
       "list": [
         {
           "on_board": true,
-          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "persona_info": PersonalInfo.debugJson(Help.generateRandomString(5)),
           "progression": Progression.debugJson(),
           "avatar": Avatar.debugJson(),
           "statistics": Statistic.debugJson()
         },
         {
           "on_board": true,
-          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "persona_info": PersonalInfo.debugJson(Help.generateRandomString(5)),
           "progression": Progression.debugJson(),
           "avatar": Avatar.debugJson(),
           "statistics": Statistic.debugJson()
         },
         {
           "on_board": true,
-          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "persona_info": PersonalInfo.debugJson(Help.generateRandomString(5)),
           "progression": Progression.debugJson(),
           "avatar": Avatar.debugJson(),
           "statistics": Statistic.debugJson()
         },
         {
           "on_board": true,
-          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "persona_info": PersonalInfo.debugJson(Help.generateRandomString(5)),
           "progression": Progression.debugJson(),
           "avatar": Avatar.debugJson(),
           "statistics": Statistic.debugJson()
         },
         {
           "on_board": true,
-          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "persona_info": PersonalInfo.debugJson(Help.generateRandomString(5)),
           "progression": Progression.debugJson(),
           "avatar": Avatar.debugJson(),
           "statistics": Statistic.debugJson()
         },
         {
           "on_board": true,
-          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "persona_info": PersonalInfo.debugJson(Help.generateRandomString(5)),
           "progression": Progression.debugJson(),
           "avatar": Avatar.debugJson(),
           "statistics": Statistic.debugJson()
         },
         {
           "on_board": true,
-          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "persona_info": PersonalInfo.debugJson(Help.generateRandomString(5)),
           "progression": Progression.debugJson(),
           "avatar": Avatar.debugJson(),
           "statistics": Statistic.debugJson()

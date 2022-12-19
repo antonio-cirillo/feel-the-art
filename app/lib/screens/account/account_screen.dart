@@ -10,8 +10,7 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double proportionate40px =
-        MediaQuery.of(context).getProportionateScreenHeight(40);
+    double proportionate40px = MediaQuery.of(context).getProportionateScreenHeight(40);
     return Stack(children: [
       Container(color: amethystColor.withOpacity(0.8)),
       const BackgroundScreen(),
@@ -26,10 +25,6 @@ class AccountScreen extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Avatar(),
                 )),
-            const Expanded(
-              flex: 4,
-              child: Text("Ciao")
-            )
           ],
         ),
       )

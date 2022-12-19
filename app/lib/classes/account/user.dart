@@ -16,7 +16,7 @@ class User {
   static User buildFromJson(bool onBoard, Map<String, dynamic> json) {
     return User._(
       onBoard,
-      PersonalInfo.buildFromJson(json["user_info"]),
+      PersonalInfo.buildFromJson(json["persona_info"]),
       Progression.buildFromJson(json["progression"]),
       Avatar.buildFromJson(json["avatar"]),
       Statistic.buildFromJson(json["statistics"]),
@@ -26,7 +26,7 @@ class User {
   static Map<String, dynamic> debugJson(String name) {
     return {
       "on_board": true,
-      "personaInfo": PersonalInfo.debugJson(name),
+      "persona_info": PersonalInfo.debugJson(name),
       "progression": Progression.debugJson(),
       "avatar": Avatar.debugJson(),
       "statistics": Statistic.debugJson()

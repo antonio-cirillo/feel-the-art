@@ -1,5 +1,4 @@
-import "dart:io";
-import "package:flutter/material.dart";
+import 'package:flutter/foundation.dart';
 import "package:device_info_plus/device_info_plus.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:flutter_secure_storage/flutter_secure_storage.dart";
@@ -12,8 +11,8 @@ class AccountService with ChangeNotifier {
   late final FlutterSecureStorage _secureStorage;
   late final SharedPreferences _localStorage;
 
-  late final Map<String, dynamic> _userAuth;
-  late final Map<String, dynamic> _localstorageVars;
+  final Map<String, dynamic> _userAuth = {};
+  final Map<String, dynamic> _localstorageVars = {};
   late final User _user;
 
   ObjStatus status = ObjStatus.loading;
@@ -30,13 +29,13 @@ class AccountService with ChangeNotifier {
       _secureStorage = const FlutterSecureStorage();
       _localStorage = await SharedPreferences.getInstance();
 
-      _initUserCredencial();
-      _initLocalStorageVars();
+      await _initUserCredencial();
+      await _initLocalStorageVars();
 
       Map<String, dynamic> request;
-      if (_userAuth["password"] != "") {
+      if (_userAuth["password"] != null) {
         request = await WebRequest.getUser(_userAuth["username"]!, authCode: _userAuth["password"]);
-      }else{
+      } else {
         request = await WebRequest.getUser(_userAuth["username"]!);
       }
 
@@ -49,53 +48,47 @@ class AccountService with ChangeNotifier {
       notifyListeners();
     }
   }
-  void _initUserCredencial() async {
-    var uuid = await _getId();
-    var password = await _secureStorage.read(key: "password");
-    _userAuth = {
-      "username": uuid ?? "",
-      "password": password ?? "",
-    };
-  }
-  void _initLocalStorageVars() async {
-    bool on_board = await _localStorage.getBool("on_board") ?? true;
-    _localstorageVars = {
-      "on_board": on_board,
-    };
-  }
-  Future<String?> _getId() async {
+
+  Future<void> _initUserCredencial() async {
     var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) {
-      var iosDeviceInfo = await deviceInfo.iosInfo;
-      return iosDeviceInfo.identifierForVendor;
-    } else if (Platform.isAndroid) {
-      var androidDeviceInfo = await deviceInfo.androidInfo;
-      return androidDeviceInfo.id;
-    } else if (Platform.isLinux) {
-      var linuxInfo = await deviceInfo.linuxInfo;
-      return linuxInfo.machineId;
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      var info = await deviceInfo.iosInfo;
+      _userAuth["username"] = info.identifierForVendor.toString();
+    } else if (defaultTargetPlatform == TargetPlatform.android) {
+      var info = await deviceInfo.androidInfo;
+      _userAuth["username"] = info.id.toString();
     } else {
-      var webInfo = await deviceInfo.webBrowserInfo;
-      return webInfo.vendor! + (webInfo.userAgent ?? "") + webInfo.hardwareConcurrency.toString();
+      _userAuth["username"] = "GIGI";
     }
+    _userAuth["password"] = await _localStorage.getBool("password") ?? "";
+  }
+
+  Future<void> _initLocalStorageVars() async {
+    _localstorageVars["on_board"] = await _localStorage.getBool("on_board") ?? true;
   }
 
   String get name => _user.personaInfo.name;
+
   int get exp => _user.progression.exp;
+
   int get level => _user.progression.level;
+
   void addExp(int exp) {
     _user.progression.addExp(exp);
     notifyListeners();
   }
 
   String get avatar => _user.avatar.get;
+
   String get generatedAvatar => _user.avatar.lastGenerated;
+
   List<String> get allAvatar => _user.avatar.getAll;
+
   void generateNewAvatar() async {
     status = ObjStatus.loading;
     try {
-      var request = await WebRequest.generateAvatar(_userAuth["username"]!);
-      _user.avatar.lastGenerated = request["result"];
+      var request = await WebRequest.generateAvatar();
+      _user.avatar.lastGenerated = request["avatar_generated"];
       status = ObjStatus.ready;
     } catch (e) {
       status = ObjStatus.error;
@@ -103,10 +96,11 @@ class AccountService with ChangeNotifier {
       notifyListeners();
     }
   }
+
   void setAvatar(String el) async {
     status = ObjStatus.loading;
     try {
-      var request = await WebRequest.setAvatar(_userAuth["username"]!, el);
+      var request = await WebRequest.setAvatar(el);
       if (request["result"]) {
         _user.avatar.setAvatar(el);
         status = ObjStatus.ready;
@@ -117,10 +111,11 @@ class AccountService with ChangeNotifier {
       notifyListeners();
     }
   }
+
   void addAvatar() async {
     status = ObjStatus.loading;
     try {
-      var request = await WebRequest.saveGeneratedAvatar(_userAuth["username"]!);
+      var request = await WebRequest.saveGeneratedAvatar();
       if (request["result"]) {
         _user.avatar.addAvatar();
         status = ObjStatus.ready;
@@ -133,12 +128,15 @@ class AccountService with ChangeNotifier {
   }
 
   bool get onBoard => _user.onBoard;
+
   void setOnboardOff() {
     _setOnboard(false);
   }
+
   void setOnboardOn() {
     _setOnboard(true);
   }
+
   void _setOnboard(bool b) async {
     await _localStorage.setBool("on_board", b);
     _user.onBoard = b;
@@ -146,10 +144,15 @@ class AccountService with ChangeNotifier {
   }
 
   int get firstPlaces => _user.statistics.first;
+
   int get secondPlaces => _user.statistics.second;
+
   int get thirdPlaces => _user.statistics.third;
+
   int get totalGames => _user.statistics.tot;
+
   int get loseGames => _user.statistics.lose;
+
   void addGame(int place) {
     _user.statistics.addGame(place);
     notifyListeners();

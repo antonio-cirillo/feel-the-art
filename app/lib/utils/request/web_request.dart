@@ -30,41 +30,34 @@ class WebRequest {
     // headers["Authorization"] = "TOKEN_GENERATO_DOPO_LA_CHIAMATA";
   }
 
-  static Future<Map<String, dynamic>> setAvatar(String idDevice, String avatar) async {
+  static Future<Map<String, dynamic>> setAvatar(String avatar) async {
     if (debugOffline) {
-      return {"success": true, "code": 0, "descrizione": "string", "data": true, "dateTime": "2022-12-16T18:27:31.977Z"};
+      return {"result": true};
     }
 
-    return await _call("$baseURL/avatar/1.0/setAvatar", verb: WebMethod.post, obj: {"id_device": idDevice, "avatar": avatar});
+    return await _call("$baseURL/avatar/1.0/setAvatar", verb: WebMethod.post, obj: {"avatar": avatar});
   }
 
-  static Future<Map<String, dynamic>> saveGeneratedAvatar(String idDevice) async {
+  static Future<Map<String, dynamic>> saveGeneratedAvatar() async {
     if (debugOffline) {
-      return {"success": true, "code": 0, "descrizione": "string", "data": true, "dateTime": "2022-12-16T18:27:31.977Z"};
+      return {"result": true};
     }
 
-    return await _call("$baseURL/avatar/1.0/addAvatar", verb: WebMethod.post, obj: {"id_device": idDevice});
+    return await _call("$baseURL/avatar/1.0/addAvatar", verb: WebMethod.post);
   }
 
-  static Future<Map<String, dynamic>> generateAvatar(String idDevice) async {
+  static Future<Map<String, dynamic>> generateAvatar() async {
     if (debugOffline) {
-      return {
-        "success": true,
-        "code": 0,
-        "descrizione": "string",
-        "data": {"avatarGenerated": Help.generateRandomString(5)},
-        "dateTime": "2022-12-16T18:27:31.977Z"
-      };
+      return {"avatar_generated": Help.generateRandomString(5)};
     }
 
-    return await _call("$baseURL/avatar/1.0/generateAvatar", verb: WebMethod.post, obj: {"id_device": idDevice});
+    return await _call("$baseURL/avatar/1.0/generateAvatar", verb: WebMethod.post);
   }
 
   static Future<Map<String, dynamic>> generateLeaderBoard() async {
     if (debugOffline) {
       return LeaderBoard.debugJson();
     }
-
     return await _call("$baseURL/user/1.0/getLeaderboard");
   }
 

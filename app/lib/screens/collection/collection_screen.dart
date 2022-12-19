@@ -21,25 +21,35 @@ class CollectionScreen extends StatelessWidget {
         Column(
           children: <Widget>[
             Expanded(
-                flex: 1,
-                child: Align(
-                    alignment: Alignment.center,
-                    child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Stack(children: [
-                          Text("Collezione",
-                              style: TextStyle(
-                                  fontSize: 50,
-                                  fontWeight: FontWeight.w600,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 1
-                                    ..color = Colors.black,
-                                  fontFamily: "ElsieSwashCaps")),
-                          const Text("Collezione",
-                              style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "ElsieSwashCaps"))
-                        ])))),
-            Expanded(flex: 6, child: Container(padding: EdgeInsets.only(left: proportionate20px, right: proportionate20px), child: GridCards(deck)))
+              flex: 1,
+              child: Align(
+                alignment: Alignment.center,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Stack(
+                    children: [
+                      Text("Collezione",
+                          style: TextStyle(
+                              fontSize: 50,
+                              fontWeight: FontWeight.w600,
+                              foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 1
+                                ..color = Colors.black,
+                              fontFamily: "ElsieSwashCaps")),
+                      const Text("Collezione", style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "ElsieSwashCaps"))
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 6,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: proportionate20px),
+                child: GridCards(deck),
+              ),
+            )
           ],
         )
       ]));
