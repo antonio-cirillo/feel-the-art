@@ -1,13 +1,14 @@
-import 'package:animations/animations.dart';
-import 'package:auto_animated/auto_animated.dart';
-import 'package:feel_the_art/model/deck_list_model.dart';
-import 'package:flutter/material.dart';
+import "package:animations/animations.dart";
+import "package:auto_animated/auto_animated.dart";
 
-import '../../../utils/theme/size_config.dart';
-import '../../card/card_screen.dart';
+import "package:flutter/material.dart";
+
+import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/screens/card/card_screen.dart";
+import "package:feel_the_art/services/deck_list_service.dart";
 
 class GridCards extends StatefulWidget {
-  final DeckListModel deckListModel;
+  final DeckListService deckListModel;
 
   const GridCards(this.deckListModel, {Key? key}) : super(key: key);
 

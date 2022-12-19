@@ -1,13 +1,13 @@
-import 'dart:developer';
+import "dart:developer";
 
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:feel_the_art/utils/theme/size_config.dart';
-import 'package:flutter/material.dart';
+import "package:carousel_slider/carousel_slider.dart";
+import "package:animated_text_kit/animated_text_kit.dart";
+import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:flutter/material.dart";
 
 final List<String> imgList = [
-  'assets/images/card.png',
-  'assets/images/card.png'
+  "assets/images/card.png",
+  "assets/images/card.png"
 ];
 
 class CardTableSlider extends StatelessWidget {
@@ -33,7 +33,7 @@ class CardTableSlider extends StatelessWidget {
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: fontSize,
-                      fontFamily: 'ElsieSwashCaps')),
+                      fontFamily: "ElsieSwashCaps")),
             ),
             Stack(
                 alignment: Alignment.bottomCenter,
@@ -48,16 +48,16 @@ class CardTableSlider extends StatelessWidget {
                             padding: EdgeInsets.all(textButtonPadding),
                             backgroundColor: Colors.green
                         ),
-                        onPressed: () {Navigator.pushNamed(context, '/game');},
+                        onPressed: () {Navigator.pushNamed(context, "/game");},
                         child: DefaultTextStyle(
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: fontSize, //Size of Play Now text
-                              fontFamily: 'ElsieSwashCaps'
+                              fontFamily: "ElsieSwashCaps"
                           ),
                           child: AnimatedTextKit(
                             animatedTexts: [
-                              WavyAnimatedText('GIOCA ORA!'),
+                              WavyAnimatedText("GIOCA ORA!"),
                             ],
                             repeatForever: true,
                             isRepeatingAnimation: true,

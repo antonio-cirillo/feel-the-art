@@ -1,8 +1,8 @@
-import 'package:feel_the_art/utils/theme/colors.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import "package:feel_the_art/utils/theme/colors.dart";
+import "package:flutter/material.dart";
+import "package:flutter_svg/svg.dart";
 
-import '../../utils/theme/size_config.dart';
+import "package:feel_the_art/utils/theme/size_config.dart";
 
 class ColumnLabel extends StatelessWidget {
   final String image;

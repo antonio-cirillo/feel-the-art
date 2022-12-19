@@ -1,13 +1,13 @@
-import 'package:auto_animated/auto_animated.dart';
-import 'package:feel_the_art/utils/theme/colors.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:multiavatar/multiavatar.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:provider/provider.dart';
+import "package:auto_animated/auto_animated.dart";
+import "package:flutter/material.dart";
+import "package:flutter_svg/flutter_svg.dart";
+import "package:multiavatar/multiavatar.dart";
+import "package:percent_indicator/percent_indicator.dart";
+import "package:provider/provider.dart";
 
-import '../../../model/account_model.dart';
-import '../../../utils/theme/size_config.dart';
+import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/services/account_service.dart";
 
 class Avatar extends StatefulWidget {
   const Avatar({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class Avatar extends StatefulWidget {
 class _AvatarState extends State<Avatar> {
   @override
   Widget build(BuildContext context) {
-    AccountModel accountInfo = Provider.of<AccountModel>(context);
+    AccountService accountInfo = Provider.of<AccountService>(context);
     return Column(
       children: <Widget>[
         Row(
@@ -79,7 +79,7 @@ class _AvatarState extends State<Avatar> {
                                                     decoration: TextDecoration
                                                         .none,
                                                     fontSize: 36,
-                                                    fontFamily: 'ElsieSwashCaps'))),
+                                                    fontFamily: "ElsieSwashCaps"))),
                                         const Expanded(
                                             flex: 7, child: GridAvatars()),
                                         Row(
@@ -170,7 +170,7 @@ class GridAvatars extends StatefulWidget {
 class _GridAvatars extends State<GridAvatars> {
   Widget buildAnimatedItem(BuildContext context, int index,
       Animation<double> animation) {
-    AccountModel accountInfo = Provider.of<AccountModel>(context);
+    AccountService accountInfo = Provider.of<AccountService>(context);
     return FadeTransition(
         opacity: Tween<double>(begin: 0, end: 1).animate(animation),
         child: SlideTransition(
@@ -203,7 +203,7 @@ class _GridAvatars extends State<GridAvatars> {
 
   @override
   Widget build(BuildContext context) {
-    AccountModel accountInfo = Provider.of<AccountModel>(context);
+    AccountService accountInfo = Provider.of<AccountService>(context);
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         margin: const EdgeInsets.symmetric(vertical: 6),

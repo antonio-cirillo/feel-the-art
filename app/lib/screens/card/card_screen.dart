@@ -1,11 +1,11 @@
-import 'package:feel_the_art/classes/game/card.dart' as game;
-import 'package:feel_the_art/utils/theme/size_config.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import "package:feel_the_art/classes/game/card.dart" as game;
+import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:flutter/material.dart";
+import "package:flutter_svg/svg.dart";
 
-import '../../components/background.dart';
-import '../../components/column_label.dart';
-import '../../utils/theme/colors.dart';
+import "package:feel_the_art/components/background.dart";
+import "package:feel_the_art/components/column_label.dart";
+import "package:feel_the_art/utils/theme/colors.dart";
 
 class CardScreen extends StatelessWidget {
   final game.Card card;

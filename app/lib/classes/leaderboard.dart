@@ -1,9 +1,10 @@
-import '../utils/help.dart';
-import 'account/_parts/personal_info.dart';
-import 'account/_parts/avatar.dart';
-import 'account/_parts/progression.dart';
-import 'account/_parts/statistic.dart';
-import 'account/user.dart';
+import "package:feel_the_art/utils/help.dart";
+
+import "account/user.dart";
+import "account/_parts/avatar.dart";
+import "account/_parts/statistic.dart";
+import "account/_parts/progression.dart";
+import "account/_parts/personal_info.dart";
 
 class LeaderBoard {
   // Refactor list_user
@@ -14,7 +15,7 @@ class LeaderBoard {
   static LeaderBoard buildFromJson(Map<String, dynamic> json) {
     List<User> list = [];
     json["list"].forEach((user) {
-      list.add(User.buildFromJson(user));
+      list.add(User.buildFromJson(false, user));
     });
     return LeaderBoard._(list);
   }
@@ -23,53 +24,53 @@ class LeaderBoard {
     return {
       "list": [
         {
-          'on_board': true,
-          'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
-          'progression': Progression.debugJson(),
-          'avatar': Avatar.debugJson(),
-          'statistics': Statistic.debugJson()
+          "on_board": true,
+          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "progression": Progression.debugJson(),
+          "avatar": Avatar.debugJson(),
+          "statistics": Statistic.debugJson()
         },
         {
-          'on_board': true,
-          'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
-          'progression': Progression.debugJson(),
-          'avatar': Avatar.debugJson(),
-          'statistics': Statistic.debugJson()
+          "on_board": true,
+          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "progression": Progression.debugJson(),
+          "avatar": Avatar.debugJson(),
+          "statistics": Statistic.debugJson()
         },
         {
-          'on_board': true,
-          'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
-          'progression': Progression.debugJson(),
-          'avatar': Avatar.debugJson(),
-          'statistics': Statistic.debugJson()
+          "on_board": true,
+          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "progression": Progression.debugJson(),
+          "avatar": Avatar.debugJson(),
+          "statistics": Statistic.debugJson()
         },
         {
-          'on_board': true,
-          'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
-          'progression': Progression.debugJson(),
-          'avatar': Avatar.debugJson(),
-          'statistics': Statistic.debugJson()
+          "on_board": true,
+          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "progression": Progression.debugJson(),
+          "avatar": Avatar.debugJson(),
+          "statistics": Statistic.debugJson()
         },
         {
-          'on_board': true,
-          'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
-          'progression': Progression.debugJson(),
-          'avatar': Avatar.debugJson(),
-          'statistics': Statistic.debugJson()
+          "on_board": true,
+          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "progression": Progression.debugJson(),
+          "avatar": Avatar.debugJson(),
+          "statistics": Statistic.debugJson()
         },
         {
-          'on_board': true,
-          'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
-          'progression': Progression.debugJson(),
-          'avatar': Avatar.debugJson(),
-          'statistics': Statistic.debugJson()
+          "on_board": true,
+          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "progression": Progression.debugJson(),
+          "avatar": Avatar.debugJson(),
+          "statistics": Statistic.debugJson()
         },
         {
-          'on_board': true,
-          'personaInfo': PersonalInfo.debugJson(Help.generateRandomString(5)),
-          'progression': Progression.debugJson(),
-          'avatar': Avatar.debugJson(),
-          'statistics': Statistic.debugJson()
+          "on_board": true,
+          "personaInfo": PersonalInfo.debugJson(Help.generateRandomString(5)),
+          "progression": Progression.debugJson(),
+          "avatar": Avatar.debugJson(),
+          "statistics": Statistic.debugJson()
         },
       ]
     };

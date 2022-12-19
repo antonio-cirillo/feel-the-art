@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
-import '../../model/account_model.dart';
+import "package:feel_the_art/services/account_service.dart";
 
 class DebugScreen extends StatelessWidget {
   const DebugScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final accountInfo = Provider.of<AccountModel>(context);
+    final accountInfo = Provider.of<AccountService>(context);
 
     return Scaffold(
       body: Center(
@@ -18,7 +18,7 @@ class DebugScreen extends StatelessWidget {
               flex: 7,
               child: ElevatedButton(
                 onPressed: () => {accountInfo.addExp(10)},
-                child: const Text('Add EXP'),
+                child: const Text("Add EXP"),
               ),
             ),
             Expanded(
@@ -47,7 +47,7 @@ class DebugScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                           child: Image.asset(
-                            'assets/images/card.png',
+                            "assets/images/card.png",
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -75,7 +75,7 @@ class DebugScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                           child: Image.asset(
-                            'assets/images/user7.png',
+                            "assets/images/user7.png",
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -89,7 +89,7 @@ class DebugScreen extends StatelessWidget {
             //   flex: 1,
             //   child: ElevatedButton(
             //     onPressed: () => Navigator.pop(context),
-            //     child: const Text('POP'),
+            //     child: const Text("POP"),
             //   ),
             // ),
           ],

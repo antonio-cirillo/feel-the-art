@@ -1,8 +1,8 @@
-import '../../utils/help.dart';
-import '_parts/avatar.dart';
-import '_parts/personal_info.dart';
-import '_parts/progression.dart';
-import '_parts/statistic.dart';
+import "package:feel_the_art/utils/help.dart";
+import "_parts/avatar.dart";
+import "_parts/personal_info.dart";
+import "_parts/progression.dart";
+import "_parts/statistic.dart";
 
 class User {
   bool onBoard;
@@ -13,23 +13,23 @@ class User {
 
   User._(this.onBoard, this.personaInfo, this.progression, this.avatar, this.statistics);
 
-  static User buildFromJson(Map<String, dynamic> json) {
+  static User buildFromJson(bool onBoard, Map<String, dynamic> json) {
     return User._(
-      json['on_board'],
-      PersonalInfo.buildFromJson(json['personaInfo']),
-      Progression.buildFromJson(json['progression']),
-      Avatar.buildFromJson(json['avatar']),
-      Statistic.buildFromJson(json['statistics']),
+      onBoard,
+      PersonalInfo.buildFromJson(json["user_info"]),
+      Progression.buildFromJson(json["progression"]),
+      Avatar.buildFromJson(json["avatar"]),
+      Statistic.buildFromJson(json["statistics"]),
     );
   }
 
   static Map<String, dynamic> debugJson(String name) {
     return {
-      'on_board': true,
-      'personaInfo': PersonalInfo.debugJson(name),
-      'progression': Progression.debugJson(),
-      'avatar': Avatar.debugJson(),
-      'statistics': Statistic.debugJson()
+      "on_board": true,
+      "personaInfo": PersonalInfo.debugJson(name),
+      "progression": Progression.debugJson(),
+      "avatar": Avatar.debugJson(),
+      "statistics": Statistic.debugJson()
     };
   }
 

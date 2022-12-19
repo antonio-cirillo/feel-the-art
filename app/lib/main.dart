@@ -1,12 +1,12 @@
-import 'package:feel_the_art/model/deck_list_model.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:device_preview/device_preview.dart';
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:provider/provider.dart";
+import "package:device_preview/device_preview.dart";
 
-import 'package:feel_the_art/screens/main_screen.dart';
-import 'package:feel_the_art/model/account_model.dart';
-import 'package:feel_the_art/utils/theme/colors.dart';
+import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/screens/main_screen.dart";
+import "package:feel_the_art/services/account_service.dart";
+import "package:feel_the_art/services/deck_list_service.dart" as decklist;
 
 void main() {
   // debugPaintSizeEnabled=true;
@@ -17,7 +17,7 @@ void main() {
   runApp(
     // const FeelTheArt(),
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => const FeelTheArt(),
     ),
   );
@@ -30,11 +30,11 @@ class FeelTheArt extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (ctx) => AccountModel('GIGI')),
-        ChangeNotifierProvider(create: (ctx) => DeckListModel()),
+        ChangeNotifierProvider(create: (ctx) => AccountService()),
+        ChangeNotifierProvider(create: (ctx) => decklist.DeckListService()),
       ],
       child: MaterialApp(
-        title: 'Feel the ART',
+        title: "Feel the ART",
         useInheritedMediaQuery: true,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
@@ -42,10 +42,10 @@ class FeelTheArt extends StatelessWidget {
         theme: ThemeData(
           // primaryColor: ,
           scaffoldBackgroundColor: amethystColor.withOpacity(0.8),
-          fontFamily: 'Hind',
+          fontFamily: "Hind",
         ),
         routes: {
-          '/game': (context) => const Scaffold(),
+          "/game": (context) => const Scaffold(),
         },
         home: const SafeArea(
           bottom: false,

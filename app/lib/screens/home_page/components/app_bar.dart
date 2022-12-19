@@ -1,19 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:multiavatar/multiavatar.dart';
-import 'package:provider/provider.dart';
+import "package:flutter/material.dart";
+import "package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart";
+import "package:flutter_svg/svg.dart";
+import "package:multiavatar/multiavatar.dart";
+import "package:provider/provider.dart";
 
-import '../../../model/account_model.dart';
-import 'package:feel_the_art/utils/theme/colors.dart';
-import '../../../utils/theme/size_config.dart';
+import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/services/account_service.dart";
 
 class HomePageScreenBar extends StatelessWidget {
   const HomePageScreenBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final accountInfo = Provider.of<AccountModel>(context);
+    final accountInfo = Provider.of<AccountService>(context);
     double avatarSize = MediaQuery.of(context).getProportionateScreenHeight(50);
     double paddingSize = MediaQuery.of(context).getProportionateScreenHeight(20);
 

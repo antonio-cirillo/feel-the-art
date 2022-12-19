@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import '../utils/theme/size_config.dart';
+import "package:feel_the_art/utils/theme/size_config.dart";
 
 class BackgroundScreen extends StatelessWidget {
   const BackgroundScreen({super.key});

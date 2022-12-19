@@ -1,13 +1,13 @@
-import 'package:feel_the_art/classes/leaderboard.dart';
-import 'package:feel_the_art/flutter_flow/flutter_flow_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:multiavatar/multiavatar.dart';
+import "package:feel_the_art/classes/leaderboard.dart";
+import "package:feel_the_art/flutter_flow/flutter_flow_theme.dart";
+import "package:flutter/material.dart";
+import "package:flutter_svg/flutter_svg.dart";
+import "package:multiavatar/multiavatar.dart";
 
-import '../../components/background.dart';
-import '../../model/leaderboard_model.dart';
-import '../../utils/theme/colors.dart';
-import '../../utils/theme/size_config.dart';
+import "package:feel_the_art/components/background.dart";
+import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/services/leaderboard_service.dart";
 
 class LeaderBoardScreen extends StatelessWidget {
   const LeaderBoardScreen({Key? key}) : super(key: key);
@@ -17,22 +17,22 @@ class LeaderBoardScreen extends StatelessWidget {
     TextStyle position = TextStyle(
         color: Colors.purpleAccent,
         fontWeight: FontWeight.bold,
-        fontFamily: 'ElsieSwashCaps',
+        fontFamily: "ElsieSwashCaps",
         fontSize: MediaQuery.of(context).getProportionateScreenWidth(33));
     TextStyle firstPosition = TextStyle(
         color: Colors.amber.shade300,
         fontWeight: FontWeight.bold,
-        fontFamily: 'ElsieSwashCaps',
+        fontFamily: "ElsieSwashCaps",
         fontSize: MediaQuery.of(context).getProportionateScreenWidth(38));
     TextStyle secondPosition = TextStyle(
         color: Colors.blueGrey.shade300,
         fontWeight: FontWeight.bold,
-        fontFamily: 'ElsieSwashCaps',
+        fontFamily: "ElsieSwashCaps",
         fontSize: MediaQuery.of(context).getProportionateScreenWidth(33));
     TextStyle thirdPosition = TextStyle(
         color: const Color.fromRGBO(205, 127, 50, 1),
         fontWeight: FontWeight.bold,
-        fontFamily: 'ElsieSwashCaps',
+        fontFamily: "ElsieSwashCaps",
         fontSize: MediaQuery.of(context).getProportionateScreenWidth(38));
 
     double avatarSize = MediaQuery.of(context).getProportionateScreenHeight(30);
@@ -56,18 +56,18 @@ class LeaderBoardScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   foreground: Paint()
                                     ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 1
-                                    ..color = Colors.black,
-                                  fontFamily: 'ElsieSwashCaps')),
+                                    ..strokeWidth = 5
+                                    ..color = amethystColor,
+                                  fontFamily: "ElsieSwashCaps")),
                           const Text("Classifica",
                               style: TextStyle(
                                   fontSize: 50,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
-                                  fontFamily: 'ElsieSwashCaps'))
+                                  fontFamily: "ElsieSwashCaps"))
                         ])))),
             FutureBuilder(
-              future: LeaderBoardModel.fetch(),
+              future: LeaderBoardService.fetch(),
               builder: (ctx, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
@@ -153,7 +153,7 @@ class LeaderBoardScreen extends StatelessWidget {
                                             style: FlutterFlowTheme.of(context)
                                                 .title2
                                                 .override(
-                                                    fontFamily: 'Outfit',
+                                                    fontFamily: "Outfit",
                                                     color:
                                                         const Color(0xFF101213),
                                                     fontSize: MediaQuery.of(
@@ -167,12 +167,12 @@ class LeaderBoardScreen extends StatelessWidget {
                                             padding: const EdgeInsetsDirectional
                                                 .fromSTEB(0, 4, 0, 0),
                                             child: Text(
-                                              'Win : ${leaderboard.userList[index].statistics.first}',
+                                              "Win : ${leaderboard.userList[index].statistics.first}",
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodyText1
                                                   .override(
-                                                    fontFamily: 'Outfit',
+                                                    fontFamily: "Outfit",
                                                     color:
                                                         const Color(0xff8022d5),
                                                     fontSize: MediaQuery.of(

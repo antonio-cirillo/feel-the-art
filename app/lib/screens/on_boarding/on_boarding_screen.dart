@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:introduction_screen/introduction_screen.dart';
-import 'package:feel_the_art/utils/theme/colors.dart';
-import 'package:provider/provider.dart';
-import '../../model/account_model.dart';
-import '../../components/background.dart';
+import "package:flutter/material.dart";
+import "package:introduction_screen/introduction_screen.dart";
+import "package:provider/provider.dart";
+
+import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/components/background.dart";
+import "package:feel_the_art/services/account_service.dart";
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -35,21 +36,21 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return [
       PageViewModel(
           image: Image.asset("assets/icons/icon.png", width: 300),
-          title: 'Feel the ART',
+          title: "Feel the ART",
           body:
-              'Instead of having to buy an entire share, invest any amount you want.',
+              "Instead of having to buy an entire share, invest any amount you want.",
           decoration: pageDecoration),
       PageViewModel(
-          title: 'Title of first page',
+          title: "Title of first page",
           body:
-              'Here you can write the description of the page, to explain someting...',
+              "Here you can write the description of the page, to explain someting...",
           decoration: pageDecoration)
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    AccountModel accountInfo = Provider.of<AccountModel>(context);
+    AccountService accountInfo = Provider.of<AccountService>(context);
 
     return Stack(children: <Widget>[
       Container(color: amethystColor),
@@ -63,12 +64,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         showBackButton: false,
         showSkipButton: true,
         showNextButton: false,
-        skip: const Text('Salta', style: TextStyle(color: Colors.white)),
+        skip: const Text("Salta", style: TextStyle(color: Colors.white)),
         skipStyle: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(princessPerfumeColor),
           shadowColor: MaterialStateProperty.all(Colors.black),
         ),
-        done: const Text('Continua',
+        done: const Text("Continua",
             style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
         doneStyle: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(robinEggBlueColor),

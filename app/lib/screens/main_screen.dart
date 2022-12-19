@@ -1,16 +1,18 @@
-import 'package:feel_the_art/screens/loading/loading_screen.dart';
-import 'package:feel_the_art/utils/request/obj_status.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
-import 'package:feel_the_art/utils/theme/colors.dart';
-import 'package:provider/provider.dart';
-import '../model/account_model.dart';
-import 'account/account_screen.dart';
-import 'collection/collection_screen.dart';
-import 'debug/debug_screen.dart';
-import 'home_page/home_page_screen.dart';
-import 'leader_board/leader_board_screen.dart';
-import 'on_boarding/on_boarding_screen.dart';
+import "package:flutter/cupertino.dart";
+import "package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart";
+import "package:provider/provider.dart";
+
+import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/services/account_service.dart";
+import "package:feel_the_art/utils/request/obj_status.dart";
+import "package:feel_the_art/screens/loading/loading_screen.dart";
+
+import "debug/debug_screen.dart";
+import "account/account_screen.dart";
+import "home_page/home_page_screen.dart";
+import "collection/collection_screen.dart";
+import "on_boarding/on_boarding_screen.dart";
+import "leader_board/leader_board_screen.dart";
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -81,7 +83,7 @@ class MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AccountModel accountInfo = Provider.of<AccountModel>(context);
+    AccountService accountInfo = Provider.of<AccountService>(context);
 
     if (accountInfo.status == ObjStatus.ready) {
       if (accountInfo.onBoard) {
@@ -98,7 +100,7 @@ class MainScreenState extends State<MainScreen> {
     } else if (accountInfo.status == ObjStatus.loading) {
       return const LoadingScreen();
     } else {
-      return const Text('ERROR SCREEN');
+      return const Text("ERROR SCREEN");
     }
   }
 }

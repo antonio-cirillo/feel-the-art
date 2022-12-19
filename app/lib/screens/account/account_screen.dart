@@ -1,9 +1,9 @@
-import 'package:feel_the_art/utils/theme/size_config.dart';
-import 'package:flutter/material.dart';
+import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:flutter/material.dart";
 
-import '../../components/background.dart';
-import '../../utils/theme/colors.dart';
-import 'components/avatar.dart';
+import "package:feel_the_art/components/background.dart";
+import "package:feel_the_art/utils/theme/colors.dart";
+import "components/avatar.dart";
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);

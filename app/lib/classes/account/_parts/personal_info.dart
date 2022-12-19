@@ -5,17 +5,17 @@ class PersonalInfo {
 
   static PersonalInfo buildFromJson(Map<String, dynamic> json) {
     return PersonalInfo._(
-      json['name'],
+      json["name"],
     );
   }
 
   static Map<String, dynamic> debugJson(String name) {
     return {
-      'name': name,
+      "name": name,
     };
   }
 
   static PersonalInfo debug() {
-    return PersonalInfo._('DEBUG');
+    return PersonalInfo._("DEBUG");
   }
 }

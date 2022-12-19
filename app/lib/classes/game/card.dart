@@ -6,12 +6,12 @@ class Card {
 
   static Card buildFromJson(Map<String, dynamic> json) {
     return Card._(
-      json['id'],
-      json['title'],
-      json['author'],
-      json['date'],
-      json['museum'],
-      json['description'],
+      json["id"],
+      json["title"],
+      json["author"],
+      json["date"],
+      json["museum"],
+      json["description"],
     );
   }
 

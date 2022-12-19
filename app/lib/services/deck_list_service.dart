@@ -1,19 +1,19 @@
-import 'package:flutter/cupertino.dart';
+import "package:flutter/cupertino.dart";
 
-import 'package:feel_the_art/classes/game/deck.dart';
-import 'package:feel_the_art/classes/game/deck_list.dart';
-import 'package:feel_the_art/utils/request/obj_status.dart';
-import 'package:feel_the_art/utils/request/web_request.dart';
+import "package:feel_the_art/classes/game/deck.dart";
+import "package:feel_the_art/classes/game/deck_list.dart";
+import "package:feel_the_art/utils/request/obj_status.dart";
+import "package:feel_the_art/utils/request/web_request.dart";
 
 
-class DeckListModel with ChangeNotifier { //CAMBIARE NOME in Services
+class DeckListService with ChangeNotifier { //CAMBIARE NOME in Services
   ObjStatus status = ObjStatus.loading;
   late DeckList _deckList;
 
-  DeckListModel(){
+  DeckListService(){
     fetch();
     if (status == ObjStatus.error) {
-      throw Exception('Init Failed');
+      throw Exception("Init Failed");
     }
   }
 

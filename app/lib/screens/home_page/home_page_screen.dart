@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import '../../components/background.dart';
-import '../../utils/theme/colors.dart';
-import 'components/app_bar.dart';
-import 'components/card_table_slider.dart';
+import "package:feel_the_art/components/background.dart";
+import "package:feel_the_art/utils/theme/colors.dart";
+import "components/app_bar.dart";
+import "components/card_table_slider.dart";
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);

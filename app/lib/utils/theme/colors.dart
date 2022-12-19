@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 const amethystColor = Color(0xFF9f5CDB);
 

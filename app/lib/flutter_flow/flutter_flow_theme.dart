@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import "package:flutter/material.dart";
+import "package:google_fonts/google_fonts.dart";
 
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:shared_preferences/shared_preferences.dart";
 
-const kThemeModeKey = '__theme_mode__';
+const kThemeModeKey = "__theme_mode__";
 SharedPreferences? _prefs;
 
 abstract class FlutterFlowTheme {
@@ -40,43 +40,43 @@ abstract class FlutterFlowTheme {
   late Color lineColor;
 
   TextStyle get title1 => GoogleFonts.getFont(
-    'Poppins',
+    "Poppins",
     color: primaryText,
     fontWeight: FontWeight.w600,
     fontSize: 24,
   );
   TextStyle get title2 => GoogleFonts.getFont(
-    'Poppins',
+    "Poppins",
     color: secondaryText,
     fontWeight: FontWeight.w600,
     fontSize: 22,
   );
   TextStyle get title3 => GoogleFonts.getFont(
-    'Poppins',
+    "Poppins",
     color: primaryText,
     fontWeight: FontWeight.w600,
     fontSize: 20,
   );
   TextStyle get subtitle1 => GoogleFonts.getFont(
-    'Poppins',
+    "Poppins",
     color: primaryText,
     fontWeight: FontWeight.w600,
     fontSize: 18,
   );
   TextStyle get subtitle2 => GoogleFonts.getFont(
-    'Poppins',
+    "Poppins",
     color: secondaryText,
     fontWeight: FontWeight.w600,
     fontSize: 16,
   );
   TextStyle get bodyText1 => GoogleFonts.getFont(
-    'Poppins',
+    "Poppins",
     color: primaryText,
     fontWeight: FontWeight.w600,
     fontSize: 14,
   );
   TextStyle get bodyText2 => GoogleFonts.getFont(
-    'Poppins',
+    "Poppins",
     color: secondaryText,
     fontWeight: FontWeight.w600,
     fontSize: 14,

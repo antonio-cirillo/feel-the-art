@@ -1,7 +1,7 @@
-import 'package:feel_the_art/utils/theme/size_config.dart';
-import 'package:feel_the_art/utils/theme/colors.dart';
-import 'package:flutter/material.dart';
-import '../../components/background.dart';
+import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/utils/theme/colors.dart";
+import "package:flutter/material.dart";
+import "package:feel_the_art/components/background.dart";
 
 
 class LoadingScreen extends StatelessWidget {
@@ -26,7 +26,7 @@ class LoadingScreen extends StatelessWidget {
                       fit: BoxFit.scaleDown,
                       child: Text(
                         "Feel the ART",
-                        style: TextStyle(fontFamily: 'ElsieSwashCaps', fontSize: 48, color: Colors.white),
+                        style: TextStyle(fontFamily: "ElsieSwashCaps", fontSize: 48, color: Colors.white),
                       ),
                     ),
                   ),

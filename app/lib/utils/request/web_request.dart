@@ -1,44 +1,71 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:feel_the_art/classes/game/deck_list.dart';
-import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+import "package:feel_the_art/classes/game/deck_list.dart";
+import "package:http/http.dart" as http;
 
-import 'package:feel_the_art/classes/account/user.dart';
-import 'package:feel_the_art/classes/leaderboard.dart';
-import 'package:feel_the_art/utils/help.dart';
+import "package:feel_the_art/classes/account/user.dart";
+import "package:feel_the_art/classes/leaderboard.dart";
+import "package:feel_the_art/utils/help.dart";
 
 enum WebMethod { get, post, put, patch, delete }
 
 class WebRequest {
   static const bool debugOffline = true;
-  static const String baseURL = "localhost:8080";
+  static const String baseURL = "http://localhost:8080/feel_the_art";
 
   static const Map<String, String> headers = {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
+    "Content-type": "application/json",
+    "Accept": "application/json",
   };
-  //ScureStorage per autenticazione
-  //https://levelup.gitconnected.com/the-4-ways-to-store-data-locally-in-your-flutter-app-that-youre-going-to-need-abdafa991ae3
 
-  static Future<Map<String, dynamic>> getUser(String name) async {
-    return debugOffline ? User.debugJson(name) : await _call('$baseURL/user/$name');
+  static Future<Map<String, dynamic>> getUser(String idDevice, {String? authCode}) async {
+    if (debugOffline) {
+      return User.debugJson(idDevice);
+    }
+
+    if (authCode != null) {
+      return await _call("$baseURL/user/1.0/getUserByDeviceId", obj: {"device_id ": idDevice});
+    }
+    return await _call("$baseURL/user/1.0/initializeUser", obj: {"device_id ": idDevice});
+    // headers["Authorization"] = "TOKEN_GENERATO_DOPO_LA_CHIAMATA";
   }
 
-  static Future<Map<String, dynamic>> setAvatar(String name, String el) async {
-    return debugOffline ? {'result': true} : await _call('$baseURL/avatar/$name', verb: WebMethod.post, obj: {'avatar': el});
+  static Future<Map<String, dynamic>> setAvatar(String idDevice, String avatar) async {
+    if (debugOffline) {
+      return {"success": true, "code": 0, "descrizione": "string", "data": true, "dateTime": "2022-12-16T18:27:31.977Z"};
+    }
+
+    return await _call("$baseURL/avatar/1.0/setAvatar", verb: WebMethod.post, obj: {"id_device": idDevice, "avatar": avatar});
   }
 
-  static Future<Map<String, dynamic>> addAvatar(String name) async {
-    return debugOffline ? {'result': true} : await _call('$baseURL/avatar/$name');
+  static Future<Map<String, dynamic>> saveGeneratedAvatar(String idDevice) async {
+    if (debugOffline) {
+      return {"success": true, "code": 0, "descrizione": "string", "data": true, "dateTime": "2022-12-16T18:27:31.977Z"};
+    }
+
+    return await _call("$baseURL/avatar/1.0/addAvatar", verb: WebMethod.post, obj: {"id_device": idDevice});
   }
 
-  static Future<Map<String, dynamic>> generateAvatar(String name) async {
-    return debugOffline ? {'result': Help.generateRandomString(5)} : await _call('$baseURL/avatar/$name');
+  static Future<Map<String, dynamic>> generateAvatar(String idDevice) async {
+    if (debugOffline) {
+      return {
+        "success": true,
+        "code": 0,
+        "descrizione": "string",
+        "data": {"avatarGenerated": Help.generateRandomString(5)},
+        "dateTime": "2022-12-16T18:27:31.977Z"
+      };
+    }
+
+    return await _call("$baseURL/avatar/1.0/generateAvatar", verb: WebMethod.post, obj: {"id_device": idDevice});
   }
 
   static Future<Map<String, dynamic>> generateLeaderBoard() async {
-    return debugOffline ? LeaderBoard.debugJson() : await _call('$baseURL/leaderboard');
+    if (debugOffline) {
+      return LeaderBoard.debugJson();
+    }
+
+    return await _call("$baseURL/user/1.0/getLeaderboard");
   }
 
   static Future<Map<String, dynamic>> getDecks() async {
@@ -70,9 +97,14 @@ class WebRequest {
         response = await http.get(Uri.parse(url), headers: headers);
     }
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      var decodedResponse = jsonDecode(response.body);
+      if (decodedResponse["success"]) {
+        return decodedResponse["data"];
+      } else {
+        throw Exception(decodedResponse["code"] + " " + decodedResponse["description"]);
+      }
     } else {
-      throw Exception('Fail $url\n$response');
+      throw Exception("Server Error: $url\n$response");
     }
   }
 }

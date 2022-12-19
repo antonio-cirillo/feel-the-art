@@ -1,8 +1,8 @@
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import "package:fl_chart/fl_chart.dart";
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
-import '../../../model/account_model.dart';
+import "package:feel_the_art/services/account_service.dart";
 
 class ChartWin extends StatefulWidget {
   const ChartWin({Key? key}) : super(key: key);
@@ -46,7 +46,7 @@ class _ChartWinState extends State<ChartWin> {
   }
 
   List<PieChartSectionData> showingSections(BuildContext contex) {
-    final accountInfo = Provider.of<AccountModel>(context);
+    final accountInfo = Provider.of<AccountService>(context);
     double firstPlace = accountInfo.firstPlaces / accountInfo.totalGames * 100;
     double secondPlace =
         accountInfo.secondPlaces / accountInfo.totalGames * 100;
@@ -73,7 +73,7 @@ class _ChartWinState extends State<ChartWin> {
           return slice(
               lose, const Color(0xff13d38e), "L", radius, fontSize, widgetSize);
         default:
-          throw Exception('Oh no');
+          throw Exception("Oh no");
       }
     });
   }
@@ -83,7 +83,7 @@ class _ChartWinState extends State<ChartWin> {
     return PieChartSectionData(
       color: color,
       value: percent,
-      title: '${double.parse((percent).toStringAsFixed(1))}%',
+      title: "${double.parse((percent).toStringAsFixed(1))}%",
       radius: radius,
       titleStyle: TextStyle(
           fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white),

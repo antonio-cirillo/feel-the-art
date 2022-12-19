@@ -6,8 +6,8 @@ class Avatar {
 
   static Avatar buildFromJson(Map<String, dynamic> json) {
     return Avatar._(
-      json['last_generated'],
-      json['library'],
+      json["last_generated"],
+      json["library"],
     );
   }
 
@@ -31,12 +31,12 @@ class Avatar {
 
   static Map<String, dynamic> debugJson() {
     return {
-      'last_generated': 'CCC',
-      'library': ['AAA', 'BBB'],
+      "last_generated": "CCC",
+      "library": ["AAA", "BBB"],
     };
   }
 
   static Avatar debug() {
-    return Avatar._('CCC', ['AAA', 'BBB']);
+    return Avatar._("CCC", ["AAA", "BBB"]);
   }
 }

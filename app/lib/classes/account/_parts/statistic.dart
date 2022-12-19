@@ -1,4 +1,4 @@
-import 'dart:math';
+import "dart:math";
 
 class Statistic {
   int _first, _second, _third, _lose, _tot;
@@ -7,11 +7,11 @@ class Statistic {
 
   static Statistic buildFromJson(Map<String, dynamic> json) {
     return Statistic._(
-      json['first_place'],
-      json['second_place'],
-      json['third_place'],
-      json['lose'],
-      json['total'],
+      json["first_place"],
+      json["second_place"],
+      json["third_place"],
+      json["lose"],
+      json["total"],
     );
   }
 
@@ -50,11 +50,11 @@ class Statistic {
     final tot = first + second + third + lose;
 
     return {
-      'first_place': first,
-      'second_place': second,
-      'third_place': third,
-      'lose': lose,
-      'total': tot
+      "first_place": first,
+      "second_place": second,
+      "third_place": third,
+      "lose": lose,
+      "total": tot
     };
   }
 
