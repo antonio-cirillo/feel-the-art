@@ -33,6 +33,8 @@ public class AvatarServiceImpl implements AvatarService{
     public Boolean setAvatar(SetAvatarRequestDto request) {
         log.info(LogMessage.START);
 
+        //TODO: spostare avatar in cima
+
         String deviceId = request.getId_device();
         String avatar = request.getAvatar();
 
@@ -65,6 +67,8 @@ public class AvatarServiceImpl implements AvatarService{
     public Boolean saveGeneratedAvatar(SaveGeneratedAvatarRequestDto request) {
         log.info(LogMessage.START);
 
+        //TODO: spostare last_generated in cima
+
         String deviceId = request.getId_device();
         String lastGeneratedAvatar = request.getLast_generated();
 
@@ -84,6 +88,9 @@ public class AvatarServiceImpl implements AvatarService{
     @Override
     public GeneratedAvatarResponseDto generateAvatar(GeneratedAvatarRequestDto request) {
         log.info(LogMessage.START);
+
+        //TODO: scalare un punto di sblocco
+        //TODO: salvare avatare in last_
 
         String deviceId = request.getId_device();
         var result = new GeneratedAvatarResponseDto();

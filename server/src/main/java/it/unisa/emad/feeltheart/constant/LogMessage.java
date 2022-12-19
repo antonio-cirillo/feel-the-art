@@ -32,6 +32,7 @@ public class LogMessage {
 
     public static final String INTERRUPTED_EXCEPTION = "Interrupted exception: {}";
     public static final String QUESTION_NOT_FOUND = "Question doesn't exist";
+    public static final String CARD_NOT_FOUND = "Cards don't exist";
 
     private LogMessage(){
     }
