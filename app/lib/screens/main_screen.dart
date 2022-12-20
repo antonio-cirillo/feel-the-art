@@ -1,3 +1,4 @@
+import 'package:feel_the_art/screens/leader_board/quizScreen.dart';
 import 'package:feel_the_art/screens/loading/loading_screen.dart';
 import 'package:feel_the_art/utils/request/obj_status.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,7 +41,7 @@ class MainScreenState extends State<MainScreen> {
       const CollectionScreen(),
       const LeaderBoardScreen(),
       const AccountScreen(),
-      const DebugScreen(),
+      const QuizScreen(),
     ];
   }
 

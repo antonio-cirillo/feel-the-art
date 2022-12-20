@@ -12,8 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  auto_size_text: 3.0.0
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.1.6
+  font_awesome_flutter: 10.1.0
   persistent_bottom_nav_bar_v2: any
   introduction_screen: ^3.0.1
   carousel_slider: ^4.1.1
