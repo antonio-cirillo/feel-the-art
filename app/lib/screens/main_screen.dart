@@ -2,7 +2,7 @@ import "package:flutter/cupertino.dart";
 import "package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart";
 import "package:provider/provider.dart";
 
-import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/theme/theme.dart";
 import "package:feel_the_art/services/account_service.dart";
 import "package:feel_the_art/utils/request/obj_status.dart";
 import "package:feel_the_art/screens/loading/loading_screen.dart";
@@ -51,31 +51,31 @@ class MainScreenState extends State<MainScreen> {
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.game_controller),
         title: ("Gioca"),
-        activeColorPrimary: blueVioletColor,
+        activeColorPrimary: primaryColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.collections),
         title: ("Collezione"),
-        activeColorPrimary: blueVioletColor,
+        activeColorPrimary: primaryColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.question_square),
         title: ("Classifica"),
-        activeColorPrimary: blueVioletColor,
+        activeColorPrimary: primaryColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.person_crop_circle),
         title: ("Profilo"),
-        activeColorPrimary: blueVioletColor,
+        activeColorPrimary: primaryColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(CupertinoIcons.ellipsis_circle),
         title: ("Debug"),
-        activeColorPrimary: blueVioletColor,
+        activeColorPrimary: primaryColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       )
     ];
@@ -84,10 +84,9 @@ class MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     AccountService accountInfo = Provider.of<AccountService>(context);
-
     if (accountInfo.status == ObjStatus.ready) {
       if (accountInfo.onBoard) {
-        return const OnBoardingScreen();
+        return const OnBoardingScreen(key: Key("OnBoardingScreen"));
       } else {
         return PersistentTabView(
           context,

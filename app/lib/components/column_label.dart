@@ -1,8 +1,8 @@
-import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/theme/theme.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
 
-import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/theme/size_config.dart";
 
 class ColumnLabel extends StatelessWidget {
   final String image;
@@ -14,7 +14,7 @@ class ColumnLabel extends StatelessWidget {
   const ColumnLabel(
       {super.key,
       this.color = Colors.white,
-      this.separatorColor = amethystColor,
+      this.separatorColor = bgColor,
       this.border,
       required this.image,
       required this.text});

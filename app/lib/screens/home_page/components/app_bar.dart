@@ -4,8 +4,8 @@ import "package:flutter_svg/svg.dart";
 import "package:multiavatar/multiavatar.dart";
 import "package:provider/provider.dart";
 
-import "package:feel_the_art/utils/theme/colors.dart";
-import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/theme/theme.dart";
+import "package:feel_the_art/theme/size_config.dart";
 import "package:feel_the_art/services/account_service.dart";
 
 class HomePageScreenBar extends StatelessWidget {

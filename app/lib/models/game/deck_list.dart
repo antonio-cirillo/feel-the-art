@@ -1,4 +1,4 @@
-import "package:feel_the_art/classes/game/deck.dart";
+import "package:feel_the_art/models/game/deck.dart";
 
 class DeckList {
   final List<Deck> _decks;

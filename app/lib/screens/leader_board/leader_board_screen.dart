@@ -1,12 +1,12 @@
-import "package:feel_the_art/classes/leaderboard.dart";
-import "package:feel_the_art/flutter_flow/flutter_flow_theme.dart";
+import "package:feel_the_art/models/leaderboard.dart";
+import "package:feel_the_art/theme/theme_flutter_flow.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:multiavatar/multiavatar.dart";
 
 import "package:feel_the_art/components/background.dart";
-import "package:feel_the_art/utils/theme/colors.dart";
-import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/theme/theme.dart";
+import "package:feel_the_art/theme/size_config.dart";
 import "package:feel_the_art/services/leaderboard_service.dart";
 
 class LeaderBoardScreen extends StatelessWidget {
@@ -38,8 +38,7 @@ class LeaderBoardScreen extends StatelessWidget {
     double avatarSize = MediaQuery.of(context).getProportionateScreenHeight(30);
 
     return Stack(children: [
-      Container(color: amethystColor.withOpacity(0.8)),
-      const BackgroundScreen(),
+BackgroundScreen(bgColor.withOpacity(0.8)),
       Scaffold(
         backgroundColor: Colors.transparent,
         body: Column(
@@ -52,15 +51,18 @@ class LeaderBoardScreen extends StatelessWidget {
                   fit: BoxFit.scaleDown,
                   child: Stack(
                     children: [
-                      Text("Classifica",
-                          style: TextStyle(
-                              fontSize: 50,
-                              fontWeight: FontWeight.w600,
-                              foreground: Paint()
-                                ..style = PaintingStyle.stroke
-                                ..strokeWidth = 5
-                                ..color = amethystColor,
-                              fontFamily: "ElsieSwashCaps")),
+                      Text(
+                        "Classifica",
+                        style: TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.w600,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 5
+                            ..color = bgColor,
+                          fontFamily: "ElsieSwashCaps",
+                        ),
+                      ),
                       const Text("Classifica", style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "ElsieSwashCaps"))
                     ],
                   ),

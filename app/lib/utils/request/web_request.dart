@@ -1,10 +1,10 @@
 import "dart:convert";
 
-import "package:feel_the_art/classes/game/deck_list.dart";
+import "package:feel_the_art/models/game/deck_list.dart";
 import "package:http/http.dart" as http;
 
-import "package:feel_the_art/classes/account/user.dart";
-import "package:feel_the_art/classes/leaderboard.dart";
+import "package:feel_the_art/models/account/user.dart";
+import "package:feel_the_art/models/leaderboard.dart";
 import "package:feel_the_art/utils/help.dart";
 
 enum WebMethod { get, post, put, patch, delete }

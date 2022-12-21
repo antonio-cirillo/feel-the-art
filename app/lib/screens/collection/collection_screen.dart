@@ -4,7 +4,8 @@ import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
 import "components/grid_cards_widget.dart";
-import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/theme/theme.dart";
+import "package:feel_the_art/theme/size_config.dart";
 import "package:feel_the_art/services/deck_list_service.dart";
 
 class CollectionScreen extends StatelessWidget {
@@ -17,7 +18,7 @@ class CollectionScreen extends StatelessWidget {
     if (deck.status == ObjStatus.ready) {
       return Scaffold(
           body: Stack(children: [
-        const BackgroundScreen(),
+        BackgroundScreen(bgColor.withOpacity(0.8)),
         Column(
           children: <Widget>[
             Expanded(
@@ -28,15 +29,10 @@ class CollectionScreen extends StatelessWidget {
                   fit: BoxFit.scaleDown,
                   child: Stack(
                     children: [
-                      Text("Collezione",
-                          style: TextStyle(
-                              fontSize: 50,
-                              fontWeight: FontWeight.w600,
-                              foreground: Paint()
-                                ..style = PaintingStyle.stroke
-                                ..strokeWidth = 1
-                                ..color = Colors.black,
-                              fontFamily: "ElsieSwashCaps")),
+                      Text(
+                        "Collezione",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                       const Text("Collezione", style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "ElsieSwashCaps"))
                     ],
                   ),

@@ -1,4 +1,4 @@
-import "package:feel_the_art/classes/game/card.dart";
+import "package:feel_the_art/models/game/card.dart";
 
 class Deck {
   final String _name;

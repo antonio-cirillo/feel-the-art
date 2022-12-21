@@ -2,7 +2,7 @@ import "dart:developer";
 
 import "package:carousel_slider/carousel_slider.dart";
 import "package:animated_text_kit/animated_text_kit.dart";
-import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/theme/size_config.dart";
 import "package:flutter/material.dart";
 
 final List<String> imgList = [

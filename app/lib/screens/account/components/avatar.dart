@@ -5,8 +5,8 @@ import "package:multiavatar/multiavatar.dart";
 import "package:percent_indicator/percent_indicator.dart";
 import "package:provider/provider.dart";
 
-import "package:feel_the_art/utils/theme/colors.dart";
-import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/theme/theme.dart";
+import "package:feel_the_art/theme/size_config.dart";
 import "package:feel_the_art/services/account_service.dart";
 
 class Avatar extends StatefulWidget {
@@ -57,7 +57,7 @@ class _AvatarState extends State<Avatar> {
                                   width: double.infinity,
                                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                                   margin: const EdgeInsets.symmetric(horizontal: 16),
-                                  decoration: BoxDecoration(color: amethystColor.withOpacity(0.5), borderRadius: const BorderRadius.all(Radius.circular(20))),
+                                  decoration: BoxDecoration(color: bgColor.withOpacity(0.5), borderRadius: const BorderRadius.all(Radius.circular(20))),
                                   child: Column(children: [
                                     const FittedBox(
                                         fit: BoxFit.fitWidth,

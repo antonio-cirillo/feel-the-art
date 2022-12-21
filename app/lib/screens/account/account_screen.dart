@@ -1,8 +1,8 @@
-import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/theme/size_config.dart";
 import "package:flutter/material.dart";
 
 import "package:feel_the_art/components/background.dart";
-import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/theme/theme.dart";
 import "components/avatar.dart";
 
 class AccountScreen extends StatelessWidget {
@@ -12,8 +12,7 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double proportionate40px = MediaQuery.of(context).getProportionateScreenHeight(40);
     return Stack(children: [
-      Container(color: amethystColor.withOpacity(0.8)),
-      const BackgroundScreen(),
+      BackgroundScreen(bgColor.withOpacity(0.8)),
       Scaffold(
         backgroundColor: Colors.transparent,
         body: Column(

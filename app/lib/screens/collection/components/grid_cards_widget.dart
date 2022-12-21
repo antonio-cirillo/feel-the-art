@@ -3,7 +3,7 @@ import "package:auto_animated/auto_animated.dart";
 
 import "package:flutter/material.dart";
 
-import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/theme/size_config.dart";
 import "package:feel_the_art/screens/card/card_screen.dart";
 import "package:feel_the_art/services/deck_list_service.dart";
 

@@ -1,5 +1,5 @@
 import "package:feel_the_art/utils/request/web_request.dart";
-import "package:feel_the_art/classes/leaderboard.dart";
+import "package:feel_the_art/models/leaderboard.dart";
 
 class LeaderBoardService {
   static Future<LeaderBoard> fetch() async {

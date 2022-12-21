@@ -1,11 +1,11 @@
-import "package:feel_the_art/classes/game/card.dart" as game;
-import "package:feel_the_art/utils/theme/size_config.dart";
+import "package:feel_the_art/models/game/card.dart" as game;
+import "package:feel_the_art/theme/size_config.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
 
 import "package:feel_the_art/components/background.dart";
 import "package:feel_the_art/components/column_label.dart";
-import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/theme/theme.dart";
 
 class CardScreen extends StatelessWidget {
   final game.Card card;
@@ -20,11 +20,10 @@ class CardScreen extends StatelessWidget {
         MediaQuery.of(context).getProportionateScreenWidth(20);
     double proportionate40px =
         MediaQuery.of(context).getProportionateScreenWidth(40);
-    Border border = Border.all(color: amethystColor, width: 2);
+    Border border = Border.all(color: bgColor, width: 2);
 
     return Stack(children: [
-      Container(color: amethystColor.withOpacity(0.8)),
-      const BackgroundScreen(),
+BackgroundScreen(bgColor.withOpacity(0.8)),
       Scaffold(
         backgroundColor: Colors.transparent,
         appBar: PreferredSize(
@@ -41,7 +40,7 @@ class CardScreen extends StatelessWidget {
                   width: proportionate40px,
                   child: TextButton(
                       style: TextButton.styleFrom(
-                          foregroundColor: amethystColor,
+                          foregroundColor: bgColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(60),
                           ),
@@ -68,11 +67,6 @@ class CardScreen extends StatelessWidget {
                       children: [
                         Text(
                           "Mazzo di Appartenenza",
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context)
-                                .getProportionateScreenHeight(14),
-                            fontWeight: FontWeight.w600,
-                          ),
                         ),
                         const SizedBox(width: 5),
                         SvgPicture.asset("assets/icons/monalisa.svg",

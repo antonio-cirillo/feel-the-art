@@ -8,14 +8,12 @@ extension MediaQueryDataProportionate on MediaQueryData {
   static const double layoutWidth = 315.0;
 
   /// Get the proportionate height as per screen size.
-  double getProportionateScreenHeight(double inputHeight) =>
-      (inputHeight / layoutHeight) * size.height;
+  double getProportionateScreenHeight(double inputHeight) => (inputHeight / layoutHeight) * screenHeight;
 
   /// Get the proportionate height as per screen size.
-  double getProportionateScreenWidth(double inputWidth) =>
-      (inputWidth / layoutWidth) * size.width;
+  double getProportionateScreenWidth(double inputWidth) => (inputWidth / layoutWidth) * screenWidth;
 
   double get screenHeight => size.height;
-  double get screenWidth => size.height;
-}
 
+  double get screenWidth => size.width;
+}

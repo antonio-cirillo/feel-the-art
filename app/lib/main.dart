@@ -1,9 +1,10 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:provider/provider.dart";
 import "package:device_preview/device_preview.dart";
 
-import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/theme/theme.dart";
 import "package:feel_the_art/screens/main_screen.dart";
 import "package:feel_the_art/services/account_service.dart";
 import "package:feel_the_art/services/deck_list_service.dart" as decklist;
@@ -39,11 +40,7 @@ class FeelTheArt extends StatelessWidget {
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          // primaryColor: ,
-          scaffoldBackgroundColor: amethystColor.withOpacity(0.8),
-          fontFamily: "Hind",
-        ),
+        theme: theme,
         routes: {
           "/game": (context) => const Scaffold(),
         },

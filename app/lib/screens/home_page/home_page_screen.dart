@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 
 import "package:feel_the_art/components/background.dart";
-import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/theme/theme.dart";
 import "components/app_bar.dart";
 import "components/card_table_slider.dart";
 
@@ -16,17 +16,16 @@ class _HomePageScreen extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
-      Container(color: amethystColor.withOpacity(0.8)),
-      const BackgroundScreen(),
+      BackgroundScreen(bgColor.withOpacity(0.8)),
       Scaffold(
-        backgroundColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
           body: Column(
-        children: const <Widget>[
-          Expanded(flex: 2, child: HomePageScreenBar()),
-          Expanded(flex: 7, child: CardTableSlider()),
-          // Expanded(flex: 1, child: Text("DOMANDA DEL GIORNO"))
-        ],
-      ))
+            children: const <Widget>[
+              Expanded(flex: 2, child: HomePageScreenBar()),
+              Expanded(flex: 7, child: CardTableSlider()),
+              // Expanded(flex: 1, child: Text("DOMANDA DEL GIORNO"))
+            ],
+          ))
     ]);
   }
 }

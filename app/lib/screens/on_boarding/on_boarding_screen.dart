@@ -1,13 +1,13 @@
 import "package:flutter/material.dart";
-import "package:introduction_screen/introduction_screen.dart";
 import "package:provider/provider.dart";
+import "package:introduction_screen/introduction_screen.dart";
 
-import "package:feel_the_art/utils/theme/colors.dart";
+import "package:feel_the_art/theme/theme.dart";
 import "package:feel_the_art/components/background.dart";
 import "package:feel_the_art/services/account_service.dart";
 
 class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({super.key});
+  const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
@@ -16,64 +16,56 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
-  static const bodyStyle = TextStyle(fontSize: 19.0, color: Colors.white);
-
-  static const pageDecoration = PageDecoration(
-    titleTextStyle: TextStyle(
-        fontSize: 28.0, fontWeight: FontWeight.w700, color: Colors.white),
-    bodyTextStyle: bodyStyle,
-    imageFlex: 3,
-    bodyFlex: 2,
-    bodyAlignment: Alignment.topCenter,
-    imageAlignment: Alignment.bottomCenter,
-    bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-    titlePadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-    pageColor: Colors.transparent,
-    imagePadding: EdgeInsets.only(top: 100),
-  );
-
-  List<PageViewModel> _buildPages() {
-    return [
-      PageViewModel(
-          image: Image.asset("assets/icons/icon.png", width: 300),
-          title: "Feel the ART",
-          body:
-              "Instead of having to buy an entire share, invest any amount you want.",
-          decoration: pageDecoration),
-      PageViewModel(
-          title: "Title of first page",
-          body:
-              "Here you can write the description of the page, to explain someting...",
-          decoration: pageDecoration)
-    ];
+  void nextPage() {
+    introKey.currentState?.next();
   }
 
   @override
   Widget build(BuildContext context) {
     AccountService accountInfo = Provider.of<AccountService>(context);
 
+    PageDecoration pageDecoration = PageDecoration(
+      titleTextStyle: Theme.of(context).textTheme.displaySmall?.merge(titleStyle) ?? const TextStyle(),
+      bodyTextStyle: whiteText,
+      imagePadding: const EdgeInsets.only(top: 40, left: 30),
+    );
+
     return Stack(children: <Widget>[
-      Container(color: amethystColor),
-      const BackgroundScreen(),
+      BackgroundScreen(bgColor.withOpacity(0.8)),
       IntroductionScreen(
+        key: introKey,
         globalBackgroundColor: Colors.transparent,
-        pages: _buildPages(),
-        onDone: () {
-          accountInfo.setOnboardOff();
-        },
+        pages: [
+          PageViewModel(
+            image: Image.asset("assets/icons/icon.png"),
+            title: "Feel the ART",
+            body: "Instead of having to buy an entire share, invest any amount you want.",
+            decoration: pageDecoration,
+          ),
+          PageViewModel(
+            title: "Come si Gioca?",
+            body: "Here you can write the description of the page, to explain someting...",
+            decoration: pageDecoration,
+          )
+        ],
         showBackButton: false,
-        showSkipButton: true,
-        showNextButton: false,
-        skip: const Text("Salta", style: TextStyle(color: Colors.white)),
-        skipStyle: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(princessPerfumeColor),
-          shadowColor: MaterialStateProperty.all(Colors.black),
+        overrideDone: TextButton(
+          onPressed: () => accountInfo.setOnboardOff(),
+          child: const Text("Fine"),
         ),
-        done: const Text("Continua",
-            style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
-        doneStyle: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(robinEggBlueColor),
-          shadowColor: MaterialStateProperty.all(Colors.black),
+        showSkipButton: true,
+        overrideSkip: TextButton(
+          style: TextButton.styleFrom(backgroundColor: Colors.white),
+          onPressed: () => accountInfo.setOnboardOff(),
+          child: const Text(
+            "Salta",
+            style: TextStyle(color: primaryColor),
+          ),
+        ),
+        showNextButton: true,
+        overrideNext: TextButton(
+          onPressed: () => nextPage(),
+          child: const Text("Avanti"),
         ),
         curve: Curves.fastLinearToSlowEaseIn,
         controlsMargin: const EdgeInsets.all(16),

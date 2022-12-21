@@ -1,7 +1,7 @@
 import "package:flutter/cupertino.dart";
 
-import "package:feel_the_art/classes/game/deck.dart";
-import "package:feel_the_art/classes/game/deck_list.dart";
+import "package:feel_the_art/models/game/deck.dart";
+import "package:feel_the_art/models/game/deck_list.dart";
 import "package:feel_the_art/utils/request/obj_status.dart";
 import "package:feel_the_art/utils/request/web_request.dart";
 
