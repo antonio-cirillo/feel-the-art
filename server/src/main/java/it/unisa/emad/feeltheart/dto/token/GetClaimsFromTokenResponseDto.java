@@ -8,17 +8,18 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class GenerateTokenResponseDto extends GeneralTokenResponseDto implements Serializable {
+public class GetClaimsFromTokenResponseDto extends GeneralTokenResponseDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 6409541012206027307L;
+    private static final long serialVersionUID = -2960078618122081149L;
 
-    private Oauth2Dto token;
+    private Map<String, String> params;
 
 }

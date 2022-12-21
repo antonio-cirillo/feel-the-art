@@ -14,11 +14,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class GenerateTokenResponseDto extends GeneralTokenResponseDto implements Serializable {
+public class RefreshTokenRequestDto extends GeneralTokenRequestDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 6409541012206027307L;
-
-    private Oauth2Dto token;
+    private static final long serialVersionUID = 1183287407775165702L;
 
 }
