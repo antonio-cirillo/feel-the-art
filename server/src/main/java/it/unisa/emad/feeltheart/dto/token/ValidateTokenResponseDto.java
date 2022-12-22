@@ -10,8 +10,6 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class ValidateTokenResponseDto extends GeneralTokenResponseDto implements Serializable {

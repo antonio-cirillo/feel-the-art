@@ -57,7 +57,7 @@ public class TokenUtils {
         var oauth2 = new Oauth2Dto();
 
         try {
-            Algorithm alg = Algorithm.HMAC256(jwtSecret);
+            Algorithm alg = Algorithm.HMAC512(jwtSecret);
             Date expirationDate = getExpireDate();
 
             Builder token = JWT.create();
@@ -73,7 +73,7 @@ public class TokenUtils {
                     .withExpiresAt(expirationDate)
                     .sign(alg);
 
-            String encryptedToken = encryptToken(stringToken);
+            String encryptedToken = encryptToken(stringToken); //TODO: Eccezione lanciata dal metodo
             if(StringUtils.isBlank(encryptedToken)) {
                 log.error("Errore nella cifratura del token");
                 response.error("Errore durante la cifratura del token");
@@ -86,7 +86,7 @@ public class TokenUtils {
 
             response.setToken(oauth2);
             response.setSuccess(true);
-            response.setDescription("Token generato correttamente");
+            response.setDescription("Token generato correttamente"); //TODO: costante
         } catch (Exception e) {
             log.error(LogMessage.ERROR, e.getMessage());
             response.error("Token non generato a causa di un errore generale");
@@ -104,7 +104,7 @@ public class TokenUtils {
         String encryptedToken = request.getToken();
 
         try {
-            String token = decryptToken(encryptedToken);
+            String token = decryptToken(encryptedToken); //TODO: Eccezione lanciata dal metodo
             if(StringUtils.isBlank(token)) {
                 log.error("Errore durante la decifrazione del token");
                 result.error("Errore durante la decifrazione del token");
@@ -119,7 +119,7 @@ public class TokenUtils {
             verifier.verify(token);
 
             result.setSuccess(true);
-            result.setDescription("Token valido");
+            result.setDescription("Token valido"); //TODO: Costante
         }
         catch (TokenExpiredException tee) {
             log.info("TOKEN SCADUTO");
@@ -147,7 +147,7 @@ public class TokenUtils {
         String encryptedToken = request.getToken();
 
         try {
-            String token = decryptToken(encryptedToken);
+            String token = decryptToken(encryptedToken); //TODO: Eccezione lanciata dal metodo
             if(StringUtils.isBlank(token)) {
                 log.error("Errore durante la decifratura del token");
                 response.error("Errore durante la decifratura del token");
@@ -160,13 +160,7 @@ public class TokenUtils {
 
             Map<String, Claim> claims = JWT.decode(token).getClaims();
             if(null != claims && !claims.isEmpty()) {
-                claims.forEach((k, v) ->{
-                    if (Objects.nonNull(v.asString())) {
-                        refreshToken.withClaim(k, v.asString());
-                    } else {
-                        refreshToken.withClaim(k, v.asInt());
-                    }
-                });
+                claims.forEach((k, v) -> refreshToken.withClaim(k, v.asString()));
             }
 
             String stringRefreshToken = refreshToken
@@ -175,7 +169,7 @@ public class TokenUtils {
                     .withExpiresAt(expirationDate)
                     .sign(alg);
 
-            String encryptedRefreshToken = encryptToken(stringRefreshToken);
+            String encryptedRefreshToken = encryptToken(stringRefreshToken); //TODO: Eccezione lanciata dal metodo
             if(StringUtils.isBlank(encryptedRefreshToken)) {
                 log.error("Errore nella criptazione del token");
                 response.error("Errore durante la criptazione del token");
@@ -209,7 +203,7 @@ public class TokenUtils {
         var validationResult = this.validateToken(
                 new ValidateTokenRequestDto(request.getToken())
         );
-        if (!validationResult.getSuccess()) {
+        if (Boolean.FALSE.equals(validationResult.getSuccess())) {
             result.error(validationResult.getDescription());
             return result;
         }

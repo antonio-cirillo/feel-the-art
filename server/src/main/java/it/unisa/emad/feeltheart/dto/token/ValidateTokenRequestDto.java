@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class ValidateTokenRequestDto extends GeneralTokenRequestDto implements Serializable {

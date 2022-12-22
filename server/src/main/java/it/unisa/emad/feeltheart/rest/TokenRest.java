@@ -8,6 +8,8 @@ import it.unisa.emad.feeltheart.dto.common.ResultDto;
 import it.unisa.emad.feeltheart.dto.question.InsertQuestionRequestDto;
 import it.unisa.emad.feeltheart.dto.token.GenerateTokenRequestDto;
 import it.unisa.emad.feeltheart.dto.token.GenerateTokenResponseDto;
+import it.unisa.emad.feeltheart.dto.token.ValidateTokenRequestDto;
+import it.unisa.emad.feeltheart.dto.token.ValidateTokenResponseDto;
 import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
 import it.unisa.emad.feeltheart.util.TokenUtils;
 import lombok.extern.log4j.Log4j2;
@@ -52,6 +54,41 @@ public class TokenRest {
 
         var result = tokenUtils.generateToken(request);
         var response = new ResultDto<GenerateTokenResponseDto>();
+
+        if(Boolean.FALSE.equals(result.getSuccess())){
+            response.setFailureResponse(
+                    feelTheArtUtils.getMessageResponse(
+                            Constant.MESSAGE_RESPONSE_CODE_OPERATION_KO),
+                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
+
+            return ResponseEntity
+                    .status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                    .body(response);
+        }
+
+        response.setSuccessTrueResponse(
+                feelTheArtUtils.getMessageResponse(
+                        Constant.MESSAGE_RESPONSE_CODE_OPERATION_OK));
+        response.setData(result);
+
+        log.info(LogMessage.END);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/1.0/validate-token", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(description = "")
+    public ResponseEntity<ResultDto<ValidateTokenResponseDto>> validateToken(
+            @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestBody @Valid ValidateTokenRequestDto request) {
+
+        log.info(LogMessage.START);
+        //log.info(LogMessage.REQUEST, new Gson().toJson(request));
+
+        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
+
+        var result = tokenUtils.validateToken(request);
+        var response = new ResultDto<ValidateTokenResponseDto>();
 
         if(Boolean.FALSE.equals(result.getSuccess())){
             response.setFailureResponse(
