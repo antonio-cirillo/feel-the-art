@@ -1,13 +1,12 @@
-import 'package:feel_the_art/utils/theme/size_config.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:feel_the_art/theme/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:feel_the_art/flutter_flow/flutter_flow_theme.dart';
 import 'package:feel_the_art/flutter_flow/flutter_flow_widgets.dart';
 
 
 
-import '../../utils/theme/colors.dart';
 import '../../components/background.dart';
+import '../../theme/theme.dart';
 
 
 class QuizScreen extends StatefulWidget {
@@ -26,8 +25,8 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
-      Container(color: amethystColor.withOpacity(0.8)),
-      const BackgroundScreen(),
+      Container(color: primaryColor.withOpacity(0.8)),
+      const BackgroundScreen(Colors.white),
       Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(

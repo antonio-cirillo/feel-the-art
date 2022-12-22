@@ -41,9 +41,6 @@ class FeelTheArt extends StatelessWidget {
         builder: DevicePreview.appBuilder,
         debugShowCheckedModeBanner: false,
         theme: theme,
-        routes: {
-          "/game": (context) => const Scaffold(),
-        },
         home: const SafeArea(
           bottom: false,
           child: MainScreen(),

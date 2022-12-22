@@ -39,7 +39,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           PageViewModel(
             image: Image.asset("assets/icons/icon.png"),
             title: "Feel the ART",
-            body: "Instead of having to buy an entire share, invest any amount you want.",
+            body: "Divertirti e impara tantissime curiosità sul mondo dell'arte, non perdere tempo e prossegui per scoprire le regole del gioco",
             decoration: pageDecoration,
           ),
           PageViewModel(
