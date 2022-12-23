@@ -31,7 +31,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
 
     return Stack(children: <Widget>[
-      BackgroundScreen(bgColor.withOpacity(0.8)),
       IntroductionScreen(
         key: introKey,
         globalBackgroundColor: Colors.transparent,

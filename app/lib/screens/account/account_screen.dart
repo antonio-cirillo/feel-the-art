@@ -12,7 +12,6 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double proportionate40px = MediaQuery.of(context).getProportionateScreenHeight(40);
     return Stack(children: [
-      BackgroundScreen(bgColor.withOpacity(0.8)),
       Scaffold(
         backgroundColor: Colors.transparent,
         body: Column(

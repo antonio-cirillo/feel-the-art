@@ -26,7 +26,6 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(color: primaryColor.withOpacity(0.8)),
-      const BackgroundScreen(Colors.white),
       Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(

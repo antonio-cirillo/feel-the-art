@@ -1,45 +1,33 @@
 import 'package:feel_the_art/theme/size_config.dart';
 import "package:flutter/material.dart";
+import 'package:carousel_slider/carousel_slider.dart';
 
-class BackgroundScreen extends StatelessWidget {
-  final Color color;
+class Background extends StatelessWidget {
+  final CarouselController carouselController;
 
-  const BackgroundScreen(this.color, {super.key});
+  const Background(this.carouselController, {super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      body:
-      AnimatedSwitcher(
-        key: const ValueKey(1),
-        duration: const Duration(milliseconds: 700),
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/background/bg_1.png"),
-              fit: BoxFit.fill,
-            ),
-          ),
-        ),
-
+    return CarouselSlider(
+      carouselController: carouselController,
+      options: CarouselOptions(
+        scrollPhysics: const NeverScrollableScrollPhysics(),
+        height: MediaQuery.of(context).screenHeight,
+        viewportFraction: 1,
       ),
+      items: [1, 2, 3, 4, 5]
+          .map(
+            (i) => Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/background/bg_$i.png"),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+          )
+          .toList(),
     );
-
-
-  //   // return Stack(
-  //   //   children: <Widget>[
-  //   //     Carousel()
-  //       Container(
-  //         // color: color,
-  //         decoration: const BoxDecoration(
-  //           image: DecorationImage(
-  //             image: AssetImage("assets/background/bg_1.png"),
-  //             fit: BoxFit.fitHeight,
-  //           ),
-  //         ),
-  //       ),
-  //     // ],
-  //   // );
   }
 }

@@ -23,7 +23,6 @@ class CardScreen extends StatelessWidget {
     Border border = Border.all(color: bgColor, width: 2);
 
     return Stack(children: [
-BackgroundScreen(bgColor.withOpacity(0.8)),
       Scaffold(
         backgroundColor: Colors.transparent,
         appBar: PreferredSize(

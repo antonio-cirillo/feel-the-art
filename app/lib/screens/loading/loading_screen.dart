@@ -11,7 +11,6 @@ class LoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: <Widget>[
-          BackgroundScreen(bgColor.withOpacity(0.8)),
           Align(
             alignment: Alignment.center,
             child: SizedBox(

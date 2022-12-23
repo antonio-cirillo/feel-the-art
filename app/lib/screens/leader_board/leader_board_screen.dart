@@ -38,7 +38,6 @@ class LeaderBoardScreen extends StatelessWidget {
     double avatarSize = MediaQuery.of(context).getProportionateScreenHeight(30);
 
     return Stack(children: [
-BackgroundScreen(bgColor.withOpacity(0.8)),
       Scaffold(
         backgroundColor: Colors.transparent,
         body: Column(

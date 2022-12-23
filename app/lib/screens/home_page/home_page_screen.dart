@@ -15,17 +15,12 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreen extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      BackgroundScreen(bgColor.withOpacity(0.8)),
-      Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Column(
-            children: const <Widget>[
-              Expanded(flex: 2, child: HomePageScreenBar()),
-              Expanded(flex: 7, child: CardTableSlider()),
-              // Expanded(flex: 1, child: Text("DOMANDA DEL GIORNO"))
-            ],
-          ))
-    ]);
+    return Column(
+      children: const <Widget>[
+        Expanded(flex: 2, child: HomePageScreenBar()),
+        Expanded(flex: 7, child: CardTableSlider()),
+        // Expanded(flex: 1, child: Text("DOMANDA DEL GIORNO"))
+      ],
+    );
   }
 }

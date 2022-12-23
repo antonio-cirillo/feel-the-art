@@ -10,6 +10,7 @@ const blackColor = Color(0xFF1B1B1B);
 
 ThemeData theme = ThemeData(
   fontFamily: "Hind",
+  backgroundColor: bgColor,
 
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(

@@ -16,39 +16,35 @@ class CollectionScreen extends StatelessWidget {
     final deck = Provider.of<DeckListService>(context);
     double proportionate20px = MediaQuery.of(context).getProportionateScreenHeight(20);
     if (deck.status == ObjStatus.ready) {
-      return Scaffold(
-          body: Stack(children: [
-        BackgroundScreen(bgColor.withOpacity(0.8)),
-        Column(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Align(
-                alignment: Alignment.center,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Stack(
-                    children: [
-                      Text(
-                        "Collezione",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const Text("Collezione", style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "ElsieSwashCaps"))
-                    ],
-                  ),
+      return Column(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: Align(
+              alignment: Alignment.center,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Stack(
+                  children: [
+                    Text(
+                      "Collezione",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const Text("Collezione", style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "ElsieSwashCaps"))
+                  ],
                 ),
               ),
             ),
-            Expanded(
-              flex: 6,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: proportionate20px),
-                child: GridCards(deck),
-              ),
-            )
-          ],
-        )
-      ]));
+          ),
+          Expanded(
+            flex: 6,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: proportionate20px),
+              child: GridCards(deck),
+            ),
+          )
+        ],
+      );
     } else {
       return Text("LOADING");
     }
