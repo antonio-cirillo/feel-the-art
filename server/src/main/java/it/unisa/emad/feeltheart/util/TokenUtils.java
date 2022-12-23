@@ -4,20 +4,24 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator.Builder;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
+import it.unisa.emad.feeltheart.constant.Constant;
 import it.unisa.emad.feeltheart.constant.LogMessage;
 import it.unisa.emad.feeltheart.dto.token.*;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -28,10 +32,10 @@ import java.util.*;
 @Component
 public class TokenUtils {
 
-    @Value(value = "${token.oauth2.jwtsecret}")
+    @Value(value = "${token.oauth2.jwt.secret}")
     private String jwtSecret;
 
-    @Value(value = "${token.oauth2.jwtduration.minutes}")
+    @Value(value = "${token.oauth2.jwt.duration.minutes}")
     private String jwtDuration;
 
     @Value(value = "${token.oauth2.issuer}")
@@ -47,91 +51,70 @@ public class TokenUtils {
     private String algorithm;
 
     private static SecretKeySpec secretKey;
-    private static byte[] key;
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    private final FeelTheArtUtils feelTheArtUtils;
+
+     @Autowired
+    public TokenUtils(FeelTheArtUtils feelTheArtUtils) {
+        this.feelTheArtUtils = feelTheArtUtils;
+    }
 
     public GenerateTokenResponseDto generateToken(GenerateTokenRequestDto request) {
         log.info(LogMessage.START);
 
         var response = new GenerateTokenResponseDto();
-        var oauth2 = new Oauth2Dto();
+        Builder token = JWT.create();
 
         try {
-            Algorithm alg = Algorithm.HMAC512(jwtSecret);
-            Date expirationDate = getExpireDate();
-
-            Builder token = JWT.create();
-
             Map<String, String> params = request.getParams();
             if(null != params && !params.isEmpty()) {
                 params.forEach(token::withClaim);
             }
 
-            String stringToken = token
-                    .withIssuer(issuer)
-                    .withIssuedAt(new Date(System.currentTimeMillis()))
-                    .withExpiresAt(expirationDate)
-                    .sign(alg);
+            response.setToken(getToken(getExpireDate(), getAlgorithm(), token));
+            response.success(feelTheArtUtils.getMessageResponse(
+                    Constant.MESSAGE_RESPONSE_GENERATE_TOKEN_OK));
 
-            String encryptedToken = encryptToken(stringToken); //TODO: Eccezione lanciata dal metodo
-            if(StringUtils.isBlank(encryptedToken)) {
-                log.error("Errore nella cifratura del token");
-                response.error("Errore durante la cifratura del token");
-                return response;
-            }
-
-            oauth2.setAccess_token(encryptedToken);
-            oauth2.setExpires_at(dateFormat.format(expirationDate));
-            oauth2.setToken_type(tokenType);
-
-            response.setToken(oauth2);
-            response.setSuccess(true);
-            response.setDescription("Token generato correttamente"); //TODO: costante
+            log.info(LogMessage.END);
+            return response;
         } catch (Exception e) {
             log.error(LogMessage.ERROR, e.getMessage());
-            response.error("Token non generato a causa di un errore generale");
+            response.error(feelTheArtUtils.getMessageResponse(
+                    Constant.MESSAGE_RESPONSE_GENERATE_TOKEN_KO));
             return response;
         }
-
-        log.info(LogMessage.END);
-        return response;
     }
 
     public ValidateTokenResponseDto validateToken(ValidateTokenRequestDto request) {
         log.info(LogMessage.START);
 
         var result = new ValidateTokenResponseDto();
-        String encryptedToken = request.getToken();
 
         try {
-            String token = decryptToken(encryptedToken); //TODO: Eccezione lanciata dal metodo
-            if(StringUtils.isBlank(token)) {
-                log.error("Errore durante la decifrazione del token");
-                result.error("Errore durante la decifrazione del token");
-                return result;
-            }
+            String token = decryptToken(request.getToken());
 
-            Algorithm alg = Algorithm.HMAC512(jwtSecret);
-            JWTVerifier verifier = JWT.require(alg)
+            JWTVerifier verifier = JWT.require(getAlgorithm())
                     .withIssuer(issuer)
                     .build();
 
             verifier.verify(token);
 
-            result.setSuccess(true);
-            result.setDescription("Token valido"); //TODO: Costante
-        }
-        catch (TokenExpiredException tee) {
-            log.info("TOKEN SCADUTO");
-            result.error("Token scaduto");
-        }
-        catch (JWTVerificationException jve) {
-            log.info("TOKEN NON VALIDO");
-            result.error("Token non valido");
-        }
-        catch (Exception e) {
-            log.info("Errore: {}", e.getMessage());
-            result.error("Errore generico");
+            result.success(feelTheArtUtils.getMessageResponse(
+                    Constant.MESSAGE_RESPONSE_VALIDATE_TOKEN_OK));
+
+        } catch (TokenExpiredException tee) {
+            log.info(LogMessage.ERROR, "token expired");
+            result.error(feelTheArtUtils.getMessageResponse(
+                    Constant.MESSAGE_RESPONSE_TOKEN_EXPIRED));
+        } catch (JWTVerificationException jve) {
+            log.info(LogMessage.ERROR, "invalid token");
+            result.error(feelTheArtUtils.getMessageResponse(
+                    Constant.MESSAGE_RESPONSE_VALIDATE_TOKEN_KO));
+        } catch (Exception e) {
+            log.info(LogMessage.ERROR, e.getMessage());
+            result.error(feelTheArtUtils.getMessageResponse(
+                    Constant.MESSAGE_RESPONSE_VALIDATE_TOKEN_KO));
         }
 
         log.info(LogMessage.END);
@@ -139,131 +122,121 @@ public class TokenUtils {
     }
 
     public RefreshTokenResponseDto refreshToken(RefreshTokenRequestDto request) {
-        log.info("START");
-
-        var response = new RefreshTokenResponseDto();
-        var oauth2 = new Oauth2Dto();
+        log.info(LogMessage.START);
 
         String encryptedToken = request.getToken();
+        Builder token = JWT.create();
+        var response = new RefreshTokenResponseDto();
 
         try {
-            String token = decryptToken(encryptedToken); //TODO: Eccezione lanciata dal metodo
-            if(StringUtils.isBlank(token)) {
-                log.error("Errore durante la decifratura del token");
-                response.error("Errore durante la decifratura del token");
-                return response;
-            }
+            String tokenToRefresh = decryptToken(encryptedToken);
 
-            Date expirationDate = getExpireDate();
-            Algorithm alg = Algorithm.HMAC512(jwtSecret);
-            Builder refreshToken = JWT.create();
-
-            Map<String, Claim> claims = JWT.decode(token).getClaims();
+            Map<String, Claim> claims = JWT.decode(tokenToRefresh).getClaims();
             if(null != claims && !claims.isEmpty()) {
-                claims.forEach((k, v) -> refreshToken.withClaim(k, v.asString()));
+                claims.forEach((k, v) -> token.withClaim(k, v.asString()));
             }
 
-            String stringRefreshToken = refreshToken
-                    .withIssuer(issuer)
-                    .withIssuedAt(new Date(System.currentTimeMillis()))
-                    .withExpiresAt(expirationDate)
-                    .sign(alg);
+            response.setToken(getToken(getExpireDate(), getAlgorithm(), token));
+            response.success(feelTheArtUtils.getMessageResponse(
+                    Constant.MESSAGE_RESPONSE_REFRESH_TOKEN_OK));
 
-            String encryptedRefreshToken = encryptToken(stringRefreshToken); //TODO: Eccezione lanciata dal metodo
-            if(StringUtils.isBlank(encryptedRefreshToken)) {
-                log.error("Errore nella criptazione del token");
-                response.error("Errore durante la criptazione del token");
-                return response;
-            }
-
-            oauth2.setAccess_token(encryptedRefreshToken);
-            oauth2.setExpires_at(dateFormat.format(getExpireDate()));
-            oauth2.setToken_type(tokenType);
-
-            response.setToken(oauth2);
-            response.setSuccess(true);
-            response.setDescription("Token aggiornato con successo");
+            log.info(LogMessage.END);
+            return response;
         } catch (Exception e) {
             log.error(LogMessage.ERROR, e.getMessage());
-            response.error("Errore");
+            response.error(feelTheArtUtils.getMessageResponse(
+                    Constant.MESSAGE_RESPONSE_REFRESH_TOKEN_KO));
+            return response;
         }
-
-        log.info(LogMessage.END);
-        return response;
     }
 
     public GetClaimsFromTokenResponseDto getClaimsFromToken(GetClaimsFromTokenRequestDto request) {
-        var result = new GetClaimsFromTokenResponseDto();
+         log.info(LogMessage.START);
 
-        if (request == null || request.getToken() == null) {
-            result.error("Token assente");
-            return result;
-        }
+         var result = new GetClaimsFromTokenResponseDto();
 
-        var validationResult = this.validateToken(
-                new ValidateTokenRequestDto(request.getToken())
-        );
-        if (Boolean.FALSE.equals(validationResult.getSuccess())) {
-            result.error(validationResult.getDescription());
-            return result;
-        }
+         var validationResult = this.validateToken(new ValidateTokenRequestDto(request.getToken()));
+
+         if (Boolean.FALSE.equals(validationResult.getSuccess())) {
+             log.error(feelTheArtUtils.getMessageResponse(Constant.MESSAGE_RESPONSE_VALIDATE_TOKEN_KO));
+             result.error(validationResult.getDescription());
+             return result;
+         }
 
         try {
             String decryptToken = this.decryptToken(request.getToken());
-            if(StringUtils.isBlank(decryptToken)){
-                //TODO:
-                return null;
-            }
+
             var token = JWT.decode(decryptToken);
 
             Map<String, String> params = new HashMap<>();
             token.getClaims().forEach((k, v) -> params.put(k, v.asString()));
+            params.values().removeAll(Collections.singleton(null));
 
+            result.success(feelTheArtUtils.getMessageResponse(Constant.MESSAGE_RESPONSE_INFO_TOKEN_OK));
             result.setParams(params);
-            result.setDescription("");
-            result.setSuccess(Boolean.TRUE);
-
-        } catch (JWTDecodeException e) {
-            log.warn(e.getMessage());
-            result.error("Errore nella decodifica del token.");
+        }catch (Exception e) {
+            log.error(LogMessage.ERROR, e.getMessage());
+            result.error(feelTheArtUtils.getMessageResponse(Constant.MESSAGE_RESPONSE_INFO_TOKEN_KO));
         }
 
         log.info(LogMessage.END);
         return result;
     }
 
+    private Oauth2Dto getToken(Date expirationDate, Algorithm algorithm, Builder token)
+            throws NoSuchPaddingException,
+            IllegalBlockSizeException,
+            NoSuchAlgorithmException,
+            BadPaddingException,
+            InvalidKeyException {
 
+        var oauth2 = new Oauth2Dto();
 
-    private String encryptToken(String token) {
-        try{
-            setKey(secret);
-            Cipher cipher = Cipher.getInstance(algorithm);
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(token.getBytes(StandardCharsets.UTF_8)));
-        }catch (Exception e) {
-            log.error(LogMessage.ERROR + e.getMessage());
-            return null;
-        }
+        String tokenString = token
+                .withIssuer(issuer)
+                .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withExpiresAt(expirationDate)
+                .sign(algorithm);
+
+        String encryptedToken = encryptToken(tokenString);
+
+        oauth2.setAccess_token(encryptedToken);
+        oauth2.setExpires_at(dateFormat.format(getExpireDate()));
+        oauth2.setToken_type(tokenType);
+
+        return oauth2;
     }
 
-    private String decryptToken(String strToDecrypt) {
-        try{
-            setKey(secret);
-            Cipher cipher = Cipher.getInstance(algorithm);
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+    private String encryptToken(String token)
+            throws InvalidKeyException,
+            NoSuchPaddingException,
+            NoSuchAlgorithmException,
+            IllegalBlockSizeException,
+            BadPaddingException {
 
-            return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
-        }
-        catch (Exception e) {
-            log.error(LogMessage.ERROR + e.getMessage());
-            return null;
-        }
+        setKey(secret);
+        Cipher cipher = Cipher.getInstance(algorithm);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        return Base64.getEncoder().encodeToString(cipher.doFinal(token.getBytes(StandardCharsets.UTF_8)));
     }
 
-    private void setKey(String secret) {
+    private String decryptToken(String strToDecrypt)
+            throws NoSuchPaddingException,
+            NoSuchAlgorithmException,
+            InvalidKeyException,
+            IllegalBlockSizeException,
+            BadPaddingException {
+
+         setKey(secret);
+        Cipher cipher = Cipher.getInstance(algorithm);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+    }
+
+    private static void setKey(String secret) {
         MessageDigest messageDigest;
         try {
-            key = secret.getBytes(StandardCharsets.UTF_8);
+            byte[] key = secret.getBytes(StandardCharsets.UTF_8);
             messageDigest = MessageDigest.getInstance("SHA-1");
             key = messageDigest.digest(key);
             key = Arrays.copyOf(key, 16);
@@ -277,5 +250,9 @@ public class TokenUtils {
     private Date getExpireDate() {
         long millisecond = Long.parseLong(jwtDuration) * 60000;
         return new Date(System.currentTimeMillis() + millisecond);
+    }
+
+    private Algorithm getAlgorithm() {
+        return Algorithm.HMAC512(jwtSecret);
     }
 }

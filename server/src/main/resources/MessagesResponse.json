@@ -22,6 +22,51 @@
   "0005": {
     "IT": "Nessun elemento trovato",
     "EN": "No items found"
-  }
+  },
+
+  "0006": {
+    "IT": "Token generato",
+    "EN": "Generated token"
+  },
+
+  "0007": {
+    "IT": "Non è stato possibile generare il token",
+    "EN": "The token could not be generated"
+  },
+
+  "0008": {
+    "IT": "Token scaduto",
+    "EN": "Exipred token"
+  },
+
+  "0009": {
+    "IT": "Token valido",
+    "EN": "Valid token"
+  },
+
+  "0010": {
+    "IT": "Token non valido",
+    "EN": "Invalid token"
+  },
+
+  "0011": {
+    "IT": "Token aggiornato",
+    "EN": "Token updated"
+  },
+
+  "0012": {
+    "IT": "Token non aggiornato",
+    "EN": "Token not updated"
+  },
+
+  "0013": {
+    "IT": "I claim del token sono stati recuperati",
+    "EN": "The token claims have been recovered"
+  },
+
+  "0014": {
+    "IT": "I claim del token non sono stati recuperati",
+    "EN": "The token claims were not recovered"
+  },
 
 }

@@ -19,6 +19,15 @@ public class Constant {
     public static final String MESSAGE_RESPONSE_CODE_BAD_REQUEST = "0003";
     public static final String MESSAGE_RESPONSE_CODE_FIELDS_NOT_VALID = "0004";
     public static final String MESSAGE_RESPONSE_FOUND_KO= "0005";
+    public static final String MESSAGE_RESPONSE_GENERATE_TOKEN_OK = "0006";
+    public static final String MESSAGE_RESPONSE_GENERATE_TOKEN_KO = "0007";
+    public static final String MESSAGE_RESPONSE_TOKEN_EXPIRED = "0008";
+    public static final String MESSAGE_RESPONSE_VALIDATE_TOKEN_OK = "0009";
+    public static final String MESSAGE_RESPONSE_VALIDATE_TOKEN_KO = "0010";
+    public static final String MESSAGE_RESPONSE_REFRESH_TOKEN_OK = "0011";
+    public static final String MESSAGE_RESPONSE_REFRESH_TOKEN_KO = "0012";
+    public static final String MESSAGE_RESPONSE_INFO_TOKEN_OK = "0013";
+    public static final String MESSAGE_RESPONSE_INFO_TOKEN_KO = "0014";
 
     public static final String SEPARATOR = ", ";
     public static final String CREATE_USER_KO = "Error during user creation";
