@@ -40,6 +40,7 @@ public class AvatarRest {
     @Operation(description = "Servizio REST utile ad effettuare la modifica dell'avatar di un utente")
     public ResponseEntity<ResultDto<SetAvatarResponseDto>> setAvatar(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid SetAvatarRequestDto request) {
 
         log.info(LogMessage.START);
@@ -76,6 +77,7 @@ public class AvatarRest {
     @Operation(description = "Servizio REST utile ad effettuare l'aggiunta di un avatar all'utente")
     public ResponseEntity<ResultDto<SaveGeneratedAvatarResponseDto>> saveGeneratedAvatar(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid SaveGeneratedAvatarRequestDto request) {
 
         log.info(LogMessage.START);
@@ -112,6 +114,7 @@ public class AvatarRest {
     @Operation(description = "Servizio REST utile ad effettuare la generazione di un avatar")
     public ResponseEntity<ResultDto<GeneratedAvatarResponseDto>> generateAvatar(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid GeneratedAvatarRequestDto request) {
 
         log.info(LogMessage.START);

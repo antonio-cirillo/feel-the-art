@@ -4,6 +4,7 @@ public class Constant {
 
     //Header
     public static final String KEY_LANGUAGE = "message-language";
+    public static final String KEY_TOKEN = "fta-token";
 
     //Languages
     public static final String LANGUAGE_ITALIAN = "IT";

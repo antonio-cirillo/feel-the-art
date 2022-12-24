@@ -45,6 +45,7 @@ public class QuestionRest {
     @Operation(description = "Servizio REST utile ad effettuare l'inserimento di una domanda")
     public ResponseEntity<ResultDto<String>> insertQuestion(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid InsertQuestionRequestDto request) {
 
         log.info(LogMessage.START);
@@ -80,6 +81,7 @@ public class QuestionRest {
     @Operation(description = "Servizio REST utile ad effettuare il recupero di una domanda")
     public ResponseEntity<ResultDto<QuestionDto>> getQuestionById(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestParam(value = "id_question") @NotBlank(message = "Campo id_question non valorizzato") String questionId) {
 
         log.info(LogMessage.START);
@@ -113,7 +115,8 @@ public class QuestionRest {
     @GetMapping(value = "/1.0/get-random-question", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare il recupero di una domanda casuale")
     public ResponseEntity<ResultDto<QuestionDto>> getRandomQuestion(
-            @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language) {
+            @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token) {
 
         log.info(LogMessage.START);
 
@@ -147,6 +150,7 @@ public class QuestionRest {
     @Operation(description = "Servizio REST utile ad effettuare il recupero della classifica degli utenti")
     public ResponseEntity<ResultDto<List<QuestionDto>>> getQuestionByType(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid GetQuestionByTypeRequestDto request) {
 
         log.info(LogMessage.START);

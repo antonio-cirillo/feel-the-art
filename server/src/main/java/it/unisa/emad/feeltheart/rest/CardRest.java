@@ -42,6 +42,7 @@ public class CardRest {
     @Operation(description = "Servizio REST utile ad effettuare l'inserimento di una carta")
     public ResponseEntity<ResultDto<Long>> insertCard(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid InsertCardRequestDto request) {
 
         log.info(LogMessage.START);
@@ -76,7 +77,8 @@ public class CardRest {
     @GetMapping(value = "/1.0/get-all-cards", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare il recupero di tutte le carte")
     public ResponseEntity<ResultDto<List<CardDto>>> getAllCards(
-            @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language) {
+            @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token) {
 
         log.info(LogMessage.START);
 

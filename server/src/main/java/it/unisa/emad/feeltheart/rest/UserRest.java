@@ -43,6 +43,7 @@ public class UserRest {
     @Operation(description = "Servizio REST utile ad effettuare l'inserimento di un utente")
     public ResponseEntity<ResultDto<String>> insertUser(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid InsertUserRequestDto request) {
 
         log.info(LogMessage.START);
@@ -78,6 +79,7 @@ public class UserRest {
     @Operation(description = "Servizio REST utile ad effettuare il recupero di un utente")
     public ResponseEntity<ResultDto<UserDto>> getUserByDeviceId(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestParam(value = "id_device") @NotBlank(message = "Campo id_device non valorizzato") String deviceId) {
 
         log.info(LogMessage.START);
@@ -112,6 +114,7 @@ public class UserRest {
     @Operation(description = "Servizio REST utile ad effettuare l'inizializzazione di un utente")
     public ResponseEntity<ResultDto<InitializeUserResponseDto>> initializeUser(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid InitializeUserRequestDto request) {
 
         log.info(LogMessage.START);
@@ -148,6 +151,7 @@ public class UserRest {
     @Operation(description = "Servizio REST utile ad effettuare la modifica di un utente")
     public ResponseEntity<ResultDto<Boolean>> updateUser(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid UserDto request) {
 
         log.info(LogMessage.START);
@@ -185,6 +189,7 @@ public class UserRest {
     @Operation(description = "Servizio REST utile ad effettuare il recupero della classifica degli utenti")
     public ResponseEntity<ResultDto<List<UserDto>>> getLeaderboard(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid GetLeaderboardRequestDto request) {
 
         log.info(LogMessage.START);
