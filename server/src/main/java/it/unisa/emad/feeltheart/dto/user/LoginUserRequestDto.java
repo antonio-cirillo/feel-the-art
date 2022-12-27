@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -13,15 +14,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class UserInfoDto implements Serializable {
+public class LoginUserRequestDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -8470779464279629436L;
+    private static final long serialVersionUID = -6314329162922455790L;
 
-    @Schema(description = "User device identifier")
+    @NotBlank(message = "Il campo id_device non è valorizzato")
+    @Schema(description = "")
     private String id_device;
 
+    @NotBlank(message = "Il campo random_identifier non è valorizzato")
     @Schema(description = "")
     private String random_identifier;
-
 }

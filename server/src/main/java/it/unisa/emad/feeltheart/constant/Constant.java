@@ -3,6 +3,7 @@ package it.unisa.emad.feeltheart.constant;
 public class Constant {
 
     //Header
+    public static final String KEY_ID_DEVICE = "id-device";
     public static final String KEY_LANGUAGE = "message-language";
     public static final String KEY_TOKEN = "fta-token";
 
@@ -37,6 +38,7 @@ public class Constant {
     public static final int AUTH_CODE_SIZE = 20;
     public static final int AVATAR_CODE_SIZE = 10;
     public static final String AVATAR_ALREADY_EXISTS = "Avatar already in the collection";
+    public static final String DEFAULT_ID_DEVICE = "A1B2C3D4E5";
 
     private Constant(){
 

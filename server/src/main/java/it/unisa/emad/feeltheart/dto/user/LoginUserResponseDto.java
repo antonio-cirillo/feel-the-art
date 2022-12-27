@@ -13,15 +13,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class UserInfoDto implements Serializable {
+public class LoginUserResponseDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -8470779464279629436L;
-
-    @Schema(description = "User device identifier")
-    private String id_device;
+    private static final long serialVersionUID = -7735018465937190345L;
 
     @Schema(description = "")
-    private String random_identifier;
+    private String token;
 
 }

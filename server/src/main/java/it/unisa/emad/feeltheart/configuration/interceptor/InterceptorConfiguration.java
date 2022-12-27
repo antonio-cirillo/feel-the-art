@@ -19,10 +19,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
             new ArrayList<>(Arrays.asList(
                     "/",
                     "/**/error",
-                    "/**/swagger-ui/favicon-16x16.png",
-                    "/**/swagger-ui/favicon-32x32.png",
-                    "/**/swagger-ui/swagger-initializer.js",
-                    "/**/swagger-ui/index.html",
+                    "/**/swagger-ui/**",
                     "/**/feel-the-art-swagger-ui/**",
                     "/**/feel-the-art-api-docs",
                     "/**/feel-the-art-api-docs/swagger-config",
@@ -40,7 +37,9 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
                 .addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(commonPatternsToExclude)
-                .excludePathPatterns("/**/token/**");
+                .excludePathPatterns("/**/token/**")
+                .excludePathPatterns("/**/user/1.0/register-user")
+                .excludePathPatterns("/**/user/1.0/login-user");
 
         registry
                 .addInterceptor(languageInterceptor)

@@ -18,7 +18,9 @@ public class LogMessage {
     public static final String OPERATION_KO = "Operation failed";
 
     public static final String CHOSEN_LANGUAGE = "Chosen language: {}";
+    public static final String ID_DEVICE = "Device id: {}";
     public static final String DEFAULT_LANGUAGE = "Default language";
+    public static final String DEFAULT_ID_DEVICE = "Default device id";
 
     public static final String DOCUMENT_FOUND = "Document found";
     public static final String DOCUMENT_NOT_FOUND = "Document not found";

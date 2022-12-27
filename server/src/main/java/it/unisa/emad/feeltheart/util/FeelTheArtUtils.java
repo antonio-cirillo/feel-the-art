@@ -93,4 +93,25 @@ public class FeelTheArtUtils {
             return StringUtils.EMPTY;
         }
     }
+
+    public String getDeviceId() {
+        log.info(LogMessage.START);
+
+        try{
+            Object object = httpSessionFactory.getObject().getAttribute(Constant.KEY_ID_DEVICE);
+
+            if(null != object){
+                log.info(LogMessage.ID_DEVICE, String.valueOf(object));
+                return String.valueOf(object);
+            }
+
+            else{
+                log.info(LogMessage.DEFAULT_ID_DEVICE);
+                return Constant.DEFAULT_ID_DEVICE;
+            }
+        }catch (Exception e){
+            log.info(LogMessage.ERROR, e.getMessage());
+            return Constant.DEFAULT_ID_DEVICE;
+        }
+    }
 }

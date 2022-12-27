@@ -4,13 +4,12 @@ import it.unisa.emad.feeltheart.constant.Constant;
 import it.unisa.emad.feeltheart.constant.LogMessage;
 import it.unisa.emad.feeltheart.dto.avatar.*;
 import it.unisa.emad.feeltheart.dto.user.UserDto;
-import it.unisa.emad.feeltheart.exception.AvatarExistException;
 import it.unisa.emad.feeltheart.exception.InsufficientPointException;
 import it.unisa.emad.feeltheart.exception.UpdateUserException;
 import it.unisa.emad.feeltheart.exception.UserNotFoundException;
+import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +20,12 @@ import java.util.List;
 @Service(value = "AvatarServiceImpl")
 public class AvatarServiceImpl implements AvatarService{
 
+    private final FeelTheArtUtils feelTheArtUtils;
     private final UserService userService;
 
     @Autowired
-    public AvatarServiceImpl(UserService userService) {
+    public AvatarServiceImpl(FeelTheArtUtils feelTheArtUtils, UserService userService) {
+        this.feelTheArtUtils = feelTheArtUtils;
         this.userService = userService;
     }
 
@@ -32,7 +33,7 @@ public class AvatarServiceImpl implements AvatarService{
     public SetAvatarResponseDto setAvatar(SetAvatarRequestDto request) {
         log.info(LogMessage.START);
 
-        String deviceId = request.getId_device();
+        String deviceId = feelTheArtUtils.getDeviceId();
         String avatar = request.getAvatar();
 
         try {
@@ -64,7 +65,7 @@ public class AvatarServiceImpl implements AvatarService{
     public SaveGeneratedAvatarResponseDto saveGeneratedAvatar(SaveGeneratedAvatarRequestDto request) {
         log.info(LogMessage.START);
 
-        String deviceId = request.getId_device();
+        String deviceId = feelTheArtUtils.getDeviceId();
 
         try {
             UserDto user = getUserByDeviceId(deviceId);
@@ -83,7 +84,7 @@ public class AvatarServiceImpl implements AvatarService{
     public GeneratedAvatarResponseDto generateAvatar(GeneratedAvatarRequestDto request) {
         log.info(LogMessage.START);
 
-        String deviceId = request.getId_device();
+        String deviceId = feelTheArtUtils.getDeviceId();
         var result = new GeneratedAvatarResponseDto();
 
         try {

@@ -1,4 +1,4 @@
-package it.unisa.emad.feeltheart.dto.avatar;
+package it.unisa.emad.feeltheart.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,12 +14,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class SetAvatarRequestDto implements Serializable {
+public class RegisterUserRequestDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -6491963162062884127L;
+    private static final long serialVersionUID = -3624842746319989356L;
 
-    @NotBlank(message = "Il campo avatar non è valorizzato")
-    @Schema(description = "Stringa contenente l'avatar da inserire nella collezione")
-    private String avatar;
+    @NotBlank(message = "Il campo id_device non è valorizzato")
+    @Schema(description = "")
+    private String id_device;
+
 }

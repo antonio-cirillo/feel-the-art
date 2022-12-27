@@ -39,54 +39,17 @@ public class UserRest {
     }
 
     @CrossOrigin
-    @PutMapping(value = "/1.0/insert-user", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Operation(description = "Servizio REST utile ad effettuare l'inserimento di un utente")
-    public ResponseEntity<ResultDto<String>> insertUser(
-            @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
-            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
-            @RequestBody @Valid InsertUserRequestDto request) {
-
-        log.info(LogMessage.START);
-        log.info(LogMessage.REQUEST, new Gson().toJson(request));
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
-
-        var result = userService.insertUser(request);
-        var response = new ResultDto<String>();
-
-        if(StringUtils.isBlank(result)){
-            response.setFailureResponse(
-                    feelTheArtUtils.getMessageResponse(
-                            Constant.MESSAGE_RESPONSE_CODE_OPERATION_KO),
-                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
-
-            return ResponseEntity
-                    .status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-                    .body(response);
-        }
-
-        response.setSuccessTrueResponse(
-                feelTheArtUtils.getMessageResponse(
-                        Constant.MESSAGE_RESPONSE_CODE_OPERATION_OK));
-        response.setData(result);
-
-        log.info(LogMessage.END);
-        return ResponseEntity.ok(response);
-    }
-
-    @CrossOrigin
     @GetMapping(value = "/1.0/get-user-by-device-id", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare il recupero di un utente")
     public ResponseEntity<ResultDto<UserDto>> getUserByDeviceId(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
-            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
-            @RequestParam(value = "id_device") @NotBlank(message = "Campo id_device non valorizzato") String deviceId) {
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token) {
 
         log.info(LogMessage.START);
 
         httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
-        var userToRecover = userService.getUserByDeviceId(deviceId);
+        var userToRecover = userService.getUserByDeviceId(feelTheArtUtils.getDeviceId());
         var response = new ResultDto<UserDto>();
 
         if(null == userToRecover){
@@ -104,43 +67,6 @@ public class UserRest {
                 feelTheArtUtils.getMessageResponse(
                         Constant.MESSAGE_RESPONSE_CODE_OPERATION_OK));
         response.setData(userToRecover);
-
-        log.info(LogMessage.END);
-        return ResponseEntity.ok(response);
-    }
-
-    @CrossOrigin
-    @PutMapping(value = "/1.0/initialize-user", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Operation(description = "Servizio REST utile ad effettuare l'inizializzazione di un utente")
-    public ResponseEntity<ResultDto<InitializeUserResponseDto>> initializeUser(
-            @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
-            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
-            @RequestBody @Valid InitializeUserRequestDto request) {
-
-        log.info(LogMessage.START);
-        log.info(LogMessage.REQUEST, new Gson().toJson(request));
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
-
-        var result = userService.initializeUser(request);
-        var response = new ResultDto<InitializeUserResponseDto>();
-
-        if(null == result){
-            log.info(LogMessage.OPERATION_KO);
-
-            response.setFailureResponse(
-                    feelTheArtUtils.getMessageResponse(Constant.MESSAGE_RESPONSE_CODE_OPERATION_KO),
-                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
-
-            return ResponseEntity
-                    .status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-                    .body(response);
-        }
-
-        response.setSuccessTrueResponse(
-                feelTheArtUtils.getMessageResponse(
-                        Constant.MESSAGE_RESPONSE_CODE_OPERATION_OK));
-        response.setData(result);
 
         log.info(LogMessage.END);
         return ResponseEntity.ok(response);
@@ -208,6 +134,76 @@ public class UserRest {
 
             return ResponseEntity
                     .status(HttpStatus.SC_OK)
+                    .body(response);
+        }
+
+        response.setSuccessTrueResponse(
+                feelTheArtUtils.getMessageResponse(
+                        Constant.MESSAGE_RESPONSE_CODE_OPERATION_OK));
+        response.setData(result);
+
+        log.info(LogMessage.END);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin
+    @PutMapping(value = "/1.0/register-user", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(description = "Servizio REST utile ad effettuare l'inserimento di un utente")
+    public ResponseEntity<ResultDto<RegisterUserResponseDto>> registerUser(
+            @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestBody @Valid RegisterUserRequestDto request) {
+
+        log.info(LogMessage.START);
+        log.info(LogMessage.REQUEST, new Gson().toJson(request));
+
+        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
+
+        var result = userService.registerUser(request);
+        var response = new ResultDto<RegisterUserResponseDto>();
+
+        if(null == result){
+            response.setFailureResponse(
+                    feelTheArtUtils.getMessageResponse(
+                            Constant.MESSAGE_RESPONSE_CODE_OPERATION_KO),
+                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
+
+            return ResponseEntity
+                    .status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                    .body(response);
+        }
+
+        response.setSuccessTrueResponse(
+                feelTheArtUtils.getMessageResponse(
+                        Constant.MESSAGE_RESPONSE_CODE_OPERATION_OK));
+        response.setData(result);
+
+        log.info(LogMessage.END);
+        return ResponseEntity.ok(response);
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/1.0/login-user", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(description = "Servizio REST utile ad effettuare l'inserimento di un utente")
+    public ResponseEntity<ResultDto<LoginUserResponseDto>> loginUser(
+            @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestBody @Valid LoginUserRequestDto request) {
+
+        log.info(LogMessage.START);
+        log.info(LogMessage.REQUEST, new Gson().toJson(request));
+
+        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
+
+        var result = userService.loginUser(request);
+        var response = new ResultDto<LoginUserResponseDto>();
+
+        if(null == result){
+            response.setFailureResponse(
+                    feelTheArtUtils.getMessageResponse(
+                            Constant.MESSAGE_RESPONSE_CODE_OPERATION_KO),
+                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
+
+            return ResponseEntity
+                    .status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
                     .body(response);
         }
 
