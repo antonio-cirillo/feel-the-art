@@ -1,1 +1,1 @@
-enum GameStatus { initGame, startGame, startTurn }
+enum GameStatus { initGame, startGame, initTurn, startTurn }

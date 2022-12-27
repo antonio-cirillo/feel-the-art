@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:feel_the_art/screens/game/components/user_cards.dart';
 import 'package:feel_the_art/theme/theme.dart';
@@ -17,7 +20,11 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   bool played = true;
   List<int> listCards = [];
+
   int nTurn = 1;
+  late Timer _timer;
+  int time = 30;
+  int point = 0;
 
   GameStatus gameStatus = GameStatus.initGame;
 
@@ -32,11 +39,40 @@ class _GameScreenState extends State<GameScreen> {
         });
         if (i == 5) {
           setState(() {
-            gameStatus = GameStatus.startTurn;
+            gameStatus = GameStatus.initTurn;
           });
         }
       });
     }
+  }
+
+  void startTurn() {
+    checkTurn();
+    setState(() {
+      played = false;
+      gameStatus = GameStatus.startTurn;
+    });
+    for (var i = 0; i < 3; i++) {
+      int second = Random().nextInt(15);
+      Future.delayed(Duration(seconds: 5 + second), () {
+        TableCardsScreen.listCards.value =
+            List.from(TableCardsScreen.listCards.value)..add(0);
+      });
+    }
+  }
+
+  void checkTurn() async {
+     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (time == 0 || TableCardsScreen.listCards.value.length == 4) {
+        setState(() {
+          _timer.cancel();
+        });
+      } else {
+        setState(() {
+          time--;
+        });
+      }
+    });
   }
 
   Widget notifyMessage() {
@@ -57,7 +93,7 @@ class _GameScreenState extends State<GameScreen> {
                     ScaleAnimatedText('1', duration: textDuration),
                     ScaleAnimatedText('VIA!', duration: textDuration),
                   ])));
-    } else if (gameStatus == GameStatus.startTurn) {
+    } else if (gameStatus == GameStatus.initTurn) {
       return Center(
           child: DefaultTextStyle(
               style:
@@ -65,9 +101,7 @@ class _GameScreenState extends State<GameScreen> {
               child: AnimatedTextKit(
                   isRepeatingAnimation: false,
                   pause: pauseDuration,
-                  onFinished: () => setState(() {
-                        played = false;
-                      }),
+                  onFinished: () => startTurn(),
                   animatedTexts: [
                     ScaleAnimatedText('Scegli la tua carta',
                         duration: textDuration * 2,
@@ -100,9 +134,7 @@ class _GameScreenState extends State<GameScreen> {
                         Expanded(
                             flex: 5,
                             child: Stack(children: [
-                              Center(
-                                child: TableCardsScreen()
-                              ),
+                              Center(child: TableCardsScreen()),
                               notifyMessage(),
                             ])),
                         Expanded(flex: 2, child: Container())
@@ -117,7 +149,9 @@ class _GameScreenState extends State<GameScreen> {
                             played: played,
                             listCards: listCards,
                           )),
-                      const Expanded(flex: 3, child: InformationScreen())
+                      Expanded(
+                          flex: 3,
+                          child: InformationScreen(point: point, time: time))
                     ]))
               ],
             )),

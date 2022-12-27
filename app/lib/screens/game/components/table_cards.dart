@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import '../../../theme/theme.dart';
 
 class TableCardsScreen extends StatelessWidget {
-  final ValueNotifier<List<int>> listCards = ValueNotifier<List<int>>([]);
+  static ValueNotifier<List<int>> listCards = ValueNotifier<List<int>>([]);
 
-  TableCardsScreen({super.key});
+  const TableCardsScreen({super.key});
 
   List<Widget> buildFirstRow(
       double imageHeight, double imageWidth, double paddingSize) {
@@ -66,12 +66,12 @@ class TableCardsScreen extends StatelessWidget {
     return Stack(children: [
       Center(
           child: Container(
-            height: tableHeight + paddingSize * 10,
-            width: tableWidth + paddingSize * 10,
-            decoration: const BoxDecoration(
-                color: princessPerfumeColor,
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-          )),
+        height: tableHeight + paddingSize * 10,
+        width: tableWidth + paddingSize * 10,
+        decoration: const BoxDecoration(
+            color: princessPerfumeColor,
+            borderRadius: BorderRadius.all(Radius.circular(20))),
+      )),
       Center(
           child: Container(
               height: tableHeight + paddingSize * 5,
