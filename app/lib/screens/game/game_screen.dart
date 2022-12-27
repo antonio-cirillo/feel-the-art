@@ -21,7 +21,6 @@ class _GameScreenState extends State<GameScreen> {
   bool played = true;
   List<int> listCards = [];
 
-  int nTurn = 1;
   late Timer _timer;
   int time = 30;
   int point = 0;
@@ -46,6 +45,17 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
+  void initTurn() {
+    Future.delayed(const Duration(milliseconds: 600), () {
+      setState(() {
+        listCards.add(0);
+      });
+    });
+    setState(() {
+      gameStatus = GameStatus.initTurn;
+    });
+  }
+
   void startTurn() {
     checkTurn();
     setState(() {
@@ -62,10 +72,11 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void checkTurn() async {
-     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (time == 0 || TableCardsScreen.listCards.value.length == 4) {
         setState(() {
           _timer.cancel();
+          gameStatus = GameStatus.initVote;
         });
       } else {
         setState(() {
@@ -73,6 +84,18 @@ class _GameScreenState extends State<GameScreen> {
         });
       }
     });
+  }
+
+  void playerPlayed() {
+    setState(() {
+      played = true;
+    });
+  }
+
+  void startVote() {
+    for (var i = 0; i < 4; i++) {
+      TableCardsScreen.listKeys[i].currentState!.toggleCard();
+    }
   }
 
   Widget notifyMessage() {
@@ -107,14 +130,23 @@ class _GameScreenState extends State<GameScreen> {
                         duration: textDuration * 2,
                         textAlign: TextAlign.center),
                   ])));
+    } else if (gameStatus == GameStatus.initVote) {
+      return Center(
+          child: DefaultTextStyle(
+              style:
+                  const TextStyle(fontSize: 50, fontFamily: "ElsieSwashCaps"),
+              child: AnimatedTextKit(
+                  isRepeatingAnimation: false,
+                  pause: pauseDuration,
+                  onFinished: () => startVote(),
+                  animatedTexts: [
+                    ScaleAnimatedText('Vota una carta',
+                        duration: textDuration * 2,
+                        textAlign: TextAlign.center),
+                  ])));
     } else {
       return Container(child: null);
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -134,7 +166,7 @@ class _GameScreenState extends State<GameScreen> {
                         Expanded(
                             flex: 5,
                             child: Stack(children: [
-                              Center(child: TableCardsScreen()),
+                              const Center(child: TableCardsScreen()),
                               notifyMessage(),
                             ])),
                         Expanded(flex: 2, child: Container())
@@ -148,6 +180,7 @@ class _GameScreenState extends State<GameScreen> {
                           child: UserCardsScreen(
                             played: played,
                             listCards: listCards,
+                            playerPlayed: playerPlayed,
                           )),
                       Expanded(
                           flex: 3,

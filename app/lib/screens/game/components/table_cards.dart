@@ -1,10 +1,17 @@
 import 'package:feel_the_art/theme/size_config.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/theme.dart';
 
 class TableCardsScreen extends StatelessWidget {
   static ValueNotifier<List<int>> listCards = ValueNotifier<List<int>>([]);
+  static List<GlobalKey<FlipCardState>> listKeys = [
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey()
+  ];
 
   const TableCardsScreen({super.key});
 
@@ -13,21 +20,22 @@ class TableCardsScreen extends StatelessWidget {
     List<Widget> widgets = [];
     for (var i = 0; i < 2; i++) {
       widgets.add(Flexible(
-        child: SizedBox(
-          height: imageHeight,
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: paddingSize),
-              child: (i < listCards.value.length)
-                  ? Image.asset('assets/images/0.png')
-                  : Container(
-                      height: imageHeight,
-                      width: imageWidth,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 1),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(5))))),
-        ),
-      ));
+          child: SizedBox(
+              height: imageHeight,
+              child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
+                  child: (i < listCards.value.length)
+                      ? FlipCard(
+                          key: listKeys[i],
+                          front: Image.asset('assets/images/back.png'),
+                          back: Image.asset('assets/images/0.png'))
+                      : Container(
+                          height: imageHeight,
+                          width: imageWidth,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white, width: 1),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(5))))))));
     }
     return widgets;
   }
@@ -42,7 +50,10 @@ class TableCardsScreen extends StatelessWidget {
           child: Padding(
               padding: EdgeInsets.symmetric(horizontal: paddingSize),
               child: (i < listCards.value.length)
-                  ? Image.asset('assets/images/0.png')
+                  ? FlipCard(
+                      key: listKeys[i],
+                      front: Image.asset('assets/images/back.png'),
+                      back: Image.asset('assets/images/0.png'))
                   : Container(
                       height: imageHeight,
                       width: imageWidth,

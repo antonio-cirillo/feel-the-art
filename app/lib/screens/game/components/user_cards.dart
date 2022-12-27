@@ -1,23 +1,32 @@
 import 'package:feel_the_art/theme/size_config.dart';
 import 'package:flutter/material.dart';
 
-class UserCardsScreen extends StatelessWidget {
-  final bool played;
-  final List<int> listCards;
+class UserCardsScreen extends StatefulWidget {
+  bool played;
+  List<int> listCards;
+  final VoidCallback playerPlayed;
 
-  const UserCardsScreen(
-      {super.key, this.played = false, required this.listCards});
+  UserCardsScreen(
+      {super.key,
+      this.played = false,
+      required this.listCards,
+      required this.playerPlayed});
 
+  @override
+  State<StatefulWidget> createState() => UserCardsScreenState();
+}
+
+class UserCardsScreenState extends State<UserCardsScreen> {
   @override
   Widget build(BuildContext context) {
     double imageHeight = MediaQuery.of(context).screenHeight * 0.135;
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
-        children: listCards.map((e) {
+        children: widget.listCards.map((e) {
           return Flexible(
               child: Draggable(
-                  maxSimultaneousDrags: (played) ? 0 : 1,
+                  maxSimultaneousDrags: (widget.played) ? 0 : 1,
                   data: 0,
                   feedback: SizedBox(
                     height: imageHeight,
@@ -26,6 +35,12 @@ class UserCardsScreen extends StatelessWidget {
                         child: Image.asset('assets/images/$e.png')),
                   ),
                   childWhenDragging: Container(),
+                  onDragCompleted: () {
+                    setState(() {
+                      widget.listCards.remove(e);
+                    });
+                    widget.playerPlayed();
+                  },
                   child: SizedBox(
                       height: imageHeight,
                       child: Padding(
