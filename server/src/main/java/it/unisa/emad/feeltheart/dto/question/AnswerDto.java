@@ -18,9 +18,10 @@ public class AnswerDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 4458990183610196411L;
 
-    @Schema(description = "")
+    @Schema(description = "Unique answer identifier")
     private String identifier;
 
-    @Schema(description = "")
+    @Schema(description = "Answer")
     private String answer;
+
 }

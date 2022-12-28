@@ -18,6 +18,6 @@ public class GetQuestionByTypeRequestDto implements Serializable {
     @Serial
     private static final long serialVersionUID = -6670785866190270547L;
 
-    @Schema(description = "")
+    @Schema(description = "Type whose questions you want to recover")
     private String type;
 }

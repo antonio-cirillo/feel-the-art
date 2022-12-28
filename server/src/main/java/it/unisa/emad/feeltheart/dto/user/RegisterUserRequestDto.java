@@ -20,7 +20,7 @@ public class RegisterUserRequestDto implements Serializable {
     private static final long serialVersionUID = -3624842746319989356L;
 
     @NotBlank(message = "Il campo id_device non è valorizzato")
-    @Schema(description = "")
+    @Schema(description = "User device identifier")
     private String id_device;
 
 }

@@ -1,14 +1,10 @@
 package it.unisa.emad.feeltheart.service;
 
-import com.google.gson.Gson;
 import it.unisa.emad.feeltheart.constant.Constant;
 import it.unisa.emad.feeltheart.constant.LogMessage;
 import it.unisa.emad.feeltheart.dao.UserDao;
 import it.unisa.emad.feeltheart.dto.token.GenerateTokenRequestDto;
 import it.unisa.emad.feeltheart.dto.user.*;
-
-import java.util.Collections;
-
 import it.unisa.emad.feeltheart.exception.TokenException;
 import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
 import it.unisa.emad.feeltheart.util.TokenUtils;
@@ -17,6 +13,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -108,9 +105,7 @@ public class UserServiceImpl implements UserService{
         try {
             List<UserDto> result = userDao.getLeaderboard(request);
 
-            log.info("PRE-SORT: {}", new Gson().toJson(result));
             result.sort(new UserComparatorByStatistics());
-            log.info("POST-SORT: {}", new Gson().toJson(result));
 
             log.info(LogMessage.END);
             return result;
@@ -170,17 +165,23 @@ public class UserServiceImpl implements UserService{
         return result;
     }
 
+    /**
+     * This method allows you to generate the token
+     * @param deviceId device identifier
+     * @return token
+     */
     private String getToken(String deviceId){
         log.info(LogMessage.START);
 
         var token =
                 tokenUtils.generateToken(new GenerateTokenRequestDto(Map.of(Constant.KEY_ID_DEVICE, deviceId)));
 
-        if(Boolean.TRUE.equals(token.getSuccess())){
-            log.info("");
-            return token.getToken().getAccess_token();
+        if(Boolean.FALSE.equals(token.getSuccess())){
+            log.error(LogMessage.ERROR, token.getDescription());
+            throw new TokenException(token.getDescription());
         }
 
-        throw new TokenException(token.getDescription());
+        log.info(LogMessage.END);
+        return token.getToken().getAccess_token();
     }
 }

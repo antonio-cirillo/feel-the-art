@@ -5,20 +5,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import it.unisa.emad.feeltheart.constant.Constant;
 import it.unisa.emad.feeltheart.constant.LogMessage;
 import it.unisa.emad.feeltheart.dto.common.ResultDto;
-import it.unisa.emad.feeltheart.dto.question.InsertQuestionRequestDto;
 import it.unisa.emad.feeltheart.dto.token.*;
 import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
 import it.unisa.emad.feeltheart.util.TokenUtils;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Log4j2
@@ -27,13 +23,11 @@ import javax.validation.Valid;
 public class TokenRest {
 
     private final FeelTheArtUtils feelTheArtUtils;
-    private final ObjectFactory<HttpSession> httpSessionFactory;
     private final TokenUtils tokenUtils;
 
     @Autowired
-    public TokenRest(FeelTheArtUtils feelTheArtUtils, ObjectFactory<HttpSession> httpSessionFactory, TokenUtils tokenUtils) {
+    public TokenRest(FeelTheArtUtils feelTheArtUtils, TokenUtils tokenUtils) {
         this.feelTheArtUtils = feelTheArtUtils;
-        this.httpSessionFactory = httpSessionFactory;
         this.tokenUtils = tokenUtils;
     }
 
@@ -46,8 +40,6 @@ public class TokenRest {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
         var result = tokenUtils.generateToken(request);
         var response = new ResultDto<GenerateTokenResponseDto>();
@@ -82,8 +74,6 @@ public class TokenRest {
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
 
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
-
         var result = tokenUtils.validateToken(request);
         var response = new ResultDto<ValidateTokenResponseDto>();
 
@@ -117,8 +107,6 @@ public class TokenRest {
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
 
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
-
         var result = tokenUtils.refreshToken(request);
         var response = new ResultDto<RefreshTokenResponseDto>();
 
@@ -151,8 +139,6 @@ public class TokenRest {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
         var result = tokenUtils.getClaimsFromToken(request);
         var response = new ResultDto<GetClaimsFromTokenResponseDto>();

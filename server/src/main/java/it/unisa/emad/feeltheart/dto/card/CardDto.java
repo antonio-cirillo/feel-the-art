@@ -27,7 +27,7 @@ public class CardDto implements Serializable {
     @Schema(description = "Autore dell'opera raffigurata")
     private String author;
 
-    @Schema(description = "")
+    @Schema(description = "Data approssimativa in cui è stata creata l'opera")
     private String date;
 
     @Schema(description = "Museo in cui è esposta l'opera raffigurata")

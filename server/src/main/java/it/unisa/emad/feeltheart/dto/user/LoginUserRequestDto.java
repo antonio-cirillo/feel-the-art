@@ -20,10 +20,10 @@ public class LoginUserRequestDto implements Serializable {
     private static final long serialVersionUID = -6314329162922455790L;
 
     @NotBlank(message = "Il campo id_device non è valorizzato")
-    @Schema(description = "")
+    @Schema(description = "User device identifier")
     private String id_device;
 
     @NotBlank(message = "Il campo random_identifier non è valorizzato")
-    @Schema(description = "")
+    @Schema(description = "Authentication code")
     private String random_identifier;
 }

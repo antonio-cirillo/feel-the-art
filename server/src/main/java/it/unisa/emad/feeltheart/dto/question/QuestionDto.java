@@ -19,24 +19,25 @@ public class QuestionDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 504184795674239L;
 
-    @Schema(description = "")
+    @Schema(description = "Question identifier")
     private String id;
 
-    @Schema(description = "")
+    @Schema(description = "URL of a possible image associated with the question")
     private String image_url;
 
-    @Schema(description = "")
+    @Schema(description = "Type of question")
     private String type;
 
-    @Schema(description = "")
+    @Schema(description = "Time available to answer the question")
     private Long time_second;
 
-    @Schema(description = "")
+    @Schema(description = "Question")
     private String question;
 
-    @Schema(description = "")
+    @Schema(description = "Identifying the correct answer")
     private String correct_answer;
 
-    @Schema(description = "")
+    @Schema(description = "List of possible answers")
     private List<AnswerDto> answers;
+
 }

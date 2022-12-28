@@ -31,7 +31,7 @@ public class InsertCardRequestDto implements Serializable {
     private String author;
 
     @NotBlank(message = "Il campo date non è valorizzato")
-    @Schema(description = "")
+    @Schema(description = "Data approssimativa in cui è stata creata l'opera")
     private String date;
 
     @NotBlank(message = "Il campo museum non è valorizzato")

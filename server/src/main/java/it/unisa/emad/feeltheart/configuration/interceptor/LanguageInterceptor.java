@@ -24,7 +24,7 @@ public class LanguageInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
         log.info(LogMessage.START);
 
         String language = request.getHeader(Constant.KEY_LANGUAGE);

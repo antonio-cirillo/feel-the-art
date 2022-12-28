@@ -13,13 +13,11 @@ import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -30,13 +28,11 @@ import java.util.List;
 public class QuestionRest {
 
     private final FeelTheArtUtils feelTheArtUtils;
-    private final ObjectFactory<HttpSession> httpSessionFactory;
     private final QuestionService questionService;
 
     @Autowired
-    public QuestionRest(FeelTheArtUtils feelTheArtUtils, ObjectFactory<HttpSession> httpSessionFactory, QuestionService questionService) {
+    public QuestionRest(FeelTheArtUtils feelTheArtUtils, QuestionService questionService) {
         this.feelTheArtUtils = feelTheArtUtils;
-        this.httpSessionFactory = httpSessionFactory;
         this.questionService = questionService;
     }
 
@@ -50,8 +46,6 @@ public class QuestionRest {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
         var result = questionService.insertQuestion(request);
         var response = new ResultDto<String>();
@@ -86,8 +80,6 @@ public class QuestionRest {
 
         log.info(LogMessage.START);
 
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
-
         var questionToRecover = questionService.getQuestionById(questionId);
         var response = new ResultDto<QuestionDto>();
 
@@ -119,8 +111,6 @@ public class QuestionRest {
             @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token) {
 
         log.info(LogMessage.START);
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
         var questionToRecover = questionService.getRandomQuestion();
         var response = new ResultDto<QuestionDto>();
@@ -155,8 +145,6 @@ public class QuestionRest {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
         var result = questionService.getQuestionByType(request);
         var response = new ResultDto<List<QuestionDto>>();

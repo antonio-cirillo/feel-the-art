@@ -1,6 +1,7 @@
 package it.unisa.emad.feeltheart.dto.token;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,6 +21,7 @@ public class GetClaimsFromTokenResponseDto extends GeneralTokenResponseDto imple
     @Serial
     private static final long serialVersionUID = -2960078618122081149L;
 
+    @Schema(description = "Token's claim")
     private Map<String, String> params;
 
 }

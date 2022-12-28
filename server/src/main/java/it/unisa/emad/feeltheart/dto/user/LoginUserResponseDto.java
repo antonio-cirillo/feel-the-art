@@ -18,7 +18,7 @@ public class LoginUserResponseDto implements Serializable {
     @Serial
     private static final long serialVersionUID = -7735018465937190345L;
 
-    @Schema(description = "")
+    @Schema(description = "JWT token")
     private String token;
 
 }

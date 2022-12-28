@@ -18,6 +18,6 @@ public class GeneralTokenRequestDto implements Serializable {
     @Serial
     private static final long serialVersionUID = -970783719608063765L;
 
-    @Schema(description = "Stringa contenente token")
+    @Schema(description = "JWT token")
     private String token;
 }

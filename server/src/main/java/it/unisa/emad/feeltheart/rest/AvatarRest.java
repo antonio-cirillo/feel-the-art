@@ -10,13 +10,11 @@ import it.unisa.emad.feeltheart.service.AvatarService;
 import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpStatus;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Log4j2
@@ -25,13 +23,11 @@ import javax.validation.Valid;
 public class AvatarRest {
 
     private final FeelTheArtUtils feelTheArtUtils;
-    private final ObjectFactory<HttpSession> httpSessionFactory;
     private final AvatarService avatarService;
 
     @Autowired
-    public AvatarRest(FeelTheArtUtils feelTheArtUtils, ObjectFactory<HttpSession> httpSessionFactory, AvatarService avatarService) {
+    public AvatarRest(FeelTheArtUtils feelTheArtUtils, AvatarService avatarService) {
         this.feelTheArtUtils = feelTheArtUtils;
-        this.httpSessionFactory = httpSessionFactory;
         this.avatarService = avatarService;
     }
 
@@ -45,8 +41,6 @@ public class AvatarRest {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
         var result = avatarService.setAvatar(request);
         var response = new ResultDto<SetAvatarResponseDto>();
@@ -83,8 +77,6 @@ public class AvatarRest {
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
 
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
-
         var result = avatarService.saveGeneratedAvatar(request);
         var response = new ResultDto<SaveGeneratedAvatarResponseDto>();
 
@@ -119,8 +111,6 @@ public class AvatarRest {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
         var result = avatarService.generateAvatar(request);
         var response = new ResultDto<GeneratedAvatarResponseDto>();

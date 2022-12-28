@@ -17,9 +17,9 @@ public class RegisterUserResponseDto implements Serializable {
     @Serial
     private static final long serialVersionUID = -8808034323517192084L;
 
-    @Schema(description = "")
+    @Schema(description = "JWT token")
     private String token;
 
-    @Schema(description = "")
+    @Schema(description = "Authentication code")
     private String random_identifier;
 }

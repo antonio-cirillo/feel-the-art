@@ -9,17 +9,13 @@ import it.unisa.emad.feeltheart.dto.user.*;
 import it.unisa.emad.feeltheart.service.UserService;
 import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Log4j2
@@ -28,13 +24,11 @@ import java.util.List;
 public class UserRest {
 
     private final FeelTheArtUtils feelTheArtUtils;
-    private final ObjectFactory<HttpSession> httpSessionFactory;
     private final UserService userService;
 
     @Autowired
-    public UserRest(FeelTheArtUtils feelTheArtUtils, ObjectFactory<HttpSession> httpSessionFactory, UserService userService) {
+    public UserRest(FeelTheArtUtils feelTheArtUtils, UserService userService) {
         this.feelTheArtUtils = feelTheArtUtils;
-        this.httpSessionFactory = httpSessionFactory;
         this.userService = userService;
     }
 
@@ -46,8 +40,6 @@ public class UserRest {
             @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token) {
 
         log.info(LogMessage.START);
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
         var userToRecover = userService.getUserByDeviceId(feelTheArtUtils.getDeviceId());
         var response = new ResultDto<UserDto>();
@@ -82,8 +74,6 @@ public class UserRest {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
         var result = userService.updateUser(request);
         var response = new ResultDto<Boolean>();
@@ -121,8 +111,6 @@ public class UserRest {
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
 
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
-
         var result = userService.getLeaderboard(request);
         var response = new ResultDto<List<UserDto>>();
 
@@ -156,8 +144,6 @@ public class UserRest {
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
 
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
-
         var result = userService.registerUser(request);
         var response = new ResultDto<RegisterUserResponseDto>();
 
@@ -190,8 +176,6 @@ public class UserRest {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
         var result = userService.loginUser(request);
         var response = new ResultDto<LoginUserResponseDto>();
