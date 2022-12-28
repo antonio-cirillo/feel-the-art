@@ -12,9 +12,11 @@ public interface UserService {
 
     UserDto getUserByDeviceId(String deviceId);
 
-    InitializeUserResponseDto initializeUser(InitializeUserRequestDto request);
-
     Boolean updateUser(UserDto request);
 
     List<UserDto> getLeaderboard(GetLeaderboardRequestDto request);
+
+    RegisterUserResponseDto registerUser(RegisterUserRequestDto request);
+
+    LoginUserResponseDto loginUser(LoginUserRequestDto request);
 }

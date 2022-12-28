@@ -4,22 +4,17 @@ import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.Operation;
 import it.unisa.emad.feeltheart.constant.Constant;
 import it.unisa.emad.feeltheart.constant.LogMessage;
-import it.unisa.emad.feeltheart.dto.avatar.AddAvatarRequestDto;
-import it.unisa.emad.feeltheart.dto.avatar.GeneratedAvatarRequestDto;
-import it.unisa.emad.feeltheart.dto.avatar.GeneratedAvatarResponseDto;
-import it.unisa.emad.feeltheart.dto.avatar.SetAvatarRequestDto;
+import it.unisa.emad.feeltheart.dto.avatar.*;
 import it.unisa.emad.feeltheart.dto.common.ResultDto;
 import it.unisa.emad.feeltheart.service.AvatarService;
 import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpStatus;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Log4j2
@@ -28,32 +23,29 @@ import javax.validation.Valid;
 public class AvatarRest {
 
     private final FeelTheArtUtils feelTheArtUtils;
-    private final ObjectFactory<HttpSession> httpSessionFactory;
     private final AvatarService avatarService;
 
     @Autowired
-    public AvatarRest(FeelTheArtUtils feelTheArtUtils, ObjectFactory<HttpSession> httpSessionFactory, AvatarService avatarService) {
+    public AvatarRest(FeelTheArtUtils feelTheArtUtils, AvatarService avatarService) {
         this.feelTheArtUtils = feelTheArtUtils;
-        this.httpSessionFactory = httpSessionFactory;
         this.avatarService = avatarService;
     }
 
     @CrossOrigin
-    @PostMapping(value = "/1.0/setAvatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/1.0/set-avatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare la modifica dell'avatar di un utente")
-    public ResponseEntity<ResultDto<Boolean>> setAvatar(
+    public ResponseEntity<ResultDto<SetAvatarResponseDto>> setAvatar(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid SetAvatarRequestDto request) {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
 
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
+        var result = avatarService.setAvatar(request);
+        var response = new ResultDto<SetAvatarResponseDto>();
 
-        Boolean result = avatarService.setAvatar(request);
-        var response = new ResultDto<Boolean>();
-
-        if(result.equals(Boolean.FALSE)){
+        if(result.getSuccess().equals(Boolean.FALSE)){
             log.info(LogMessage.OPERATION_KO);
 
             response.setFailureResponse(
@@ -75,21 +67,20 @@ public class AvatarRest {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/1.0/addAvatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/1.0/save-generated-avatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare l'aggiunta di un avatar all'utente")
-    public ResponseEntity<ResultDto<Boolean>> addAvatar(
+    public ResponseEntity<ResultDto<SaveGeneratedAvatarResponseDto>> saveGeneratedAvatar(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
-            @RequestBody @Valid AddAvatarRequestDto request) {
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
+            @RequestBody @Valid SaveGeneratedAvatarRequestDto request) {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
 
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
+        var result = avatarService.saveGeneratedAvatar(request);
+        var response = new ResultDto<SaveGeneratedAvatarResponseDto>();
 
-        Boolean result = avatarService.addAvatar(request);
-        var response = new ResultDto<Boolean>();
-
-        if(result.equals(Boolean.FALSE)){
+        if(result.getSuccess().equals(Boolean.FALSE)){
             log.info(LogMessage.OPERATION_KO);
 
             response.setFailureResponse(
@@ -111,16 +102,15 @@ public class AvatarRest {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/1.0/generateAvatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/1.0/generate-avatar", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Servizio REST utile ad effettuare la generazione di un avatar")
     public ResponseEntity<ResultDto<GeneratedAvatarResponseDto>> generateAvatar(
             @RequestHeader(value = Constant.KEY_LANGUAGE, defaultValue = "IT") String language,
+            @RequestHeader(value = Constant.KEY_TOKEN, defaultValue = "") String token,
             @RequestBody @Valid GeneratedAvatarRequestDto request) {
 
         log.info(LogMessage.START);
         log.info(LogMessage.REQUEST, new Gson().toJson(request));
-
-        httpSessionFactory.getObject().setAttribute(Constant.KEY_LANGUAGE, language);
 
         var result = avatarService.generateAvatar(request);
         var response = new ResultDto<GeneratedAvatarResponseDto>();

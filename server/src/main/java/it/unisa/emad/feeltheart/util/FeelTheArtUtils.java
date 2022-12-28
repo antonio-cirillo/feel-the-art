@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Map;
 
 @Log4j2
 @Component
@@ -78,8 +77,8 @@ public class FeelTheArtUtils {
             BufferedReader read = new BufferedReader(
                     new InputStreamReader(url.openStream()));
 
-            JSONTokener tokener = new JSONTokener(read);
-            JSONObject json = new JSONObject(tokener);
+            JSONTokener jsonTokener = new JSONTokener(read);
+            JSONObject json = new JSONObject(jsonTokener);
 
             JSONObject messageObject = json.getJSONObject(messageCode);
             String message = messageObject.getString(languageCode);
@@ -91,6 +90,31 @@ public class FeelTheArtUtils {
         } catch(Exception e){
             log.error(LogMessage.ERROR, e.getMessage());
             return StringUtils.EMPTY;
+        }
+    }
+
+    /**
+     * This method retrieves the device identifier from the session
+     * @return device identifier
+     */
+    public String getDeviceId() {
+        log.info(LogMessage.START);
+
+        try{
+            Object object = httpSessionFactory.getObject().getAttribute(Constant.KEY_ID_DEVICE);
+
+            if(null != object){
+                log.info(LogMessage.ID_DEVICE, String.valueOf(object));
+                return String.valueOf(object);
+            }
+
+            else{
+                log.info(LogMessage.DEFAULT_ID_DEVICE);
+                return Constant.DEFAULT_ID_DEVICE;
+            }
+        }catch (Exception e){
+            log.info(LogMessage.ERROR, e.getMessage());
+            return Constant.DEFAULT_ID_DEVICE;
         }
     }
 }

@@ -24,6 +24,6 @@ public class ProgressionDto implements Serializable {
     @Schema(description = "User's experience point")
     private Double exp;
 
-    @Schema(description = "")
+    @Schema(description = "Points")
     private Double unlock_counter;
 }

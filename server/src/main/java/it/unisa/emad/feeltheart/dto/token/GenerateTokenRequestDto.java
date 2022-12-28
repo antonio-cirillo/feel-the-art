@@ -1,4 +1,4 @@
-package it.unisa.emad.feeltheart.dto.user;
+package it.unisa.emad.feeltheart.dto.token;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -8,20 +8,18 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class UserInfoDto implements Serializable {
+public class GenerateTokenRequestDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -8470779464279629436L;
+    private static final long serialVersionUID = 4971185756281873500L;
 
-    @Schema(description = "User device identifier")
-    private String id_device;
-
-    @Schema(description = "Authentication code")
-    private String random_identifier;
+    @Schema(description = "Token's claim")
+    private Map<String, String> params;
 
 }

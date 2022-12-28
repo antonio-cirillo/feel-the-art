@@ -1,9 +1,9 @@
 package it.unisa.emad.feeltheart.dao;
 
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.gson.Gson;
 import it.unisa.emad.feeltheart.constant.LogMessage;
 import it.unisa.emad.feeltheart.dto.user.GetLeaderboardRequestDto;
 import it.unisa.emad.feeltheart.dto.user.UserDto;
@@ -77,12 +77,11 @@ public class UserDaoImpl implements UserDao{
 
         QuerySnapshot documentSnapshots = dbFirestore
                 .collection(USER_COLLECTION)
+                .limit(25)
                 .get()
                 .get();
 
-        documentSnapshots.forEach(document -> {
-            result.add(document.toObject(UserDto.class));
-        });
+        documentSnapshots.forEach(document -> result.add(document.toObject(UserDto.class)));
 
         log.info(LogMessage.END);
         return result;

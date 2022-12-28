@@ -6,9 +6,9 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class GeneratedAvatarRequestDto implements Serializable {
+public class SaveGeneratedAvatarRequestDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -8798950242994711807L;
+    private static final long serialVersionUID = 7260524887560856448L;
 
 }

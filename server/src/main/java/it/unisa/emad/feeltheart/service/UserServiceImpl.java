@@ -1,28 +1,34 @@
 package it.unisa.emad.feeltheart.service;
 
-import com.google.gson.Gson;
 import it.unisa.emad.feeltheart.constant.Constant;
 import it.unisa.emad.feeltheart.constant.LogMessage;
 import it.unisa.emad.feeltheart.dao.UserDao;
+import it.unisa.emad.feeltheart.dto.token.GenerateTokenRequestDto;
 import it.unisa.emad.feeltheart.dto.user.*;
-import it.unisa.emad.feeltheart.exception.CreateUserException;
-import java.util.Collections;
+import it.unisa.emad.feeltheart.exception.TokenException;
+import it.unisa.emad.feeltheart.util.FeelTheArtUtils;
+import it.unisa.emad.feeltheart.util.TokenUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @Service(value = "UserServiceImpl")
 public class UserServiceImpl implements UserService{
 
+    private final FeelTheArtUtils feelTheArtUtils;
+    private final TokenUtils tokenUtils;
     private final UserDao userDao;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(FeelTheArtUtils feelTheArtUtils, TokenUtils tokenUtils, UserDao userDao) {
+        this.feelTheArtUtils = feelTheArtUtils;
+        this.tokenUtils = tokenUtils;
         this.userDao = userDao;
     }
 
@@ -31,7 +37,7 @@ public class UserServiceImpl implements UserService{
         log.info(LogMessage.START);
 
         String deviceId = request.getId_device();
-        String authCode = request.getAuth_code();
+        String authCode = request.getRandom_identifier();
 
         UserDto userToInsert = new UserDto();
 
@@ -42,7 +48,12 @@ public class UserServiceImpl implements UserService{
 
             log.info(LogMessage.END);
             return deviceId;
-        }catch (Exception e){
+        }catch (InterruptedException e){
+            log.warn(LogMessage.INTERRUPTED_EXCEPTION, e.getMessage());
+            Thread.currentThread().interrupt();
+            return null;
+        }
+        catch (Exception e){
             log.error(LogMessage.ERROR, e.getMessage());
             return null;
         }
@@ -59,7 +70,7 @@ public class UserServiceImpl implements UserService{
             return userToRecover;
         }
         catch (InterruptedException e){
-            log.warn("Interrupted exception: {}", e.getMessage());
+            log.warn(LogMessage.INTERRUPTED_EXCEPTION, e.getMessage());
             Thread.currentThread().interrupt();
             return null;
         }
@@ -70,29 +81,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public InitializeUserResponseDto initializeUser(InitializeUserRequestDto request) {
-        log.info(LogMessage.START);
-
-        String authCode = request.getAuth_code();
-        String deviceId = request.getId_device();
-
-        if(StringUtils.isBlank(authCode) && StringUtils.isNotBlank(deviceId)){
-            log.info(LogMessage.USER_FIRST_ACCESS);
-            return userFirstAccess(deviceId);
-        }else if(StringUtils.isNotBlank(authCode) && StringUtils.isNotBlank(deviceId)){
-            log.info(LogMessage.USER_AUTHENTICATE);
-            return userAuthenticate(deviceId, authCode);
-        }else{
-            log.info(LogMessage.ACCESS_KO);
-            return null;
-        }
-    }
-
-    @Override
     public Boolean updateUser(UserDto request) {
         log.info(LogMessage.START);
 
-        String deviceId = request.getUser_info().getId_device();
+        String deviceId = feelTheArtUtils.getDeviceId();
         UserDto userToRecover = getUserByDeviceId(deviceId);
 
         if(null == userToRecover){
@@ -113,14 +105,12 @@ public class UserServiceImpl implements UserService{
         try {
             List<UserDto> result = userDao.getLeaderboard(request);
 
-            log.info("PRE-SORT: {}", new Gson().toJson(result));
             result.sort(new UserComparatorByStatistics());
-            log.info("POST-SORT: {}", new Gson().toJson(result));
 
             log.info(LogMessage.END);
             return result;
         } catch (InterruptedException e){
-            log.warn("Interrupted exception: {}", e.getMessage());
+            log.warn(LogMessage.INTERRUPTED_EXCEPTION, e.getMessage());
             Thread.currentThread().interrupt();
             return Collections.emptyList();
         }
@@ -130,52 +120,68 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-    /**
-     *
-     * @param deviceId
-     * @param authCode
-     * @return
-     */
-    private InitializeUserResponseDto userAuthenticate(String deviceId, String authCode) {
+    @Override
+    public RegisterUserResponseDto registerUser(RegisterUserRequestDto request) {
         log.info(LogMessage.START);
 
-        var result = new InitializeUserResponseDto();
+        var result = new RegisterUserResponseDto();
+        var userToInsert = new InsertUserRequestDto();
+
+        String randomIdentifier = RandomStringUtils.random(Constant.AUTH_CODE_SIZE, true, true);
+        String deviceId = request.getId_device();
+
+        userToInsert.setId_device(deviceId);
+        userToInsert.setRandom_identifier(randomIdentifier);
+
+        insertUser(userToInsert);
+
+        result.setRandom_identifier(randomIdentifier);
+        result.setToken(getToken(deviceId));
+
+        log.info(LogMessage.END);
+        return result;
+    }
+
+    @Override
+    public LoginUserResponseDto loginUser(LoginUserRequestDto request) {
+        log.info(LogMessage.START);
+
+        var result = new LoginUserResponseDto();
+
+        String deviceId = request.getId_device();
+        String randomIdentifier = request.getRandom_identifier();
 
         var userToRecover = getUserByDeviceId(deviceId);
 
         if(null == userToRecover
-                || !userToRecover.getUser_info().getAuth_code().equals(authCode)){
+                || !userToRecover.getUser_info().getRandom_identifier().equals(randomIdentifier)){
             log.error(LogMessage.ACCESS_KO);
             return null;
         }
 
-        result.setUser(userToRecover);
+        result.setToken(getToken(deviceId));
 
         log.info(LogMessage.END);
         return result;
     }
 
     /**
-     *
-     * @param deviceId
-     * @return
+     * This method allows you to generate the token
+     * @param deviceId device identifier
+     * @return token
      */
-    private InitializeUserResponseDto userFirstAccess(String deviceId) {
+    private String getToken(String deviceId){
         log.info(LogMessage.START);
 
-        var result = new InitializeUserResponseDto();
-        var userToInsert = new InsertUserRequestDto();
+        var token =
+                tokenUtils.generateToken(new GenerateTokenRequestDto(Map.of(Constant.KEY_ID_DEVICE, deviceId)));
 
-        String authCode = RandomStringUtils.random(Constant.AUTH_CODE_SIZE, true, true);
-
-        userToInsert.setId_device(deviceId);
-        userToInsert.setAuth_code(authCode);
-
-        insertUser(userToInsert);
-
-        result.setAuth_code(authCode);
+        if(Boolean.FALSE.equals(token.getSuccess())){
+            log.error(LogMessage.ERROR, token.getDescription());
+            throw new TokenException(token.getDescription());
+        }
 
         log.info(LogMessage.END);
-        return result;
+        return token.getToken().getAccess_token();
     }
 }

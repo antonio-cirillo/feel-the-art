@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -14,12 +13,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class SetAvatarRequestDto implements Serializable {
+public class SaveGeneratedAvatarResponseDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -6491963162062884127L;
+    private static final long serialVersionUID = -5361730703517733385L;
 
-    @NotBlank(message = "Il campo avatar non è valorizzato")
-    @Schema(description = "Stringa contenente l'avatar da inserire nella collezione")
-    private String avatar;
+    @Schema(description = "Boolean indicating the outcome of the operation")
+    private Boolean success;
+
 }

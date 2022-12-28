@@ -13,13 +13,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class InitializeUserRequestDto implements Serializable {
+public class LoginUserResponseDto implements Serializable {
+
     @Serial
-    private static final long serialVersionUID = 1655258000101904128L;
+    private static final long serialVersionUID = -7735018465937190345L;
 
-    @Schema(description = "Codice di autenticazione per l'accesso")
-    private String auth_code;
+    @Schema(description = "JWT token")
+    private String token;
 
-    @Schema(description = "User device identifier")
-    private String id_device;
 }

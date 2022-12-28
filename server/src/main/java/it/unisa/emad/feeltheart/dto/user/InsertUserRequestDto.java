@@ -23,7 +23,7 @@ public class InsertUserRequestDto implements Serializable {
     @Schema(description = "User device identifier")
     private String id_device;
 
-    @NotBlank(message = "Il campo auth_code non è valorizzato")
+    @NotBlank(message = "Il campo random_identifier non è valorizzato")
     @Schema(description = "Authentication code")
-    private String auth_code;
+    private String random_identifier;
 }
