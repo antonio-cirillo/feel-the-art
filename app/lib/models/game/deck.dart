@@ -3,8 +3,9 @@ import "package:feel_the_art/models/game/card.dart";
 class Deck {
   final String _name;
   final Map<int, Card> _cards;
+  final int _unlockLevel;
 
-  Deck._(this._name, this._cards);
+  Deck._(this._name, this._cards, this._unlockLevel);
 
   static Deck buildFromJson(Map<String, dynamic> json) {
     Map<int, Card> list = {};
@@ -13,7 +14,7 @@ class Deck {
       list.putIfAbsent(el['id'], () => Card.buildFromJson(el));
     });
 
-    return Deck._(json["name"], list);
+    return Deck._(json["name"], list, json["unlock_level"]);
   }
 
   static Map<String, dynamic> debugJson() {
@@ -39,6 +40,7 @@ class Deck {
               "Opera iconica ed enigmatica della pittura mondiale, si tratta sicuramente del ritratto più celebre della storia nonché di una delle opere d'arte più note in assoluto. Il sorriso quasi impercettibile del soggetto, col suo alone di mistero, ha ispirato tantissime pagine di critica, letteratura, opere di immaginazione e persino studi psicoanalitici; sfuggente, ironica e sensuale, la Monna Lisa è stata di volta in volta amata e idolatrata, ma anche irrisa e vandalizzata."
         }
       ],
+      "unlock_level": 0
     };
   }
 
@@ -67,7 +69,7 @@ class Deck {
               "Opera iconica ed enigmatica della pittura mondiale, si tratta sicuramente del ritratto più celebre della storia nonché di una delle opere d'arte più note in assoluto. Il sorriso quasi impercettibile del soggetto, col suo alone di mistero, ha ispirato tantissime pagine di critica, letteratura, opere di immaginazione e persino studi psicoanalitici; sfuggente, ironica e sensuale, la Monna Lisa è stata di volta in volta amata e idolatrata, ma anche irrisa e vandalizzata."
             }
           ],
-          "cover_id": 0
+          "unlock_level": 0
         },
         {
           "name": "Deck_2",
@@ -91,13 +93,14 @@ class Deck {
               "Opera iconica ed enigmatica della pittura mondiale, si tratta sicuramente del ritratto più celebre della storia nonché di una delle opere d'arte più note in assoluto. Il sorriso quasi impercettibile del soggetto, col suo alone di mistero, ha ispirato tantissime pagine di critica, letteratura, opere di immaginazione e persino studi psicoanalitici; sfuggente, ironica e sensuale, la Monna Lisa è stata di volta in volta amata e idolatrata, ma anche irrisa e vandalizzata."
             },
           ],
-          "cover_id": 0
+          "unlock_level": 1000
         }
       ]
     };
   }
 
   String get name => _name;
+  int get unlockLevel => _unlockLevel;
 
   List<Card> get cards => _cards.entries.map((e) => e.value).toList();
 

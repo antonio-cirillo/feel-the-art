@@ -22,9 +22,14 @@ ThemeData theme = ThemeData(
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      backgroundColor: Colors.green,
+    style: ButtonStyle(
+      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0))),
+      backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+       if (states.contains(MaterialState.disabled)) {
+          return Colors.green[900];
+        }
+        return Colors.green;
+      }),
     ),
   ),
   buttonTheme: const ButtonThemeData(

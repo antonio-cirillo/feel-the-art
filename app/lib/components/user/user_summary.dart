@@ -8,9 +8,7 @@ import 'package:feel_the_art/theme/size_config.dart';
 import 'package:feel_the_art/services/account_service.dart';
 
 class UserSummary extends StatelessWidget {
-  final AccountService accountInfo;
-
-  const UserSummary(this.accountInfo, {Key? key}) : super(key: key);
+  const UserSummary({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
