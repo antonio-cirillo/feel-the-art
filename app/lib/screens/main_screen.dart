@@ -1,21 +1,22 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import "package:flutter/cupertino.dart";
 import "package:provider/provider.dart";
 import 'package:carousel_slider/carousel_controller.dart';
 
 import "package:feel_the_art/theme/theme.dart";
-import 'package:feel_the_art/components/background.dart';
+import 'package:feel_the_art/components/general/background.dart';
 import "package:feel_the_art/services/account_service.dart";
 import "package:feel_the_art/utils/request/obj_status.dart";
 import "package:feel_the_art/screens/loading/loading_screen.dart";
-import 'package:feel_the_art/screens/leader_board/quizScreen.dart';
+import 'package:feel_the_art/screens/quiz_screen/quizScreen.dart';
 
 import "account/account_screen.dart";
 import "home_page/home_page_screen.dart";
 import "collection/collection_screen.dart";
 import "on_boarding/on_boarding_screen.dart";
 import "leader_board/leader_board_screen.dart";
-
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -25,33 +26,36 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> {
+  static const List<BottomNavigationBarItem> _navigationItems = [
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.game_controller),
+      label: "Gioca",
+      tooltip: '',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.collections),
+      label: "Collezione",
+      tooltip: '',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.star),
+      label: "Classifica",
+      tooltip: '',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.person_crop_circle),
+      label: "Profilo",
+      tooltip: '',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.question_square),
+      label: "Debug",
+      tooltip: '',
+    )
+  ];
+  static const List<Widget> _screen = [HomePageScreen(), CollectionScreen(), LeaderBoardScreen(), AccountScreen(), QuizScreen()];
   final CarouselController _carouselController = CarouselController();
   int _menuIndex = 0;
-
-  List<BottomNavigationBarItem> navigationItems() {
-    return const [
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.game_controller),
-        label: "Gioca",
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.collections),
-        label: "Collezione",
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.question_square),
-        label: "Classifica",
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.person_crop_circle),
-        label: "Profilo",
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.ellipsis_circle),
-        label: "Debug",
-      )
-    ];
-  }
 
   void _onMenuChange(int index) {
     setState(() {
@@ -60,51 +64,48 @@ class MainScreenState extends State<MainScreen> {
     _carouselController.animateToPage(index);
   }
 
-  Widget _getContent() {
-    switch (_menuIndex) {
-      case 0:
-        return const HomePageScreen();
-      case 1:
-        return const CollectionScreen();
-      case 2:
-        return const LeaderBoardScreen();
-      case 3:
-        return const AccountScreen();
-      case 4:
-        return const QuizScreen();
-      default:
-        return const Text("ERROR");
-    }
+  Widget _mainScreen() {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: _screen[_menuIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: _navigationItems,
+        currentIndex: _menuIndex,
+        onTap: (i) => _onMenuChange(i),
+        selectedItemColor: primaryColor,
+        unselectedItemColor: bgColor,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    AccountService accountInfo = Provider.of<AccountService>(context);
+    final AccountService accountInfo = Provider.of<AccountService>(context);
 
+    Widget content;
     if (accountInfo.status == ObjStatus.ready) {
-      return Stack(
-        children: [
-          Container(color: bgColor,),
-          Background(_carouselController),
-          accountInfo.onBoard
-              ? const OnBoardingScreen()
-              : Scaffold(
-                  backgroundColor: Colors.transparent,
-                  body: _getContent(),
-                  bottomNavigationBar: BottomNavigationBar(
-                    items: navigationItems(),
-                    currentIndex: _menuIndex,
-                    onTap: (i) => _onMenuChange(i),
-                    selectedItemColor: primaryColor,
-                    unselectedItemColor: bgColor,
-                  ),
-                )
-        ],
-      );
-    } else if (accountInfo.status == ObjStatus.loading) {
-      return const LoadingScreen();
+      if (accountInfo.onBoard) {
+        content = const OnBoardingScreen();
+      } else {
+        content = _mainScreen();
+      }
     } else {
-      return const Text("ERROR SCREEN");
+      content = const LoadingScreen();
     }
+
+    return Stack(
+      children: [
+        Container(color: bgColor),
+        Background(_carouselController),
+        Container(color: Colors.black.withOpacity(0.1)),
+        content,
+      ],
+    );
   }
 }
+
+// floatingActionButton: FloatingActionButton(
+//   onPressed: () => print("object"),
+//   backgroundColor: maizeColor,
+//   child: const Icon(Icons.question_mark),
+// ),

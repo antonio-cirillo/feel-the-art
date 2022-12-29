@@ -8,7 +8,7 @@ class Statistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AccountService accountInfo = Provider.of<AccountService>(context);
+    final AccountService accountInfo = Provider.of<AccountService>(context);
 
     return Column(
       children: const [

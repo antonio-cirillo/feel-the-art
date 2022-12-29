@@ -4,10 +4,12 @@ import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:multiavatar/multiavatar.dart";
 
-import "package:feel_the_art/components/background.dart";
+import 'package:feel_the_art/components/general/background.dart';
 import "package:feel_the_art/theme/theme.dart";
 import "package:feel_the_art/theme/size_config.dart";
 import "package:feel_the_art/services/leaderboard_service.dart";
+
+import '../loading/loading_screen.dart';
 
 class LeaderBoardScreen extends StatelessWidget {
   const LeaderBoardScreen({Key? key}) : super(key: key);
@@ -190,7 +192,7 @@ class LeaderBoardScreen extends StatelessWidget {
                     );
                   }
                 } else if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text("Loading");
+                  return const LoadingScreen();
                 } else if (snapshot.connectionState == ConnectionState.none) {
                   return const Text("No Connection");
                 }

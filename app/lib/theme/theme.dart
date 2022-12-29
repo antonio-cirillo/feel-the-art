@@ -11,7 +11,6 @@ const blackColor = Color(0xFF1B1B1B);
 ThemeData theme = ThemeData(
   fontFamily: "Hind",
   backgroundColor: bgColor,
-
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
       textStyle: const TextStyle(fontSize: 18),
@@ -20,6 +19,12 @@ ThemeData theme = ThemeData(
       ),
       foregroundColor: Colors.white,
       backgroundColor: primaryColor,
+    ),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      backgroundColor: Colors.green,
     ),
   ),
   buttonTheme: const ButtonThemeData(
@@ -33,3 +38,7 @@ ThemeData theme = ThemeData(
 TextStyle get whiteText => const TextStyle(color: Colors.white);
 
 TextStyle get titleStyle => const TextStyle(color: blackColor, fontWeight: FontWeight.w700, fontFamily: "ElsieSwashCaps");
+
+TextStyle get shadow => const TextStyle(shadows: [Shadow(offset: Offset(1, 1), color: Colors.black, blurRadius: 2.5)]);
+
+BoxDecoration get borderRed => BoxDecoration(border: Border.all(color: Colors.red));

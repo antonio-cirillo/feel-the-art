@@ -53,7 +53,7 @@ flutter:
 
   assets:
     - assets/icons/
-    - assets/images/
+    - assets/decks/
     - assets/background/
     - assets/cards/images/
     - assets/cards/cards.json

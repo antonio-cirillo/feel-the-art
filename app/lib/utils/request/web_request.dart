@@ -1,11 +1,11 @@
 import "dart:convert";
 
-import "package:feel_the_art/models/game/deck_list.dart";
 import "package:http/http.dart" as http;
 
-import "package:feel_the_art/models/account/user.dart";
-import "package:feel_the_art/models/leaderboard.dart";
 import "package:feel_the_art/utils/help.dart";
+import 'package:feel_the_art/models/game/deck.dart';
+import "package:feel_the_art/models/leaderboard.dart";
+import "package:feel_the_art/models/account/user.dart";
 
 enum WebMethod { get, post, put, patch, delete }
 
@@ -64,7 +64,7 @@ class WebRequest {
   static Future<Map<String, dynamic>> getDecks() async {
     //Retrive data.
     // String s = await rootBundle.loadString("assets/cards/cards.json");//Usare hive o localstorage perchè questo da errore!
-    return DeckList.debugJson();
+    return Deck.debugListJson();
     //Check if need update
     //Update if needed
     //Use

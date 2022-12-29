@@ -5,7 +5,7 @@ import 'package:feel_the_art/flutter_flow/flutter_flow_widgets.dart';
 
 
 
-import '../../components/background.dart';
+import '../../components/general/background.dart';
 import '../../theme/theme.dart';
 
 

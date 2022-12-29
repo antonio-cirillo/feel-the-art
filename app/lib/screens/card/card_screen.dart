@@ -3,7 +3,7 @@ import "package:feel_the_art/theme/size_config.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
 
-import "package:feel_the_art/components/background.dart";
+import 'package:feel_the_art/components/general/background.dart';
 import "package:feel_the_art/components/column_label.dart";
 import "package:feel_the_art/theme/theme.dart";
 

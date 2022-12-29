@@ -1,4 +1,4 @@
-import "package:feel_the_art/components/background.dart";
+import 'package:feel_the_art/components/general/background.dart';
 import "package:feel_the_art/utils/request/obj_status.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";

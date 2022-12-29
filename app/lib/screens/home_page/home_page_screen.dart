@@ -1,25 +1,28 @@
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 
-import "package:feel_the_art/components/background.dart";
-import "package:feel_the_art/theme/theme.dart";
-import "components/app_bar.dart";
-import "components/card_table_slider.dart";
+import "_parts/card_table_slider.dart";
+import 'package:feel_the_art/theme/size_config.dart';
+import 'package:feel_the_art/services/account_service.dart';
+import 'package:feel_the_art/components/user/user_summary.dart';
 
-class HomePageScreen extends StatefulWidget {
+class HomePageScreen extends StatelessWidget {
   const HomePageScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomePageScreen> createState() => _HomePageScreen();
-}
-
-class _HomePageScreen extends State<HomePageScreen> {
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const <Widget>[
-        Expanded(flex: 2, child: HomePageScreenBar()),
-        Expanded(flex: 7, child: CardTableSlider()),
-        // Expanded(flex: 1, child: Text("DOMANDA DEL GIORNO"))
+    final AccountService accountInfo = Provider.of<AccountService>(context);
+
+    return Flex(
+      direction: Axis.vertical,
+      children: [
+        Container(
+          padding: EdgeInsets.all(MediaQuery.of(context).getProportionateScreenHeight(15)),
+          child: UserSummary(accountInfo),
+        ),
+        const Expanded(
+          child: CardTableSlider(),
+        ),
       ],
     );
   }

@@ -1,9 +1,7 @@
 import "package:feel_the_art/theme/size_config.dart";
 import "package:flutter/material.dart";
 
-import "package:feel_the_art/components/background.dart";
-import "package:feel_the_art/theme/theme.dart";
-import "components/avatar.dart";
+import '../../components/user/_parts/avatar.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -21,7 +19,7 @@ class AccountScreen extends StatelessWidget {
                 flex: 3,
                 child: Align(
                   alignment: Alignment.center,
-                  child: Avatar(),
+                  child: Avatar(122),
                 )),
           ],
         ),

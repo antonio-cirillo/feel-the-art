@@ -1,16 +1,16 @@
+import 'dart:core';
+
 import "package:flutter/cupertino.dart";
 
 import "package:feel_the_art/models/game/deck.dart";
-import "package:feel_the_art/models/game/deck_list.dart";
 import "package:feel_the_art/utils/request/obj_status.dart";
 import "package:feel_the_art/utils/request/web_request.dart";
 
-
-class DeckListService with ChangeNotifier { //CAMBIARE NOME in Services
+class DeckListService with ChangeNotifier {
   ObjStatus status = ObjStatus.loading;
-  late DeckList _deckList;
+  final List<Deck> _decks = [];
 
-  DeckListService(){
+  DeckListService() {
     fetch();
     if (status == ObjStatus.error) {
       throw Exception("Init Failed");
@@ -20,7 +20,7 @@ class DeckListService with ChangeNotifier { //CAMBIARE NOME in Services
   void fetch() async {
     try {
       var request = await WebRequest.getDecks();
-      _deckList = DeckList.buildFromJson(request);
+      request["list"].forEach((el) => {_decks.add(Deck.buildFromJson(el))});
       status = ObjStatus.ready;
     } catch (e) {
       status = ObjStatus.error;
@@ -29,7 +29,5 @@ class DeckListService with ChangeNotifier { //CAMBIARE NOME in Services
     }
   }
 
-  Deck get(int pos){
-    return _deckList.get(pos);
-  }
+  List<Deck> get decks => _decks;
 }

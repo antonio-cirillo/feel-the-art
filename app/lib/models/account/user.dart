@@ -1,4 +1,3 @@
-import "package:feel_the_art/utils/help.dart";
 import "_parts/avatar.dart";
 import "_parts/personal_info.dart";
 import "_parts/progression.dart";
