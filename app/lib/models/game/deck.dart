@@ -101,5 +101,5 @@ class Deck {
 
   List<Card> get cards => _cards.entries.map((e) => e.value).toList();
 
-  String get cover => "assets/decks/0.png";//"""assets/images/${_name.replaceAll(" ", "_").toLowerCase()}/cover.png";
+  String get cover => "assets/decks/${_name.replaceAll(" ", "_").toLowerCase()}.png";
 }
