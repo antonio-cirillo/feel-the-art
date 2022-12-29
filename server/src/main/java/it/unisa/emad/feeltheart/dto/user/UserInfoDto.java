@@ -22,6 +22,6 @@ public class UserInfoDto implements Serializable {
     private String id_device;
 
     @Schema(description = "Authentication code")
-    private String auth_code;
+    private String random_identifier;
 
 }

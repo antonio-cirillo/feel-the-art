@@ -2,10 +2,12 @@ import 'package:feel_the_art/theme/size_config.dart';
 import 'package:flutter/material.dart';
 
 class InformationScreen extends StatelessWidget {
+  final int point;
+  final int time;
   final TextStyle textStyle = const TextStyle(
       color: Colors.white, fontWeight: FontWeight.w600, fontSize: 28);
 
-  const InformationScreen({super.key});
+  const InformationScreen({super.key, required this.point, required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,8 @@ class InformationScreen extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     child: FittedBox(
                         fit: BoxFit.scaleDown,
-                        child: Text('00:00', style: textStyle)))),
+                        child: Text((time > 9) ? '00:$time' : '00:0$time',
+                            style: textStyle)))),
             const Spacer(flex: 4),
             Expanded(
                 flex: 3,
@@ -32,7 +35,7 @@ class InformationScreen extends StatelessWidget {
                     alignment: Alignment.topRight,
                     child: FittedBox(
                         fit: BoxFit.scaleDown,
-                        child: Text('1', style: textStyle))))
+                        child: Text('$point', style: textStyle))))
           ],
         ));
   }

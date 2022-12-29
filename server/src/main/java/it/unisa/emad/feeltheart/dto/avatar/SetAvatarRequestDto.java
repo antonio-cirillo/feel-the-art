@@ -19,10 +19,6 @@ public class SetAvatarRequestDto implements Serializable {
     @Serial
     private static final long serialVersionUID = -6491963162062884127L;
 
-    @NotBlank(message = "Il campo id_device non è valorizzato")
-    @Schema(description = "User device identifier")
-    private String id_device;
-
     @NotBlank(message = "Il campo avatar non è valorizzato")
     @Schema(description = "Stringa contenente l'avatar da inserire nella collezione")
     private String avatar;

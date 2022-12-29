@@ -1,4 +1,4 @@
-package it.unisa.emad.feeltheart.dto.avatar;
+package it.unisa.emad.feeltheart.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,17 +14,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class AddAvatarRequestDto implements Serializable {
+public class LoginUserRequestDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 7260524887560856448L;
+    private static final long serialVersionUID = -6314329162922455790L;
 
     @NotBlank(message = "Il campo id_device non è valorizzato")
     @Schema(description = "User device identifier")
     private String id_device;
 
-    @NotBlank(message = "Il campo last_generated non è valorizzato")
-    @Schema(description = "Stringa contenente l'ultimo avat generato")
-    private String last_generated;
-
+    @NotBlank(message = "Il campo random_identifier non è valorizzato")
+    @Schema(description = "Authentication code")
+    private String random_identifier;
 }

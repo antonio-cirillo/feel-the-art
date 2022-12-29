@@ -20,11 +20,11 @@ public class ResultDto<T> implements Serializable {
 
     protected int code;
 
-    protected String descrizione;
+    protected String description;
 
     protected T data;
 
-    private LocalDateTime dateTime;
+    private LocalDateTime date_time;
 
     /**
      * Costructor
@@ -40,8 +40,8 @@ public class ResultDto<T> implements Serializable {
         this.success = false;
         this.code = 0;
         this.data = null;
-        this.descrizione = null;
-        this.dateTime = LocalDateTime.now();
+        this.description = null;
+        this.date_time = LocalDateTime.now();
     }
 
     /**
@@ -59,8 +59,8 @@ public class ResultDto<T> implements Serializable {
      * @param message string containing the message to be displayed.
      */
     public void setSuccessFalseResponse(String message){
-        this.descrizione = message;
-        this.dateTime = LocalDateTime.now();
+        this.description = message;
+        this.date_time = LocalDateTime.now();
         this.success = Boolean.FALSE;
         this.code = HttpStatus.SC_OK;
     }
@@ -70,8 +70,8 @@ public class ResultDto<T> implements Serializable {
      * @param message string containing the message to be displayed.
      */
     public void setSuccessTrueResponse(String message){
-        this.descrizione = message;
-        this.dateTime = LocalDateTime.now();
+        this.description = message;
+        this.date_time = LocalDateTime.now();
         this.success = Boolean.TRUE;
         this.code = HttpStatus.SC_OK;
     }
@@ -82,8 +82,8 @@ public class ResultDto<T> implements Serializable {
      * @param code integer containing the HTTP code
      */
     public void setFailureResponse(String message, int code){
-        this.descrizione = message;
-        this.dateTime = LocalDateTime.now();
+        this.description = message;
+        this.date_time = LocalDateTime.now();
         this.success = Boolean.FALSE;
         this.code = code;
         this.data = null;
