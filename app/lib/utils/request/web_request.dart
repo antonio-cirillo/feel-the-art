@@ -1,10 +1,10 @@
 import "dart:convert";
 
+import 'package:feel_the_art/services/leaderboard_service.dart';
 import "package:http/http.dart" as http;
 
 import "package:feel_the_art/utils/help.dart";
 import 'package:feel_the_art/models/game/deck.dart';
-import "package:feel_the_art/models/leaderboard.dart";
 import "package:feel_the_art/models/account/user.dart";
 
 enum WebMethod { get, post, put, patch, delete }
@@ -56,7 +56,7 @@ class WebRequest {
 
   static Future<Map<String, dynamic>> generateLeaderBoard() async {
     if (debugOffline) {
-      return LeaderBoard.debugJson();
+      return LeaderBoardService.debugJson();
     }
     return await _call("$baseURL/user/1.0/getLeaderboard");
   }
