@@ -17,7 +17,7 @@ class Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AccountService accountInfo = Provider.of<AccountService>(context);
+    final AccountService accountService = Provider.of<AccountService>(context);
 
     return Stack(
       alignment: AlignmentDirectional.bottomEnd,
@@ -30,11 +30,11 @@ class Avatar extends StatelessWidget {
           radius: dim,
           lineWidth: dim,
           startAngle: 180,
-          percent: accountInfo.exp == 0 ? 0.1 : (accountInfo.exp) / (accountInfo.level * 10),
+          percent: accountService.exp == 0 ? 0.1 : (accountService.exp) / (accountService.level * 10),
           center: Padding(
             padding: const EdgeInsets.all(4),
             child: SvgPicture.string(
-              multiavatar(accountInfo.avatar),
+              multiavatar(accountService.avatar),
             ),
           ),
         ),
@@ -58,18 +58,18 @@ class Avatar extends StatelessWidget {
                                 fit: BoxFit.fitWidth,
                                 child: Text("Scegli il tuo avatar",
                                     style: TextStyle(color: Colors.white, decoration: TextDecoration.none, fontSize: 36, fontFamily: "ElsieSwashCaps"))),
-                            GridAvatars(accountInfo.allAvatar, accountInfo.setAvatar),
+                            GridAvatars(accountService.allAvatar, accountService.setAvatar),
                             Row(
                               children: [
                                 ElevatedButton(
                                     onPressed: () {
-                                      accountInfo.addAvatar();
+                                      accountService.addAvatar();
                                     },
                                     child: const Text("Salva")),
                                 const Spacer(flex: 1),
                                 ElevatedButton(
                                     onPressed: () {
-                                      accountInfo.generateNewAvatar();
+                                      accountService.generateNewAvatar();
                                     },
                                     child: Text("Genera")),
                               ],

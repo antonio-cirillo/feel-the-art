@@ -6,9 +6,10 @@ import "package:provider/provider.dart";
 import 'package:carousel_slider/carousel_controller.dart';
 
 import "package:feel_the_art/theme/theme.dart";
-import 'package:feel_the_art/components/general/background.dart';
+import 'package:feel_the_art/services/decks_service.dart';
 import "package:feel_the_art/services/account_service.dart";
 import "package:feel_the_art/utils/request/obj_status.dart";
+import 'package:feel_the_art/components/general/background.dart';
 import "package:feel_the_art/screens/loading/loading_screen.dart";
 import 'package:feel_the_art/screens/quiz_screen/quizScreen.dart';
 
@@ -26,10 +27,10 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> {
-  static const List<BottomNavigationBarItem> _navigationItems = [
+  final List<BottomNavigationBarItem> _navigationItems = [
     BottomNavigationBarItem(
       icon: Icon(CupertinoIcons.game_controller),
-      label: "Gioca",
+      label: "Home",
       tooltip: '',
     ),
     BottomNavigationBarItem(
@@ -53,38 +54,58 @@ class MainScreenState extends State<MainScreen> {
       tooltip: '',
     )
   ];
-  static const List<Widget> _screen = [HomePageScreen(), CollectionScreen(), LeaderBoardScreen(), AccountScreen(), QuizScreen()];
   final CarouselController _carouselController = CarouselController();
+  final PageController _pageController = PageController();
+  final List<Widget> _screen = const [HomePageScreen(), CollectionScreen(), LeaderBoardScreen(), AccountScreen(), QuizScreen()];
   int _menuIndex = 0;
 
-  void _onMenuChange(int index) {
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
     setState(() {
       _menuIndex = index;
     });
-    _carouselController.animateToPage(index);
+    _carouselController.animateToPage(_menuIndex, duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
+    _pageController.animateToPage(_menuIndex, duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
   }
 
   Widget _mainScreen() {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: _screen[_menuIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: _navigationItems,
-        currentIndex: _menuIndex,
-        onTap: (i) => _onMenuChange(i),
-        selectedItemColor: primaryColor,
-        unselectedItemColor: bgColor,
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: _pageController,
+        children: _screen,
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 6),
+        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15))),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          child: BottomNavigationBar(
+            items: _navigationItems,
+            currentIndex: _menuIndex,
+            onTap: (index) => _onPageChanged(index),
+            selectedItemColor: primaryColor,
+            unselectedItemColor: bgColor,
+          ),
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final AccountService accountInfo = Provider.of<AccountService>(context);
+    final AccountService accountService = Provider.of<AccountService>(context);
+    final DecksService decksService = Provider.of<DecksService>(context);
 
     Widget content;
-    if (accountInfo.status == ObjStatus.ready) {
-      if (accountInfo.onBoard) {
+    if (accountService.status == ObjStatus.ready && decksService.status == ObjStatus.ready) {
+      if (accountService.onBoard) {
         content = const OnBoardingScreen();
       } else {
         content = _mainScreen();
@@ -93,14 +114,7 @@ class MainScreenState extends State<MainScreen> {
       content = const LoadingScreen();
     }
 
-    return Stack(
-      children: [
-        Container(color: bgColor),
-        Background(_carouselController),
-        Container(color: Colors.black.withOpacity(0.1)),
-        content,
-      ],
-    );
+    return Background(carouselController: _carouselController, child: content);
   }
 }
 

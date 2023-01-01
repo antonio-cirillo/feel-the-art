@@ -6,11 +6,11 @@ import "package:feel_the_art/models/game/deck.dart";
 import "package:feel_the_art/utils/request/obj_status.dart";
 import "package:feel_the_art/utils/request/web_request.dart";
 
-class DeckListService with ChangeNotifier {
+class DecksService with ChangeNotifier {
   ObjStatus status = ObjStatus.loading;
   final List<Deck> _decks = [];
 
-  DeckListService() {
+  DecksService() {
     fetch();
     if (status == ObjStatus.error) {
       throw Exception("Init Failed");

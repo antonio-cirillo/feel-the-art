@@ -32,12 +32,6 @@ ThemeData theme = ThemeData(
       }),
     ),
   ),
-  buttonTheme: const ButtonThemeData(
-    buttonColor: Colors.red,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-    ),
-  ),
 );
 
 TextStyle get whiteText => const TextStyle(color: Colors.white);

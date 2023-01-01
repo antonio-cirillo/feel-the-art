@@ -7,7 +7,7 @@ import "package:animated_text_kit/animated_text_kit.dart";
 import "package:feel_the_art/theme/theme.dart";
 import "package:feel_the_art/theme/size_config.dart";
 import 'package:feel_the_art/services/account_service.dart';
-import 'package:feel_the_art/services/deck_list_service.dart';
+import 'package:feel_the_art/services/decks_service.dart';
 
 class CardTableSlider extends StatelessWidget {
   const CardTableSlider({Key? key}) : super(key: key);
@@ -78,8 +78,8 @@ class CardTableSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AccountService accountInfo = Provider.of<AccountService>(context);
-    final DeckListService decksInfo = Provider.of<DeckListService>(context);
+    final AccountService accountService = Provider.of<AccountService>(context);
+    final DecksService decksService = Provider.of<DecksService>(context);
 
     return CarouselSlider(
       options: CarouselOptions(
@@ -89,7 +89,7 @@ class CardTableSlider extends StatelessWidget {
         enlargeCenterPage: true,
         viewportFraction: 0.75,
       ),
-      items: _buildDeckCovers(context, decksInfo.decks, accountInfo.level),
+      items: _buildDeckCovers(context, decksService.decks, accountService.level),
     );
   }
 }

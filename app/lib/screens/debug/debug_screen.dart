@@ -8,7 +8,7 @@ class DebugScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accountInfo = Provider.of<AccountService>(context);
+    final accountService = Provider.of<AccountService>(context);
 
     return Scaffold(
       body: Center(
@@ -17,7 +17,7 @@ class DebugScreen extends StatelessWidget {
             Expanded(
               flex: 7,
               child: ElevatedButton(
-                onPressed: () => {accountInfo.addExp(10)},
+                onPressed: () => {accountService.addExp(10)},
                 child: const Text("Add EXP"),
               ),
             ),

@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 
 import "_parts/card_table_slider.dart";
-import 'package:feel_the_art/theme/size_config.dart';
 import 'package:feel_the_art/components/user/user_summary.dart';
 
 class HomePageScreen extends StatelessWidget {
@@ -13,7 +12,8 @@ class HomePageScreen extends StatelessWidget {
       direction: Axis.vertical,
       children: [
         Container(
-          padding: EdgeInsets.all(MediaQuery.of(context).getProportionateScreenHeight(15)),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(vertical: 15),
           child: const UserSummary(),
         ),
         const Expanded(

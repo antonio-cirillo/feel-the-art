@@ -46,12 +46,12 @@ class _ChartWinState extends State<ChartWin> {
   }
 
   List<PieChartSectionData> showingSections(BuildContext contex) {
-    final accountInfo = Provider.of<AccountService>(context);
-    double firstPlace = accountInfo.firstPlaces / accountInfo.totalGames * 100;
+    final accountService = Provider.of<AccountService>(context);
+    double firstPlace = accountService.firstPlaces / accountService.totalGames * 100;
     double secondPlace =
-        accountInfo.secondPlaces / accountInfo.totalGames * 100;
-    double thirdPlace = accountInfo.thirdPlaces / accountInfo.totalGames * 100;
-    double lose = accountInfo.loseGames / accountInfo.totalGames * 100;
+        accountService.secondPlaces / accountService.totalGames * 100;
+    double thirdPlace = accountService.thirdPlaces / accountService.totalGames * 100;
+    double lose = accountService.loseGames / accountService.totalGames * 100;
 
     return List.generate(4, (i) {
       final isTouched = i == touchedIndex;

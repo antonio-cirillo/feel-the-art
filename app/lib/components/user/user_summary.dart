@@ -36,12 +36,14 @@ class UserSummary extends StatelessWidget {
                   "Livello ${accountInfo.level}",
                   style: Theme.of(context).textTheme.titleMedium?.merge(whiteText),
                 ),
-                FAProgressBar(
-                  backgroundColor: Colors.white,
-                  progressColor: maizeColor,
-                  currentValue: accountInfo.exp.toDouble(),
-                  maxValue: accountInfo.level * 10,
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  child: FAProgressBar(
+                    backgroundColor: Colors.white,
+                    progressColor: maizeColor,
+                    currentValue: accountInfo.exp.toDouble(),
+                    maxValue: accountInfo.level * 10,
+                  ),
                 )
               ],
             ),

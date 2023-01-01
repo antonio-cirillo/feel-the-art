@@ -1,15 +1,14 @@
-import "package:feel_the_art/models/leaderboard.dart";
-import "package:feel_the_art/theme/theme_flutter_flow.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:multiavatar/multiavatar.dart";
 
-import 'package:feel_the_art/components/general/background.dart';
 import "package:feel_the_art/theme/theme.dart";
 import "package:feel_the_art/theme/size_config.dart";
+import "package:feel_the_art/models/leaderboard.dart";
+import "package:feel_the_art/theme/theme_flutter_flow.dart";
 import "package:feel_the_art/services/leaderboard_service.dart";
-
-import '../loading/loading_screen.dart';
+import 'package:feel_the_art/screens/loading/loading_screen.dart';
+import 'package:feel_the_art/components/text/text_with_border.dart';
 
 class LeaderBoardScreen extends StatelessWidget {
   const LeaderBoardScreen({Key? key}) : super(key: key);
@@ -50,22 +49,11 @@ class LeaderBoardScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: Stack(
-                    children: [
-                      Text(
-                        "Classifica",
-                        style: TextStyle(
-                          fontSize: 50,
-                          fontWeight: FontWeight.w600,
-                          foreground: Paint()
-                            ..style = PaintingStyle.stroke
-                            ..strokeWidth = 5
-                            ..color = bgColor,
-                          fontFamily: "ElsieSwashCaps",
-                        ),
-                      ),
-                      const Text("Classifica", style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "ElsieSwashCaps"))
-                    ],
+                  child: TextWithBorder(
+                    "Classifica",
+                    Colors.white,
+                    primaryColor,
+                    style: Theme.of(context).textTheme.displayMedium?.merge(titleStyle),
                   ),
                 ),
               ),

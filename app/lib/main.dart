@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+
 // import 'package:flutter/rendering.dart';
 import "package:flutter/services.dart";
 import "package:provider/provider.dart";
@@ -7,7 +8,7 @@ import "package:device_preview/device_preview.dart";
 import "package:feel_the_art/theme/theme.dart";
 import "package:feel_the_art/screens/main_screen.dart";
 import "package:feel_the_art/services/account_service.dart";
-import "package:feel_the_art/services/deck_list_service.dart" as decklist;
+import "package:feel_the_art/services/decks_service.dart" as decklist;
 
 void main() {
   // debugPaintSizeEnabled=true;
@@ -18,7 +19,7 @@ void main() {
   runApp(
     // const FeelTheArt(),
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (context) => const FeelTheArt(),
     ),
   );
@@ -27,18 +28,37 @@ void main() {
 class FeelTheArt extends StatelessWidget {
   const FeelTheArt({super.key});
 
+  static Route createRoute(Widget child) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => child,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, -1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => AccountService()),
-        ChangeNotifierProvider(create: (ctx) => decklist.DeckListService()),
+        ChangeNotifierProvider(create: (ctx) => decklist.DecksService()),
       ],
       child: MaterialApp(
         title: "Feel the ART",
         useInheritedMediaQuery: true,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
+        // builder: (BuildContext context, Widget? child) => SafeArea(child: child ?? Container(),),
         debugShowCheckedModeBanner: false,
         theme: theme,
         home: const SafeArea(
