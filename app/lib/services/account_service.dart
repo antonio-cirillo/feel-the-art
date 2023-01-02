@@ -98,17 +98,19 @@ class AccountService with ChangeNotifier {
   }
 
   void setAvatar(String el) async {
-    status = ObjStatus.loading;
-    try {
-      var request = await WebRequest.setAvatar(el);
-      if (request["result"]) {
-        _user.avatar.setAvatar(el);
-        status = ObjStatus.ready;
+    if(_user.avatar.get != el ){
+      status = ObjStatus.loading;
+      try {
+        var request = await WebRequest.setAvatar(el);
+        if (request["result"]) {
+          _user.avatar.setAvatar(el);
+          status = ObjStatus.ready;
+        }
+      } catch (e) {
+        status = ObjStatus.error;
+      } finally {
+        notifyListeners();
       }
-    } catch (e) {
-      status = ObjStatus.error;
-    } finally {
-      notifyListeners();
     }
   }
 
