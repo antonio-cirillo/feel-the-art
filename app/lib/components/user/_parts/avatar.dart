@@ -57,6 +57,7 @@ class _AvatarState extends State<Avatar> {
             ),
             ElevatedButton(
               onPressed: () {
+                setModActive(false);
                 showGeneralDialog(
                   barrierDismissible: true,
                   barrierLabel: "Avatar",
