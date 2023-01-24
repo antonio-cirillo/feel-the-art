@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.unisa.feel_the_art">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-sdk android:minSdkVersion="24" />
+    <uses-feature android:name="android.hardware.camera.ar" />
     <application
         android:label="Feel the ART"
         android:name="${applicationName}"
@@ -21,6 +24,7 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+           <meta-data android:name="com.google.ar.core" android:value="required" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

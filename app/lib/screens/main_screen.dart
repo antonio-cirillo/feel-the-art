@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:feel_the_art/screens/leader_board/arScreen.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/cupertino.dart";
 import "package:provider/provider.dart";
@@ -56,7 +57,7 @@ class MainScreenState extends State<MainScreen> {
   ];
   final CarouselController _carouselController = CarouselController();
   final PageController _pageController = PageController();
-  final List<Widget> _screen = const [HomePageScreen(), CollectionScreen(), LeaderBoardScreen(), AccountScreen(), QuizScreen()];
+  final List<Widget> _screen = const [HomePageScreen(), CollectionScreen(), LeaderBoardScreen(), AccountScreen(),ARScene()];
   int _menuIndex = 0;
 
   @override
