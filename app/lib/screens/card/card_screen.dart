@@ -8,12 +8,14 @@ import "package:feel_the_art/models/game/card.dart" as game;
 import 'package:feel_the_art/components/general/background_image.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:photo_view/photo_view.dart';
+
+import '_part/ar_screen.dart';
 
 class CardScreen extends StatefulWidget {
   final game.Card _cardInfo;
-  final Deck _deck;
 
-  const CardScreen(this._cardInfo, this._deck, {Key? key}) : super(key: key);
+  const CardScreen(this._cardInfo, {Key? key}) : super(key: key);
 
   @override
   State<CardScreen> createState() => _CardScreenState();
@@ -54,27 +56,27 @@ class _CardScreenState extends State<CardScreen> {
                   ),
                 ),
               ));
-      deckTitle = OverlayEntry(
-          builder: (context) => Positioned(
-                top: MediaQuery.of(context).padding.top + 10,
-                right: 15,
-                child: CustomDelayedDisplay(
-                  fadeIn: !_hideHeader,
-                  fadingDuration: const Duration(milliseconds: 200),
-                  slidingBeginOffset: const Offset(0.0, -1.0),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.8),
-                      border: Border.all(color: primaryColor),
-                      borderRadius: const BorderRadius.all(Radius.circular(60)),
-                    ),
-                    child: Text(widget._deck.name, style: Theme.of(context).textTheme.titleSmall),
-                  ),
-                ),
-              ));
-      Overlay.of(context)!.insertAll([backButton!, deckTitle!]);
+      // deckTitle = OverlayEntry(
+      //     builder: (context) => Positioned(
+      //           top: MediaQuery.of(context).padding.top + 10,
+      //           right: 15,
+      //           child: CustomDelayedDisplay(
+      //             fadeIn: !_hideHeader,
+      //             fadingDuration: const Duration(milliseconds: 200),
+      //             slidingBeginOffset: const Offset(0.0, -1.0),
+      //             child: Container(
+      //               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+      //               alignment: Alignment.center,
+      //               decoration: BoxDecoration(
+      //                 color: Colors.white.withOpacity(0.8),
+      //                 border: Border.all(color: primaryColor),
+      //                 borderRadius: const BorderRadius.all(Radius.circular(60)),
+      //               ),
+      //               child: Text(widget._deck.name, style: Theme.of(context).textTheme.titleSmall),
+      //             ),
+      //           ),
+      //         ));
+      Overlay.of(context)!.insertAll([backButton!]); //, deckTitle!
     });
     _scrollController.addListener(() {
       setHideHeader(_scrollController.position.pixels > 0);
@@ -86,7 +88,7 @@ class _CardScreenState extends State<CardScreen> {
   void dispose() {
     super.dispose();
     backButton?.remove();
-    deckTitle?.remove();
+    // deckTitle?.remove();
   }
 
   void setHideHeader(bool val) {
@@ -94,16 +96,16 @@ class _CardScreenState extends State<CardScreen> {
       _hideHeader = val;
     });
     backButton?.markNeedsBuild();
-    deckTitle?.markNeedsBuild();
+    // deckTitle?.markNeedsBuild();
   }
 
   void setScale(double h) {
     double tmpHeight = 400;
     double tmpScale = 1.0;
-    if(h > 100){
+    if (h > 100) {
       tmpHeight = 250;
       tmpScale = 0.98;
-    }else if (h > 0) {
+    } else if (h > 0) {
       tmpHeight = 300;
       tmpScale = 0.95;
     }
@@ -158,21 +160,47 @@ class _CardScreenState extends State<CardScreen> {
                   child: Flex(
                     direction: Axis.vertical,
                     children: [
-                      AnimatedScale(
-                        scale: _scale,
-                        duration: const Duration(milliseconds: 300),
-                        child: Container(
-                          height: _height,
-                          margin: const EdgeInsets.only(bottom: 15),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.all(Radius.circular(17.0)),
-                            child: Image.asset(
-                              widget._cardInfo.image,
-                              fit: BoxFit.fitHeight,
+                      GestureDetector(
+                        onTap: () {
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HeroPhotoViewRouteWrapper(
+                                  imageProvider: AssetImage(widget._cardInfo.image),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: AnimatedScale(
+                          scale: _scale,
+                          duration: const Duration(milliseconds: 300),
+                          child: Container(
+                            height: _height,
+                            margin: const EdgeInsets.only(bottom: 15),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(Radius.circular(17.0)),
+                              child: Image.asset(
+                                widget._cardInfo.card,
+                                fit: BoxFit.fitHeight,
+                              ),
                             ),
                           ),
                         ),
                       ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (contex) => ARSreen(
+                                  image: widget._cardInfo.image,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text("Visualizza in AR")),
                       Expanded(
                         child: ListView.separated(
                           shrinkWrap: true,
@@ -190,6 +218,31 @@ class _CardScreenState extends State<CardScreen> {
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class HeroPhotoViewRouteWrapper extends StatelessWidget {
+  const HeroPhotoViewRouteWrapper({
+    required this.imageProvider,
+    this.backgroundDecoration,
+  });
+
+  final ImageProvider imageProvider;
+  final BoxDecoration? backgroundDecoration;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints.expand(
+        height: MediaQuery.of(context).size.height,
+      ),
+      child: PhotoView(
+        imageProvider: imageProvider,
+        backgroundDecoration: backgroundDecoration,
+        minScale: PhotoViewComputedScale.contained * 1,
+        maxScale: PhotoViewComputedScale.contained * 4,
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'dart:core';
 
-import 'package:feel_the_art/screens/leader_board/arScreen.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/cupertino.dart";
 import "package:provider/provider.dart";
@@ -28,7 +27,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> {
-  final List<BottomNavigationBarItem> _navigationItems = [
+  final List<BottomNavigationBarItem> _navigationItems = const [
     BottomNavigationBarItem(
       icon: Icon(CupertinoIcons.game_controller),
       label: "Home",
@@ -57,7 +56,7 @@ class MainScreenState extends State<MainScreen> {
   ];
   final CarouselController _carouselController = CarouselController();
   final PageController _pageController = PageController();
-  final List<Widget> _screen = const [HomePageScreen(), CollectionScreen(), LeaderBoardScreen(), AccountScreen(),ARScene()];
+  final List<Widget> _screen = const [HomePageScreen(), CollectionScreen(), LeaderBoardScreen(), AccountScreen(), QuizScreen()];
   int _menuIndex = 0;
 
   @override

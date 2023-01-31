@@ -4,14 +4,9 @@ import '_parts/grid_cards_widget.dart';
 import "package:feel_the_art/theme/theme.dart";
 import 'package:feel_the_art/components/text/text_with_border.dart';
 
-class CollectionScreen extends StatefulWidget {
+class CollectionScreen extends StatelessWidget {
   const CollectionScreen({Key? key}) : super(key: key);
 
-  @override
-  State<CollectionScreen> createState() => _CollectionScreenState();
-}
-
-class _CollectionScreenState extends State<CollectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Flex(

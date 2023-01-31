@@ -33,5 +33,6 @@ class Card {
   String get author => _author;
   String get date => _date;
   String get museum => _museum;
-  String get image => "assets/cards/images/$_id.png";
+  String get image => "assets/cards/images/${_id}_originale.jpg";
+  String get card => "assets/cards/images/${_id}_carta.png";
 }

@@ -20,7 +20,7 @@ class CardTableSlider extends StatelessWidget {
     return [
       ClipRRect(
         borderRadius: BorderRadius.circular(22.0),
-        child: unlocked ? Image.asset(coverPath) : Image.asset(coverPath, color: Colors.black.withOpacity(0.5), colorBlendMode: BlendMode.srcOver),
+        child: unlocked ? Image.asset(coverPath, height: 450,) : Image.asset(coverPath, height: 450, color: Colors.black.withOpacity(0.5), colorBlendMode: BlendMode.srcOver),
       ),
       Container(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).getProportionateScreenHeight(30)),

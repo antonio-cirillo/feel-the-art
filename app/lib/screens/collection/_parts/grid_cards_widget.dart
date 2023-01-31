@@ -15,8 +15,8 @@ class GridCards extends StatelessWidget {
     for (var deck in decks) {
       for (var card in deck.cards) {
         ret.add(GestureDetector(
-          onTap: () => Navigator.of(context).push(FeelTheArt.createRoute(CardScreen(card, deck))),
-          child: Image.asset(card.image),
+          onTap: () => Navigator.of(context).push(FeelTheArt.createRoute(CardScreen(card))),
+          child: Image.asset(card.card),
         ));
       }
     }
