@@ -32,7 +32,7 @@ class UserCardsScreenState extends State<UserCardsScreen> {
                     height: imageHeight,
                     child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Image.asset('assets/images/$e.png')),
+                        child: Image.asset('assets/cards/images/$e.png')),
                   ),
                   childWhenDragging: Container(),
                   onDragCompleted: () {
@@ -45,7 +45,7 @@ class UserCardsScreenState extends State<UserCardsScreen> {
                       height: imageHeight,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Image.asset('assets/images/$e.png'),
+                        child: Image.asset('assets/cards/images/$e.png'),
                       ))));
         }).toList());
   }
