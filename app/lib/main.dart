@@ -19,7 +19,7 @@ void main() {
   runApp(
     // const FeelTheArt(),
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => const FeelTheArt(),
     ),
   );

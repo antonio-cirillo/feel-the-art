@@ -1,13 +1,9 @@
-import 'package:feel_the_art/theme/size_config.dart';
+import 'package:feel_the_art/theme/theme.dart';
 import 'package:flutter/material.dart';
+
+import 'package:feel_the_art/theme/size_config.dart';
 import 'package:feel_the_art/flutter_flow/flutter_flow_theme.dart';
 import 'package:feel_the_art/flutter_flow/flutter_flow_widgets.dart';
-
-
-
-import '../../components/general/background.dart';
-import '../../theme/theme.dart';
-
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({Key? key}) : super(key: key);
@@ -19,295 +15,84 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   int selectedAnswer = 0;
 
-  var selectedColor = Colors.green;
+  var selectedColor = maizeColor;
   var notSelectedColor = Color(0xFFEEEEEE);
+
+  void setSelectedAnswer(int ans) {
+    setState(() {
+      selectedAnswer = selectedAnswer == ans ? 0 : ans;
+    });
+  }
+
+  Widget generateAnsWidget(String text, int num) {
+    return GestureDetector(
+      onTap: () => {setSelectedAnswer(num)},
+      child: Container(
+        decoration: BoxDecoration(
+          color: selectedAnswer == num ? selectedColor : notSelectedColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: FlutterFlowTheme.of(context).primaryText,
+            width: 1,
+          ),
+        ),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: Text(
+            text,
+            style: FlutterFlowTheme.of(context).subtitle1,
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Container(color: primaryColor.withOpacity(0.8)),
-      Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 1,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Material(
-                color: Colors.transparent,
-                elevation: 6,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16),
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(0),
-                  ),
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryText,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(16),
-                      bottomRight: Radius.circular(16),
-                      topLeft: Radius.circular(0),
-                      topRight: Radius.circular(0),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
-                          child: Text(
-                            'Domanda del giorno',
-                            style: FlutterFlowTheme.of(context).title1,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 5, 0),
-                                child: SizedBox(
-                                  width:  MediaQueryDataProportionate.layoutWidth,
-                                  child: Text(
-                                    'PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPpppppppppppppppppppppppppppppp',
-                                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                                          fontFamily: 'Poppins',
-                                          fontSize: MediaQuery.of(context).getProportionateScreenWidth(18),
-                                        ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 25),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                GestureDetector(
-                                  onTap: () => {
-                                    setState(() {
-                                      if (selectedAnswer == 1) {
-                                        selectedAnswer = 0;
-                                      } else {
-                                        selectedAnswer = 1;
-                                      }
-                                    }),
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: selectedAnswer == 1 ? selectedColor : notSelectedColor,
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          color: FlutterFlowTheme.of(context).primaryText,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                'Option1',
-                                                style: FlutterFlowTheme.of(context).subtitle1.override(
-                                                      fontFamily: 'Poppins',
-                                                      color: Colors.red,
-                                                    ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () => {
-                                    setState(() {
-                                      if (selectedAnswer == 2) {
-                                        selectedAnswer = 0;
-                                      } else {
-                                        selectedAnswer = 2;
-                                      }
-                                    }),
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: selectedAnswer == 2 ? selectedColor: notSelectedColor,
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          color: FlutterFlowTheme.of(context).primaryText,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                'Option1',
-                                                style: FlutterFlowTheme.of(context).subtitle1.override(
-                                                  fontFamily: 'Poppins',
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () => {
-                                    setState(() {
-                                      if (selectedAnswer == 3) {
-                                        selectedAnswer = 0;
-                                      } else {
-                                        selectedAnswer = 3;
-                                      }
-                                    }),
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: selectedAnswer == 3 ? selectedColor: notSelectedColor,
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          color: FlutterFlowTheme.of(context).primaryText,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                'Option1',
-                                                style: FlutterFlowTheme.of(context).subtitle1.override(
-                                                  fontFamily: 'Poppins',
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () => {
-                                    setState(() {
-                                      if (selectedAnswer == 4) {
-                                        selectedAnswer = 0;
-                                      } else {
-                                        selectedAnswer = 4;
-                                      }
-                                    }),
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: selectedAnswer == 4 ? Colors.green : Color(0xFFEEEEEE),
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          color: FlutterFlowTheme.of(context).primaryText,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                'Option1',
-                                                style: FlutterFlowTheme.of(context).subtitle1.override(
-                                                  fontFamily: 'Poppins',
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                          child: FFButtonWidget(
-                            onPressed: () async {
-
-                            },
-                            text: 'Scegli',
-                            options: FFButtonOptions(
-                              width: double.infinity,
-                              height: 70,
-                              color: Colors.lightGreen,
-                              textStyle: FlutterFlowTheme.of(context).subtitle2.override(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.blue,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                              elevation: 4,
-                              borderSide: BorderSide(
-                                color: Colors.transparent,
-                                width: 1,
-                              ),
-                              borderRadius: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: Flex(
+        direction: Axis.vertical,
+        children: [
+          Text(
+            'Domanda del giorno',
+            style: FlutterFlowTheme.of(context).title1,
           ),
-        ),
-      )
-    ]);
+          Expanded(
+            flex: 2,
+            child: Text(
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+              style: FlutterFlowTheme.of(context).bodyText1,
+              textAlign: TextAlign.start,
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Flex(
+              direction: Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flex(
+                  direction: Axis.vertical,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    generateAnsWidget("AAAAAAAAAAA", 1),
+                    generateAnsWidget("AAAABBBBAAA", 2),
+                  ],
+                ),
+                Flex(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  direction: Axis.vertical,
+                  children: [
+                    generateAnsWidget("CCCCBBBBAAA", 3),
+                    generateAnsWidget("AAAABBBBCCC", 4),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

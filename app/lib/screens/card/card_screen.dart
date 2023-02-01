@@ -25,6 +25,8 @@ class _CardScreenState extends State<CardScreen> {
   final ScrollController _scrollController = ScrollController();
   OverlayEntry? backButton;
   OverlayEntry? deckTitle;
+  late int _back;
+
   bool _hideHeader = false;
   double _scale = 1;
   double _height = 400;
@@ -32,6 +34,7 @@ class _CardScreenState extends State<CardScreen> {
   @override
   void initState() {
     super.initState();
+    _back = 1;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       backButton = OverlayEntry(
           builder: (context) => Positioned(
@@ -42,7 +45,13 @@ class _CardScreenState extends State<CardScreen> {
                   fadingDuration: const Duration(milliseconds: 200),
                   slidingBeginOffset: const Offset(0.0, -1.0),
                   child: GestureDetector(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () => {
+                      if (_back > 0)
+                        {
+                          _back--,
+                          Navigator.pop(context),
+                        }
+                    },
                     child: Container(
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
@@ -163,6 +172,7 @@ class _CardScreenState extends State<CardScreen> {
                       GestureDetector(
                         onTap: () {
                           {
+                            _back++;
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -191,6 +201,7 @@ class _CardScreenState extends State<CardScreen> {
                       ),
                       TextButton(
                           onPressed: () {
+                            _back++;
                             Navigator.push(
                               context,
                               MaterialPageRoute(
