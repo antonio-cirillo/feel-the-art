@@ -1,6 +1,7 @@
 enum GameStatus {
   initGame,
   startGame,
+  selectTheme,
   initTurn,
   startTurn,
   initVote,

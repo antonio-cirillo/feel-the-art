@@ -264,6 +264,7 @@ class Deck {
   int get unlockLevel => _unlockLevel;
 
   List<Card> get cards => _cards.entries.map((e) => e.value).toList();
+  Map<int, Card> get cardsMap => _cards;
 
   String get cover => "assets/decks/${_name.replaceAll(" ", "_").toLowerCase()}.png";
 }

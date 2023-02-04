@@ -27,12 +27,12 @@ class UserCardsScreenState extends State<UserCardsScreen> {
           return Flexible(
               child: Draggable(
                   maxSimultaneousDrags: (widget.played) ? 0 : 1,
-                  data: 0,
+                  data: e,
                   feedback: SizedBox(
                     height: imageHeight,
                     child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Image.asset('assets/cards/images/$e.png')),
+                        child: Image.asset('assets/cards/images/${e}_carta.png')),
                   ),
                   childWhenDragging: Container(),
                   onDragCompleted: () {
@@ -45,7 +45,7 @@ class UserCardsScreenState extends State<UserCardsScreen> {
                       height: imageHeight,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Image.asset('assets/cards/images/$e.png'),
+                        child: Image.asset('assets/cards/images/${e}_carta.png'),
                       ))));
         }).toList());
   }

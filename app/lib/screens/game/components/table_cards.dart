@@ -8,17 +8,21 @@ import '../../../components/text/text_with_border.dart';
 import '../../../services/decks_service.dart';
 import '../../../theme/theme.dart';
 import '../../card/_part/column_label.dart';
+import '../../card/card_screen.dart';
+import '../game_screen.dart';
 
 class TableCardsScreen extends StatelessWidget {
   bool voting;
   bool voted;
+  final String message;
+
   final Function(int) playerVoted;
 
   static ValueNotifier<List<int>> listCards = ValueNotifier<List<int>>([]);
   static List<int> playerPlayed = [];
   static List<GlobalKey<FlipCardState>> listKeys = [GlobalKey(), GlobalKey(), GlobalKey(), GlobalKey()];
 
-  TableCardsScreen({super.key, required this.voting, required this.voted, required this.playerVoted});
+  TableCardsScreen({super.key, required this.voting, required this.message, required this.voted, required this.playerVoted});
 
   List<Widget> voteFirstRow(BuildContext context, double imageHeight, double imageWidth, double paddingSize, game.Card c1, game.Card c2) {
     List<Widget> widgets = [];
@@ -33,66 +37,105 @@ class TableCardsScreen extends StatelessWidget {
                       height: imageHeight,
                       width: imageWidth,
                       child: GestureDetector(
-                          onTapUp: (TapUpDetails t) => showGeneralDialog(
-                              context: context,
-                              pageBuilder: (context, _, __) => Material(
-                                  color: Colors.transparent,
-                                  child: Align(
-                                      alignment: Alignment.center,
-                                      child: InkWell(
-                                          child: Container(
-                                              width: MediaQuery.of(context).screenWidth * 0.9,
-                                              height: MediaQuery.of(context).screenHeight * 0.6,
-                                              padding: const EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                color: primaryColor.withOpacity(0.8),
-                                                boxShadow: [containerShadow],
-                                                borderRadius: BorderRadius.circular(15),
-                                              ),
-                                              child: Column(children: [
-                                                Container(
-                                                  margin: const EdgeInsets.symmetric(vertical: 20),
-                                                  child: FittedBox(
-                                                    fit: BoxFit.scaleDown,
-                                                    child: TextWithBorder(
-                                                      "Carta giocata",
-                                                      Colors.white,
-                                                      primaryColor,
-                                                      style: Theme.of(context).textTheme.displayMedium?.merge(titleStyle),
+                          onTapUp: (TapUpDetails t) {
+                            GameScreen.counter++;
+                            showGeneralDialog(
+                                context: context,
+                                pageBuilder: (context, _, __) => WillPopScope(
+                                    onWillPop: () {
+                                      GameScreen.counter--;
+                                      return Future.value(true);
+                                    },
+                                    child: Material(
+                                        color: Colors.transparent,
+                                        child: Align(
+                                            alignment: Alignment.center,
+                                            child: InkWell(
+                                                child: Container(
+                                                    width: MediaQuery.of(context).screenWidth * 0.9,
+                                                    height: (!voted && playerPlayed[i] != 3)
+                                                        ? MediaQuery.of(context).screenHeight * 0.85
+                                                        : MediaQuery.of(context).screenHeight * 0.8,
+                                                    padding: const EdgeInsets.all(10),
+                                                    decoration: BoxDecoration(
+                                                      color: primaryColor.withOpacity(0.8),
+                                                      boxShadow: [containerShadow],
+                                                      borderRadius: BorderRadius.circular(15),
                                                     ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: SingleChildScrollView(
-                                                      controller: ScrollController(),
-                                                      physics: const BouncingScrollPhysics(),
-                                                      child: Column(children: [
-                                                        ColumnLabel(icon: "assets/icons/monalisa.svg", text: c.title),
-                                                        const SizedBox(height: 10),
-                                                        ColumnLabel(icon: "assets/icons/palette.svg", text: c.author),
-                                                        const SizedBox(height: 10),
-                                                        ColumnLabel(icon: "assets/icons/date.svg", text: c.date),
-                                                        const SizedBox(height: 10),
-                                                        ColumnLabel(icon: "assets/icons/museum.svg", text: c.museum),
-                                                        const SizedBox(height: 10),
-                                                        (!voted && playerPlayed[i] != 3)
-                                                            ? ElevatedButton(
-                                                                style: ButtonStyle(
-                                                                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                                                                    backgroundColor: MaterialStateProperty.all<Color>(Colors.white.withOpacity(0.8)),
-                                                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(const RoundedRectangleBorder(
-                                                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                                        side: BorderSide(color: primaryColor)))),
-                                                                onPressed: () {
-                                                                  Navigator.of(context).pop();
-                                                                  playerVoted(i);
+                                                    child: Column(children: [
+                                                      Container(
+                                                        margin: const EdgeInsets.symmetric(vertical: 20),
+                                                        child: FittedBox(
+                                                          fit: BoxFit.scaleDown,
+                                                          child: TextWithBorder(
+                                                            "Carta giocata",
+                                                            Colors.white,
+                                                            primaryColor,
+                                                            style: Theme.of(context).textTheme.displayMedium?.merge(titleStyle),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: SingleChildScrollView(
+                                                            controller: ScrollController(),
+                                                            physics: const BouncingScrollPhysics(),
+                                                            child: Column(children: [
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  {
+                                                                    GameScreen.counter++;
+                                                                    Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                        builder: (context) => WillPopScope(
+                                                                            onWillPop: () {
+                                                                              GameScreen.counter--;
+                                                                              return Future.value(true);
+                                                                            },
+                                                                            child: HeroPhotoViewRouteWrapper(
+                                                                              imageProvider: AssetImage(c.image),
+                                                                            )),
+                                                                      ),
+                                                                    );
+                                                                  }
                                                                 },
-                                                                child: Text("Vota", style: Theme.of(context).textTheme.titleMedium))
-                                                            : const SizedBox()
-                                                      ])),
-                                                )
-                                              ])))))),
-                          child: Image.asset('assets/cards/images/0.png')))))));
+                                                                child: Container(
+                                                                  height: 200,
+                                                                  margin: const EdgeInsets.only(bottom: 15),
+                                                                  child: ClipRRect(
+                                                                    borderRadius: const BorderRadius.all(Radius.circular(17.0)),
+                                                                    child: Image.asset(c.card),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              ColumnLabel(icon: "assets/icons/monalisa.svg", text: c.title),
+                                                              const SizedBox(height: 10),
+                                                              ColumnLabel(icon: "assets/icons/palette.svg", text: c.author),
+                                                              const SizedBox(height: 10),
+                                                              ColumnLabel(icon: "assets/icons/date.svg", text: c.date),
+                                                              const SizedBox(height: 10),
+                                                              ColumnLabel(icon: "assets/icons/museum.svg", text: c.museum),
+                                                              const SizedBox(height: 10),
+                                                              (!voted && playerPlayed[i] != 3)
+                                                                  ? ElevatedButton(
+                                                                      style: ButtonStyle(
+                                                                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                                                                          backgroundColor: MaterialStateProperty.all<Color>(Colors.white.withOpacity(0.8)),
+                                                                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(const RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                                              side: BorderSide(color: primaryColor)))),
+                                                                      onPressed: () {
+                                                                        Navigator.of(context).pop();
+                                                                        GameScreen.counter--;
+                                                                        playerVoted(i);
+                                                                      },
+                                                                      child: Text("Vota", style: Theme.of(context).textTheme.titleMedium))
+                                                                  : const SizedBox()
+                                                            ])),
+                                                      )
+                                                    ])))))));
+                          },
+                          child: Image.asset('assets/cards/images/${listCards.value.elementAt(i)}_carta.png')))))));
     }
     return widgets;
   }
@@ -110,66 +153,105 @@ class TableCardsScreen extends StatelessWidget {
                       height: imageHeight,
                       width: imageWidth,
                       child: GestureDetector(
-                          onTapUp: (TapUpDetails t) => showGeneralDialog(
-                              context: context,
-                              pageBuilder: (context, _, __) => Material(
-                                  color: Colors.transparent,
-                                  child: Align(
-                                      alignment: Alignment.center,
-                                      child: InkWell(
-                                          child: Container(
-                                              width: MediaQuery.of(context).screenWidth * 0.9,
-                                              height: MediaQuery.of(context).screenHeight * 0.6,
-                                              padding: const EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                color: primaryColor.withOpacity(0.8),
-                                                boxShadow: [containerShadow],
-                                                borderRadius: BorderRadius.circular(15),
-                                              ),
-                                              child: Column(children: [
-                                                Container(
-                                                  margin: const EdgeInsets.symmetric(vertical: 20),
-                                                  child: FittedBox(
-                                                    fit: BoxFit.scaleDown,
-                                                    child: TextWithBorder(
-                                                      "Carta giocata",
-                                                      Colors.white,
-                                                      primaryColor,
-                                                      style: Theme.of(context).textTheme.displayMedium?.merge(titleStyle),
+                          onTapUp: (TapUpDetails t) {
+                            GameScreen.counter++;
+                            showGeneralDialog(
+                                context: context,
+                                pageBuilder: (context, _, __) => WillPopScope(
+                                    onWillPop: () {
+                                      GameScreen.counter--;
+                                      return Future.value(true);
+                                    },
+                                    child: Material(
+                                        color: Colors.transparent,
+                                        child: Align(
+                                            alignment: Alignment.center,
+                                            child: InkWell(
+                                                child: Container(
+                                                    width: MediaQuery.of(context).screenWidth * 0.9,
+                                                    height: (!voted && playerPlayed[i] != 3)
+                                                        ? MediaQuery.of(context).screenHeight * 0.85
+                                                        : MediaQuery.of(context).screenHeight * 0.8,
+                                                    padding: const EdgeInsets.all(10),
+                                                    decoration: BoxDecoration(
+                                                      color: primaryColor.withOpacity(0.8),
+                                                      boxShadow: [containerShadow],
+                                                      borderRadius: BorderRadius.circular(15),
                                                     ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: SingleChildScrollView(
-                                                      controller: ScrollController(),
-                                                      physics: const BouncingScrollPhysics(),
-                                                      child: Column(children: [
-                                                        ColumnLabel(icon: "assets/icons/monalisa.svg", text: c.title),
-                                                        const SizedBox(height: 10),
-                                                        ColumnLabel(icon: "assets/icons/palette.svg", text: c.author),
-                                                        const SizedBox(height: 10),
-                                                        ColumnLabel(icon: "assets/icons/date.svg", text: c.date),
-                                                        const SizedBox(height: 10),
-                                                        ColumnLabel(icon: "assets/icons/museum.svg", text: c.museum),
-                                                        const SizedBox(height: 10),
-                                                        (!voted && playerPlayed[i] != 3)
-                                                            ? ElevatedButton(
-                                                                style: ButtonStyle(
-                                                                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                                                                    backgroundColor: MaterialStateProperty.all<Color>(Colors.white.withOpacity(0.8)),
-                                                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(const RoundedRectangleBorder(
-                                                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                                        side: BorderSide(color: primaryColor)))),
-                                                                onPressed: () {
-                                                                  Navigator.of(context).pop();
-                                                                  playerVoted(i);
+                                                    child: Column(children: [
+                                                      Container(
+                                                        margin: const EdgeInsets.symmetric(vertical: 20),
+                                                        child: FittedBox(
+                                                          fit: BoxFit.scaleDown,
+                                                          child: TextWithBorder(
+                                                            "Carta giocata",
+                                                            Colors.white,
+                                                            primaryColor,
+                                                            style: Theme.of(context).textTheme.displayMedium?.merge(titleStyle),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: SingleChildScrollView(
+                                                            controller: ScrollController(),
+                                                            physics: const BouncingScrollPhysics(),
+                                                            child: Column(children: [
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  GameScreen.counter++;
+                                                                  {
+                                                                    Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                        builder: (context) => WillPopScope(
+                                                                            onWillPop: () {
+                                                                              GameScreen.counter--;
+                                                                              return Future.value(true);
+                                                                            },
+                                                                            child: HeroPhotoViewRouteWrapper(
+                                                                              imageProvider: AssetImage(c.image),
+                                                                            )),
+                                                                      ),
+                                                                    );
+                                                                  }
                                                                 },
-                                                                child: Text("Vota", style: Theme.of(context).textTheme.titleMedium))
-                                                            : const SizedBox()
-                                                      ])),
-                                                )
-                                              ])))))),
-                          child: Image.asset('assets/cards/images/0.png')))))));
+                                                                child: Container(
+                                                                  height: 200,
+                                                                  margin: const EdgeInsets.only(bottom: 15),
+                                                                  child: ClipRRect(
+                                                                    borderRadius: const BorderRadius.all(Radius.circular(17.0)),
+                                                                    child: Image.asset(c.card),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              ColumnLabel(icon: "assets/icons/monalisa.svg", text: c.title),
+                                                              const SizedBox(height: 10),
+                                                              ColumnLabel(icon: "assets/icons/palette.svg", text: c.author),
+                                                              const SizedBox(height: 10),
+                                                              ColumnLabel(icon: "assets/icons/date.svg", text: c.date),
+                                                              const SizedBox(height: 10),
+                                                              ColumnLabel(icon: "assets/icons/museum.svg", text: c.museum),
+                                                              const SizedBox(height: 10),
+                                                              (!voted && playerPlayed[i] != 3)
+                                                                  ? ElevatedButton(
+                                                                      style: ButtonStyle(
+                                                                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                                                                          backgroundColor: MaterialStateProperty.all<Color>(Colors.white.withOpacity(0.8)),
+                                                                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(const RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                                              side: BorderSide(color: primaryColor)))),
+                                                                      onPressed: () {
+                                                                        GameScreen.counter--;
+                                                                        Navigator.of(context).pop();
+                                                                        playerVoted(i);
+                                                                      },
+                                                                      child: Text("Vota", style: Theme.of(context).textTheme.titleMedium))
+                                                                  : const SizedBox()
+                                                            ])),
+                                                      )
+                                                    ])))))));
+                          },
+                          child: Image.asset('assets/cards/images/${listCards.value.elementAt(i)}_carta.png')))))));
     }
     return widgets;
   }
@@ -183,7 +265,10 @@ class TableCardsScreen extends StatelessWidget {
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: (i < listCards.value.length)
-                      ? FlipCard(key: listKeys[i], front: Image.asset('assets/decks/back.png'), back: Image.asset('assets/cards/images/0.png'))
+                      ? FlipCard(
+                          key: listKeys[i],
+                          front: Image.asset('assets/decks/back.png'),
+                          back: Image.asset('assets/cards/images/${listCards.value.elementAt(i)}_carta.png'))
                       : Container(
                           height: imageHeight,
                           width: imageWidth,
@@ -202,7 +287,10 @@ class TableCardsScreen extends StatelessWidget {
           child: Padding(
               padding: EdgeInsets.symmetric(horizontal: paddingSize),
               child: (i < listCards.value.length)
-                  ? FlipCard(key: listKeys[i], front: Image.asset('assets/decks/back.png'), back: Image.asset('assets/cards/images/0.png'))
+                  ? FlipCard(
+                      key: listKeys[i],
+                      front: Image.asset('assets/decks/back.png'),
+                      back: Image.asset('assets/cards/images/${listCards.value.elementAt(i)}_carta.png'))
                   : Container(
                       height: imageHeight,
                       width: imageWidth,
@@ -217,11 +305,18 @@ class TableCardsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final DecksService decksService = Provider.of<DecksService>(context);
     double imageHeight = MediaQuery.of(context).screenHeight * 0.135;
-    double imageWidth = (660 / 1091) * imageHeight;
+    double imageWidth = (1080 / 1920) * imageHeight;
     double paddingSize = MediaQuery.of(context).getProportionateScreenHeight(5);
     double tableHeight = imageHeight * 2 + paddingSize * 2;
     double tableWidth = imageWidth * 2 + paddingSize * 4;
     return Stack(children: [
+      Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            message,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 21, fontFamily: "ElsieSwashCaps", color: Colors.white),
+          )),
       Center(
           child: Container(
         height: tableHeight + paddingSize * 10,
@@ -249,15 +344,15 @@ class TableCardsScreen extends StatelessWidget {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: (voting)
-                                ? voteFirstRow(context, imageHeight, imageWidth, paddingSize, decksService.decks[0].cards[listCards.value[0]],
-                                    decksService.decks[0].cards[listCards.value[1]])
+                                ? voteFirstRow(context, imageHeight, imageWidth, paddingSize, decksService.decks[0].cards[listCards.value[0] - 1],
+                                    decksService.decks[0].cards[listCards.value[1] - 1])
                                 : buildFirstRow(imageHeight, imageWidth, paddingSize)),
                         SizedBox(height: paddingSize * 2),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: (voting)
-                                ? voteSecondRow(context, imageHeight, imageWidth, paddingSize, decksService.decks[0].cards[listCards.value[2]],
-                                    decksService.decks[0].cards[listCards.value[3]])
+                                ? voteSecondRow(context, imageHeight, imageWidth, paddingSize, decksService.decks[0].cards[listCards.value[2] - 1],
+                                    decksService.decks[0].cards[listCards.value[3] - 1])
                                 : buildSecondRow(imageHeight, imageWidth, paddingSize)),
                       ],
                     ));

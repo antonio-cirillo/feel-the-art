@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import "package:feel_the_art/models/game/card.dart" as game;
 import 'package:feel_the_art/screens/game/components/user_cards.dart';
 import 'package:feel_the_art/theme/size_config.dart';
 import 'package:feel_the_art/theme/theme.dart';
@@ -10,19 +11,29 @@ import 'package:flutter/material.dart';
 
 import '../../components/text/text_with_border.dart';
 import '../../components/user/_parts/avatar_img.dart';
+import '../../services/decks_service.dart';
 import 'components/information.dart';
 import 'components/table_cards.dart';
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({super.key});
+  final DecksService decksService;
+  static int counter = 0;
+
+  const GameScreen({super.key, required this.decksService});
 
   @override
   State<StatefulWidget> createState() => _GameScreenState();
 }
 
 class _GameScreenState extends State<GameScreen> {
+  late final Map<int, game.Card> cards;
+  late final List<int> idCards;
+
   late GameStatus gameStatus;
 
+  String message = "";
+
+  bool themeSelected = false;
   bool played = true;
   bool voted = true;
   List<int> listCards = [];
@@ -47,6 +58,9 @@ class _GameScreenState extends State<GameScreen> {
   final points = {"Andrea21": 0, "Alessia5": 0, "Sanny00": 0, "Tu": 0};
   int point = 0;
 
+  final List<String> themes = ["Paura", "Amore", "Religione", "Felicità"];
+  String theme = "";
+
   @override
   void initState() {
     super.initState();
@@ -54,6 +68,8 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void startGame() {
+    cards = widget.decksService.decks[0].cardsMap.cast<int, game.Card>();
+    idCards = cards.keys.toList();
     setState(() {
       gameStatus = GameStatus.startGame;
     });
@@ -61,15 +77,70 @@ class _GameScreenState extends State<GameScreen> {
     for (var i = 1; i < 6 - nCards; i++) {
       Future.delayed(Duration(milliseconds: 600 * i), () {
         setState(() {
-          listCards.add(0);
+          int index = Random().nextInt(idCards.length);
+          listCards.add(idCards.removeAt(index));
         });
         if (i == 5 - nCards) {
           setState(() {
-            gameStatus = GameStatus.initTurn;
+            gameStatus = GameStatus.selectTheme;
           });
         }
       });
     }
+  }
+
+  void startNewTurn() {
+    setState(() {
+      gameStatus = GameStatus.startGame;
+    });
+    int nCards = listCards.length;
+    for (var i = 1; i < 6 - nCards; i++) {
+      Future.delayed(Duration(milliseconds: 600 * i), () {
+        setState(() {
+          int index = Random().nextInt(idCards.length);
+          listCards.add(idCards.removeAt(index));
+        });
+        if (i == 5 - nCards) {
+          setState(() {
+            gameStatus = GameStatus.selectTheme;
+          });
+        }
+      });
+    }
+  }
+
+  void selectTheme() {
+    setState(() {
+      time = 30;
+      themeSelected = false;
+      message = "Il narratore sta scegliendo...";
+    });
+    checkSelectTheme();
+    int second = Random().nextInt(15);
+    Future.delayed(Duration(seconds: 5 + second), () {
+      int indexTheme = Random().nextInt(themes.length);
+      setState(() {
+        themeSelected = true;
+        theme = themes.removeAt(indexTheme);
+      });
+    });
+  }
+
+  void checkSelectTheme() async {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (time == 0 || themeSelected) {
+        setState(() {
+          _timer.cancel();
+          message = "Tema scelto: $theme";
+          // gameStatus = GameStatus.initTurn;
+        });
+        startTurn();
+      } else {
+        setState(() {
+          time--;
+        });
+      }
+    });
   }
 
   void startTurn() {
@@ -80,10 +151,18 @@ class _GameScreenState extends State<GameScreen> {
       played = false;
       gameStatus = GameStatus.startTurn;
     });
+    List<int> cardsToPlay = [];
+    int index = Random().nextInt(idCards.length);
+    cardsToPlay.add(idCards.removeAt(index));
+    index = Random().nextInt(idCards.length);
+    cardsToPlay.add(idCards.removeAt(index));
+    index = Random().nextInt(idCards.length);
+    cardsToPlay.add(idCards.removeAt(index));
+
     for (var i = 0; i < 3; i++) {
       int second = Random().nextInt(15);
       Future.delayed(Duration(seconds: 5 + second), () {
-        TableCardsScreen.listCards.value = List.from(TableCardsScreen.listCards.value)..add(0);
+        TableCardsScreen.listCards.value = List.from(TableCardsScreen.listCards.value)..add(cardsToPlay[i]);
         TableCardsScreen.playerPlayed.add(i);
       });
     }
@@ -115,7 +194,7 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  void flipCard() {
+  void flipCard(BuildContext context) {
     for (var i = 0; i < 4; i++) {
       TableCardsScreen.listKeys[i].currentState!.toggleCard();
     }
@@ -123,33 +202,38 @@ class _GameScreenState extends State<GameScreen> {
       setState(() {
         gameStatus = GameStatus.startVote;
       });
-      startVote();
+      startVote(context);
     });
   }
 
-  void startVote() {
-    print(TableCardsScreen.playerPlayed);
+  void startVote(BuildContext context) {
     time = 30;
     setState(() {
       voted = false;
+      message = "Giocatori che hanno votato: 0/4";
     });
-    checkVote();
+    checkVote(context);
     for (var i = 0; i < 3; i++) {
       int second = Random().nextInt(15);
       Future.delayed(Duration(seconds: 5 + second), () {
         int idPlayerVoted = (Random().nextInt(3) + 1 + i) % 4;
         setState(() {
           nPlayersVoted++;
+          message = "Giocatori che hanno votato: $nPlayersVoted/4";
           points[players[idPlayerVoted]] = (points[players[idPlayerVoted]]! + 1)!;
         });
       });
     }
   }
 
-  void checkVote() async {
+  void checkVote(BuildContext context) async {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (time == 0 || nPlayersVoted == 4) {
         if (nPlayersVoted != 4) {
+          while (GameScreen.counter > 0) {
+            Navigator.of(context).pop();
+            GameScreen.counter--;
+          }
           int idPlayerVoted = Random().nextInt(3);
           setState(() {
             voted = true;
@@ -161,6 +245,7 @@ class _GameScreenState extends State<GameScreen> {
         setState(() {
           _timer.cancel();
           gameStatus = GameStatus.endVote;
+          message = "";
         });
       } else {
         setState(() {
@@ -174,6 +259,7 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       voted = true;
       nPlayersVoted++;
+      message = "Giocatori che hanno votato: $nPlayersVoted/4";
       points[players[id]] = (points[players[id]]! + 1)!;
     });
   }
@@ -193,7 +279,7 @@ class _GameScreenState extends State<GameScreen> {
       if (turn > nTurn) {
         endGame();
       } else {
-        startGame();
+        startNewTurn();
       }
     });
   }
@@ -202,7 +288,7 @@ class _GameScreenState extends State<GameScreen> {
     print("Partita finita!");
   }
 
-  Widget notifyMessage() {
+  Widget notifyMessage(BuildContext context) {
     Duration pauseDuration = const Duration(milliseconds: 50);
     Duration textDuration = const Duration(milliseconds: 1500);
     if (gameStatus == GameStatus.initGame) {
@@ -215,19 +301,26 @@ class _GameScreenState extends State<GameScreen> {
                 ScaleAnimatedText('1', duration: textDuration),
                 ScaleAnimatedText('VIA!', duration: textDuration),
               ])));
+    } else if (gameStatus == GameStatus.selectTheme) {
+      return Center(
+          child: DefaultTextStyle(
+              style: const TextStyle(fontSize: 50, fontFamily: "ElsieSwashCaps"),
+              child: AnimatedTextKit(isRepeatingAnimation: false, pause: pauseDuration, onFinished: () => selectTheme(), animatedTexts: [
+                ScaleAnimatedText('Turno $turn', duration: textDuration * 2, textAlign: TextAlign.center),
+                ScaleAnimatedText('Selezione del narratore', duration: textDuration * 2, textAlign: TextAlign.center),
+              ])));
     } else if (gameStatus == GameStatus.initTurn) {
       return Center(
           child: DefaultTextStyle(
               style: const TextStyle(fontSize: 50, fontFamily: "ElsieSwashCaps"),
               child: AnimatedTextKit(isRepeatingAnimation: false, pause: pauseDuration, onFinished: () => startTurn(), animatedTexts: [
-                ScaleAnimatedText('Turno $turn', duration: textDuration * 2, textAlign: TextAlign.center),
                 ScaleAnimatedText('Scegli la tua carta', duration: textDuration * 2, textAlign: TextAlign.center),
               ])));
     } else if (gameStatus == GameStatus.initVote) {
       return Center(
           child: DefaultTextStyle(
               style: const TextStyle(fontSize: 50, fontFamily: "ElsieSwashCaps"),
-              child: AnimatedTextKit(isRepeatingAnimation: false, pause: pauseDuration, onFinished: () => flipCard(), animatedTexts: [
+              child: AnimatedTextKit(isRepeatingAnimation: false, pause: pauseDuration, onFinished: () => flipCard(context), animatedTexts: [
                 ScaleAnimatedText('Vota una carta', duration: textDuration * 2, textAlign: TextAlign.center),
               ])));
     } else if (gameStatus == GameStatus.endVote) {
@@ -244,133 +337,139 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-            backgroundColor: bgColor,
-            body: Column(
-              children: [
-                Expanded(flex: 2, child: Container()),
-                Expanded(
-                    flex: 5,
-                    child: Row(
-                      children: [
-                        Expanded(flex: 2, child: Container()),
-                        Expanded(
-                            flex: 5,
-                            child: Stack(children: [
-                              Center(child: TableCardsScreen(playerVoted: playerVoted, voted: voted, voting: gameStatus == GameStatus.startVote)),
-                              notifyMessage(),
-                            ])),
-                        Expanded(flex: 2, child: Container())
-                      ],
-                    )),
-                Expanded(
-                    flex: 3,
-                    child: Column(children: [
-                      Expanded(
-                          flex: 6,
-                          child: UserCardsScreen(
-                            played: played,
-                            listCards: listCards,
-                            playerPlayed: playerPlayed,
-                          )),
-                      Expanded(flex: 3, child: InformationScreen(point: point, time: time))
-                    ]))
-              ],
-            )),
-        Positioned(top: 0, child: Image.asset('assets/background/game_bg.png')),
-        (showLeaderboard)
-            ? Material(
-                color: Colors.transparent,
-                child: Align(
-                    alignment: Alignment.center,
-                    child: InkWell(
-                      child: Container(
-                          width: MediaQuery.of(context).screenWidth * 0.9,
-                          height: MediaQuery.of(context).screenHeight * 0.68,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: primaryColor.withOpacity(0.8),
-                            boxShadow: [containerShadow],
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 20),
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: TextWithBorder(
-                                  "Classifica",
-                                  Colors.white,
-                                  primaryColor,
-                                  style: Theme.of(context).textTheme.displayMedium?.merge(titleStyle),
-                                ),
-                              ),
-                            ),
+    return WillPopScope(
+        onWillPop: () {
+          return Future.value(false);
+        },
+        child: Stack(
+          children: [
+            Scaffold(
+                backgroundColor: bgColor,
+                body: Column(
+                  children: [
+                    Expanded(flex: 2, child: Container()),
+                    Expanded(
+                        flex: 5,
+                        child: Row(
+                          children: [
+                            Expanded(flex: 2, child: Container()),
                             Expanded(
-                                child: ListView.separated(
-                                    separatorBuilder: (context, index) => const SizedBox(height: 10),
-                                    physics: const BouncingScrollPhysics(),
-                                    itemCount: 4,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      final sort = Map.fromEntries(points.entries.toList()..sort((e1, e2) => e2.value.compareTo(e1.value)));
-                                      List<String> playersSorted = sort.keys.toList();
-                                      List<int> pointsSorted = sort.values.toList();
-                                      return Container(
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          boxShadow: [containerShadow],
-                                          borderRadius: BorderRadius.circular(15),
-                                        ),
-                                        child: Flex(
-                                          direction: Axis.horizontal,
-                                          children: [
-                                            AvatarImg(playersSorted[index], 80),
-                                            Container(
-                                              margin: const EdgeInsets.symmetric(horizontal: 10),
-                                              height: 65,
-                                              decoration: BoxDecoration(
-                                                color: primaryColor,
-                                                border: Border.all(color: bgColor, width: 2),
-                                                borderRadius: const BorderRadius.all(Radius.circular(30)),
-                                              ),
+                                flex: 5,
+                                child: Stack(children: [
+                                  Center(
+                                      child: TableCardsScreen(
+                                          message: message, playerVoted: playerVoted, voted: voted, voting: gameStatus == GameStatus.startVote)),
+                                  notifyMessage(context),
+                                ])),
+                            Expanded(flex: 2, child: Container())
+                          ],
+                        )),
+                    Expanded(
+                        flex: 3,
+                        child: Column(children: [
+                          Expanded(
+                              flex: 6,
+                              child: UserCardsScreen(
+                                played: played,
+                                listCards: listCards,
+                                playerPlayed: playerPlayed,
+                              )),
+                          Expanded(flex: 3, child: InformationScreen(point: point, time: time))
+                        ]))
+                  ],
+                )),
+            Positioned(top: 0, child: Image.asset('assets/background/game_bg.png')),
+            (showLeaderboard)
+                ? Material(
+                    color: Colors.transparent,
+                    child: Align(
+                        alignment: Alignment.center,
+                        child: InkWell(
+                          child: Container(
+                              width: MediaQuery.of(context).screenWidth * 0.9,
+                              height: MediaQuery.of(context).screenHeight * 0.68,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: primaryColor.withOpacity(0.8),
+                                boxShadow: [containerShadow],
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Column(children: [
+                                Container(
+                                  margin: const EdgeInsets.symmetric(vertical: 20),
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: TextWithBorder(
+                                      "Classifica",
+                                      Colors.white,
+                                      primaryColor,
+                                      style: Theme.of(context).textTheme.displayMedium?.merge(titleStyle),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                    child: ListView.separated(
+                                        separatorBuilder: (context, index) => const SizedBox(height: 10),
+                                        physics: const BouncingScrollPhysics(),
+                                        itemCount: 4,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          final sort = Map.fromEntries(points.entries.toList()..sort((e1, e2) => e2.value.compareTo(e1.value)));
+                                          List<String> playersSorted = sort.keys.toList();
+                                          List<int> pointsSorted = sort.values.toList();
+                                          return Container(
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [containerShadow],
+                                              borderRadius: BorderRadius.circular(15),
                                             ),
-                                            Flex(
-                                              direction: Axis.vertical,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                            child: Flex(
+                                              direction: Axis.horizontal,
                                               children: [
-                                                FittedBox(
-                                                  fit: BoxFit.scaleDown,
-                                                  child: Text(
-                                                    playersSorted[index],
-                                                    style: Theme.of(context).textTheme.headlineSmall,
+                                                AvatarImg(playersSorted[index], 80),
+                                                Container(
+                                                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                                                  height: 65,
+                                                  decoration: BoxDecoration(
+                                                    color: primaryColor,
+                                                    border: Border.all(color: bgColor, width: 2),
+                                                    borderRadius: const BorderRadius.all(Radius.circular(30)),
                                                   ),
                                                 ),
-                                                Text(
-                                                  "Punti: ${pointsSorted[index]}",
-                                                  style: Theme.of(context).textTheme.titleSmall?.merge(const TextStyle(color: Color(0xff8022d5))),
+                                                Flex(
+                                                  direction: Axis.vertical,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    FittedBox(
+                                                      fit: BoxFit.scaleDown,
+                                                      child: Text(
+                                                        playersSorted[index],
+                                                        style: Theme.of(context).textTheme.headlineSmall,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "Punti: ${pointsSorted[index]}",
+                                                      style: Theme.of(context).textTheme.titleSmall?.merge(const TextStyle(color: Color(0xff8022d5))),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Expanded(
+                                                  child: Text((index + 1).toString(),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headlineLarge
+                                                          ?.merge(titleStyle)
+                                                          .merge(positionStyle[index + 1 >= positionStyle.length ? 0 : index + 1]),
+                                                      textAlign: TextAlign.right),
                                                 ),
                                               ],
                                             ),
-                                            Expanded(
-                                              child: Text((index + 1).toString(),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineLarge
-                                                      ?.merge(titleStyle)
-                                                      .merge(positionStyle[index + 1 >= positionStyle.length ? 0 : index + 1]),
-                                                  textAlign: TextAlign.right),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    })),
-                          ])),
-                    )))
-            : const SizedBox(),
-      ],
-    );
+                                          );
+                                        })),
+                              ])),
+                        )))
+                : const SizedBox(),
+          ],
+        ));
   }
 }
