@@ -5,12 +5,9 @@ class UserCardsScreen extends StatefulWidget {
   bool played;
   List<int> listCards;
   final VoidCallback playerPlayed;
+  final Function(BuildContext, int) showCard;
 
-  UserCardsScreen(
-      {super.key,
-      this.played = false,
-      required this.listCards,
-      required this.playerPlayed});
+  UserCardsScreen({super.key, this.played = false, required this.listCards, required this.showCard, required this.playerPlayed});
 
   @override
   State<StatefulWidget> createState() => UserCardsScreenState();
@@ -25,28 +22,30 @@ class UserCardsScreenState extends State<UserCardsScreen> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: widget.listCards.map((e) {
           return Flexible(
-              child: Draggable(
-                  maxSimultaneousDrags: (widget.played) ? 0 : 1,
-                  data: e,
-                  feedback: SizedBox(
-                    height: imageHeight,
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Image.asset('assets/cards/images/${e}_carta.png')),
-                  ),
-                  childWhenDragging: Container(),
-                  onDragCompleted: () {
-                    setState(() {
-                      widget.listCards.remove(e);
-                    });
-                    widget.playerPlayed();
+              child: GestureDetector(
+                  onLongPress: () {
+                    widget.showCard(context, e);
                   },
-                  child: SizedBox(
-                      height: imageHeight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Image.asset('assets/cards/images/${e}_carta.png'),
-                      ))));
+                  child: Draggable(
+                      maxSimultaneousDrags: (widget.played) ? 0 : 1,
+                      data: e,
+                      feedback: SizedBox(
+                        height: imageHeight,
+                        child: Padding(padding: const EdgeInsets.symmetric(horizontal: 5), child: Image.asset('assets/cards/images/${e}_carta.png')),
+                      ),
+                      childWhenDragging: Container(),
+                      onDragCompleted: () {
+                        setState(() {
+                          widget.listCards.remove(e);
+                        });
+                        widget.playerPlayed();
+                      },
+                      child: SizedBox(
+                          height: imageHeight,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: Image.asset('assets/cards/images/${e}_carta.png'),
+                          )))));
         }).toList());
   }
 }

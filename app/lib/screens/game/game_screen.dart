@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import "package:feel_the_art/models/game/card.dart" as game;
 import 'package:feel_the_art/screens/game/components/user_cards.dart';
+import 'package:feel_the_art/services/account_service.dart';
 import 'package:feel_the_art/theme/size_config.dart';
 import 'package:feel_the_art/theme/theme.dart';
 import 'package:feel_the_art/utils/game_status.dart';
@@ -12,14 +13,17 @@ import 'package:flutter/material.dart';
 import '../../components/text/text_with_border.dart';
 import '../../components/user/_parts/avatar_img.dart';
 import '../../services/decks_service.dart';
+import '../card/_part/column_label.dart';
+import '../card/card_screen.dart';
 import 'components/information.dart';
 import 'components/table_cards.dart';
 
 class GameScreen extends StatefulWidget {
   final DecksService decksService;
+  final AccountService accountService;
   static int counter = 0;
 
-  const GameScreen({super.key, required this.decksService});
+  const GameScreen({super.key, required this.decksService, required this.accountService});
 
   @override
   State<StatefulWidget> createState() => _GameScreenState();
@@ -36,7 +40,11 @@ class _GameScreenState extends State<GameScreen> {
   bool themeSelected = false;
   bool played = true;
   bool voted = true;
+  String image = "";
   List<int> listCards = [];
+
+  int showedCard = -1;
+  late game.Card c;
 
   bool showLeaderboard = false;
 
@@ -58,7 +66,7 @@ class _GameScreenState extends State<GameScreen> {
   final points = {"Andrea21": 0, "Alessia5": 0, "Sanny00": 0, "Tu": 0};
   int point = 0;
 
-  final List<String> themes = ["Paura", "Amore", "Religione", "Felicità"];
+  final List<String> themes = ["Paura", "Amore", "Religione", "Felicità", "Communità"];
   String theme = "";
 
   @override
@@ -70,6 +78,7 @@ class _GameScreenState extends State<GameScreen> {
   void startGame() {
     cards = widget.decksService.decks[0].cardsMap.cast<int, game.Card>();
     idCards = cards.keys.toList();
+    image = widget.accountService.avatar;
     setState(() {
       gameStatus = GameStatus.startGame;
     });
@@ -109,32 +118,48 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
-  void selectTheme() {
+  void selectTheme(BuildContext context) {
     setState(() {
       time = 30;
       themeSelected = false;
       message = "Il narratore sta scegliendo...";
     });
-    checkSelectTheme();
+    checkSelectTheme(context);
     int second = Random().nextInt(15);
-    Future.delayed(Duration(seconds: 5 + second), () {
-      int indexTheme = Random().nextInt(themes.length);
-      setState(() {
-        themeSelected = true;
-        theme = themes.removeAt(indexTheme);
+    if (turn == 2) {
+      Future.delayed(Duration(seconds: 5 + second), () {
+        int indexTheme = Random().nextInt(themes.length);
+        setState(() {
+          themeSelected = true;
+          theme = themes.removeAt(indexTheme);
+        });
       });
+    } else {
+      setState(() {
+        gameStatus = GameStatus.choiceTheme;
+      });
+    }
+  }
+
+  void playerSelectTheme(int id) {
+    setState(() {
+      themeSelected = true;
+      theme = themes.removeAt(id);
     });
   }
 
-  void checkSelectTheme() async {
+  void checkSelectTheme(BuildContext context) async {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (time == 0 || themeSelected) {
+        if (!themeSelected) {
+          int indexTheme = Random().nextInt(themes.length);
+          playerSelectTheme(indexTheme);
+        }
         setState(() {
           _timer.cancel();
           message = "Tema scelto: $theme";
-          // gameStatus = GameStatus.initTurn;
+          gameStatus = GameStatus.initTurn;
         });
-        startTurn();
       } else {
         setState(() {
           time--;
@@ -143,10 +168,10 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  void startTurn() {
+  void startTurn(BuildContext context) {
     TableCardsScreen.playerPlayed = [];
     time = 30;
-    checkTurn();
+    checkTurn(context);
     setState(() {
       played = false;
       gameStatus = GameStatus.startTurn;
@@ -168,9 +193,13 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
-  void checkTurn() async {
+  void checkTurn(BuildContext context) async {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (time == 0 || TableCardsScreen.listCards.value.length == 4) {
+        while (GameScreen.counter > 0) {
+          Navigator.of(context).pop();
+          GameScreen.counter--;
+        }
         if (TableCardsScreen.listCards.value.length < 4) {
           playerPlayed();
           TableCardsScreen.listCards.value = List.from(TableCardsScreen.listCards.value)..add(listCards.removeAt(Random().nextInt(5)));
@@ -185,6 +214,89 @@ class _GameScreenState extends State<GameScreen> {
         });
       }
     });
+  }
+
+  void showCard(BuildContext context, int id) {
+    GameScreen.counter = 1;
+    setState(() {
+      c = widget.decksService.decks[0].cardsMap[id]!;
+    });
+    showGeneralDialog(
+        context: context,
+        pageBuilder: (context, _, __) => WillPopScope(
+            onWillPop: () {
+              GameScreen.counter--;
+              return Future.value(true);
+            },
+            child: Material(
+                color: Colors.transparent,
+                child: Align(
+                    alignment: Alignment.center,
+                    child: InkWell(
+                        child: Container(
+                            width: MediaQuery.of(context).screenWidth * 0.9,
+                            height: MediaQuery.of(context).screenHeight * 0.8,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: primaryColor.withOpacity(0.8),
+                              boxShadow: [containerShadow],
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(children: [
+                              Container(
+                                margin: const EdgeInsets.symmetric(vertical: 20),
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: TextWithBorder(
+                                    "Info carta",
+                                    Colors.white,
+                                    primaryColor,
+                                    style: Theme.of(context).textTheme.displayMedium?.merge(titleStyle),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                    controller: ScrollController(),
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Column(children: [
+                                      GestureDetector(
+                                          onTap: () {
+                                            GameScreen.counter++;
+                                            {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => WillPopScope(
+                                                      onWillPop: () {
+                                                        GameScreen.counter--;
+                                                        return Future.value(true);
+                                                      },
+                                                      child: HeroPhotoViewRouteWrapper(
+                                                        imageProvider: AssetImage(c.image),
+                                                      )),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Container(
+                                              height: 200,
+                                              margin: const EdgeInsets.only(bottom: 15),
+                                              child: ClipRRect(
+                                                borderRadius: const BorderRadius.all(Radius.circular(17.0)),
+                                                child: Image.asset(c.card),
+                                              ))),
+                                      ColumnLabel(icon: "assets/icons/monalisa.svg", text: c.title),
+                                      const SizedBox(height: 10),
+                                      ColumnLabel(icon: "assets/icons/palette.svg", text: c.author),
+                                      const SizedBox(height: 10),
+                                      ColumnLabel(icon: "assets/icons/date.svg", text: c.date),
+                                      const SizedBox(height: 10),
+                                      ColumnLabel(icon: "assets/icons/museum.svg", text: c.museum),
+                                      const SizedBox(height: 10),
+                                    ])),
+                              )
+                            ])))))));
   }
 
   void playerPlayed() {
@@ -229,11 +341,11 @@ class _GameScreenState extends State<GameScreen> {
   void checkVote(BuildContext context) async {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (time == 0 || nPlayersVoted == 4) {
+        while (GameScreen.counter > 0) {
+          Navigator.of(context).pop();
+          GameScreen.counter--;
+        }
         if (nPlayersVoted != 4) {
-          while (GameScreen.counter > 0) {
-            Navigator.of(context).pop();
-            GameScreen.counter--;
-          }
           int idPlayerVoted = Random().nextInt(3);
           setState(() {
             voted = true;
@@ -305,17 +417,19 @@ class _GameScreenState extends State<GameScreen> {
       return Center(
           child: DefaultTextStyle(
               style: const TextStyle(fontSize: 50, fontFamily: "ElsieSwashCaps"),
-              child: AnimatedTextKit(isRepeatingAnimation: false, pause: pauseDuration, onFinished: () => selectTheme(), animatedTexts: [
+              child: AnimatedTextKit(isRepeatingAnimation: false, pause: pauseDuration, onFinished: () => selectTheme(context), animatedTexts: [
                 ScaleAnimatedText('Turno $turn', duration: textDuration * 2, textAlign: TextAlign.center),
                 ScaleAnimatedText('Selezione del narratore', duration: textDuration * 2, textAlign: TextAlign.center),
               ])));
     } else if (gameStatus == GameStatus.initTurn) {
-      return Center(
-          child: DefaultTextStyle(
-              style: const TextStyle(fontSize: 50, fontFamily: "ElsieSwashCaps"),
-              child: AnimatedTextKit(isRepeatingAnimation: false, pause: pauseDuration, onFinished: () => startTurn(), animatedTexts: [
-                ScaleAnimatedText('Scegli la tua carta', duration: textDuration * 2, textAlign: TextAlign.center),
-              ])));
+      return Stack(children: [
+        Center(
+            child: DefaultTextStyle(
+                style: const TextStyle(fontSize: 50, fontFamily: "ElsieSwashCaps"),
+                child: AnimatedTextKit(isRepeatingAnimation: false, pause: pauseDuration, onFinished: () => startTurn(context), animatedTexts: [
+                  ScaleAnimatedText('Scegli la tua carta', duration: textDuration * 2, textAlign: TextAlign.center),
+                ]))),
+      ]);
     } else if (gameStatus == GameStatus.initVote) {
       return Center(
           child: DefaultTextStyle(
@@ -373,12 +487,80 @@ class _GameScreenState extends State<GameScreen> {
                                 played: played,
                                 listCards: listCards,
                                 playerPlayed: playerPlayed,
+                                showCard: showCard,
                               )),
                           Expanded(flex: 3, child: InformationScreen(point: point, time: time))
                         ]))
                   ],
                 )),
             Positioned(top: 0, child: Image.asset('assets/background/game_bg.png')),
+            (gameStatus == GameStatus.choiceTheme && !themeSelected)
+                ? Material(
+                    color: Colors.transparent,
+                    child: Align(
+                        alignment: Alignment.center,
+                        child: InkWell(
+                            child: Container(
+                                width: MediaQuery.of(context).screenWidth * 0.8,
+                                height: MediaQuery.of(context).screenHeight * 0.55,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: primaryColor.withOpacity(0.8),
+                                  boxShadow: [containerShadow],
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Column(children: [
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(vertical: 20),
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: TextWithBorder(
+                                        "Scegli il tema",
+                                        Colors.white,
+                                        primaryColor,
+                                        style: Theme.of(context).textTheme.displayMedium?.merge(titleStyle),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: ListView.separated(
+                                          separatorBuilder: (context, index) => const SizedBox(height: 10),
+                                          physics: const BouncingScrollPhysics(),
+                                          itemCount: themes.length,
+                                          itemBuilder: (BuildContext context, int index) {
+                                            return GestureDetector(
+                                                onTap: () {
+                                                  playerSelectTheme(index);
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    boxShadow: [containerShadow],
+                                                    borderRadius: BorderRadius.circular(15),
+                                                  ),
+                                                  child: Flex(
+                                                    direction: Axis.horizontal,
+                                                    children: [
+                                                      Container(
+                                                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                                                        height: 35,
+                                                        decoration: BoxDecoration(
+                                                          color: primaryColor,
+                                                          border: Border.all(color: bgColor, width: 2),
+                                                          borderRadius: const BorderRadius.all(Radius.circular(30)),
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        themes[index],
+                                                        style: Theme.of(context).textTheme.headlineSmall,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ));
+                                          }))
+                                ])))))
+                : const SizedBox(),
             (showLeaderboard)
                 ? Material(
                     color: Colors.transparent,
@@ -426,7 +608,7 @@ class _GameScreenState extends State<GameScreen> {
                                             child: Flex(
                                               direction: Axis.horizontal,
                                               children: [
-                                                AvatarImg(playersSorted[index], 80),
+                                                AvatarImg((playersSorted[index] == "Tu") ? image : playersSorted[index], 80),
                                                 Container(
                                                   margin: const EdgeInsets.symmetric(horizontal: 10),
                                                   height: 65,
