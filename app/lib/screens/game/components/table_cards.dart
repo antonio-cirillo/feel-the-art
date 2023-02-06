@@ -310,13 +310,6 @@ class TableCardsScreen extends StatelessWidget {
     double tableHeight = imageHeight * 2 + paddingSize * 2;
     double tableWidth = imageWidth * 2 + paddingSize * 4;
     return Stack(children: [
-      Align(
-          alignment: Alignment.topCenter,
-          child: Text(
-            message,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 21, fontFamily: "ElsieSwashCaps", color: Colors.white),
-          )),
       Center(
           child: Container(
         height: tableHeight + paddingSize * 10,

@@ -43,6 +43,8 @@ class _GameScreenState extends State<GameScreen> {
   String image = "";
   List<int> listCards = [];
 
+  bool display = false;
+
   int showedCard = -1;
   late game.Card c;
 
@@ -63,10 +65,11 @@ class _GameScreenState extends State<GameScreen> {
   int nPlayersVoted = 0;
 
   List<String> players = ['Andrea21', 'Alessia5', 'Sanny00', 'Tu'];
-  final points = {"Andrea21": 0, "Alessia5": 0, "Sanny00": 0, "Tu": 0};
+  Map<String, int> points = {"Andrea21": 0, "Alessia5": 0, "Sanny00": 0, "Tu": 0};
+  final tmpPoints = {"Andrea21": 0, "Alessia5": 0, "Sanny00": 0, "Tu": 0};
   int point = 0;
 
-  final List<String> themes = ["Paura", "Amore", "Religione", "Felicità", "Communità"];
+  final List<String> themes = ["Paura", "Amore", "Religione", "Felicità", "Comunità"];
   String theme = "";
 
   @override
@@ -78,24 +81,27 @@ class _GameScreenState extends State<GameScreen> {
   void startGame() {
     cards = widget.decksService.decks[0].cardsMap.cast<int, game.Card>();
     idCards = cards.keys.toList();
-    image = widget.accountService.avatar;
     setState(() {
+      image = widget.accountService.avatar;
       gameStatus = GameStatus.startGame;
+      display = true;
     });
-    int nCards = listCards.length;
-    for (var i = 1; i < 6 - nCards; i++) {
-      Future.delayed(Duration(milliseconds: 600 * i), () {
-        setState(() {
-          int index = Random().nextInt(idCards.length);
-          listCards.add(idCards.removeAt(index));
-        });
-        if (i == 5 - nCards) {
+    Future.delayed(const Duration(seconds: 1), () {
+      int nCards = listCards.length;
+      for (var i = 1; i < 6 - nCards; i++) {
+        Future.delayed(Duration(milliseconds: 600 * i), () {
           setState(() {
-            gameStatus = GameStatus.selectTheme;
+            int index = Random().nextInt(idCards.length);
+            listCards.add(idCards.removeAt(index));
           });
-        }
-      });
-    }
+          if (i == 5 - nCards) {
+            setState(() {
+              gameStatus = GameStatus.selectTheme;
+            });
+          }
+        });
+      }
+    });
   }
 
   void startNewTurn() {
@@ -332,7 +338,7 @@ class _GameScreenState extends State<GameScreen> {
         setState(() {
           nPlayersVoted++;
           message = "Giocatori che hanno votato: $nPlayersVoted/4";
-          points[players[idPlayerVoted]] = (points[players[idPlayerVoted]]! + 1)!;
+          tmpPoints[players[idPlayerVoted]] = (tmpPoints[players[idPlayerVoted]]! + 1)!;
         });
       });
     }
@@ -350,7 +356,7 @@ class _GameScreenState extends State<GameScreen> {
           setState(() {
             voted = true;
             nPlayersVoted++;
-            points[players[idPlayerVoted]] = (points[players[idPlayerVoted]]! + 1)!;
+            tmpPoints[players[idPlayerVoted]] = (tmpPoints[players[idPlayerVoted]]! + 1)!;
           });
         }
         TableCardsScreen.listCards.value = [];
@@ -372,13 +378,13 @@ class _GameScreenState extends State<GameScreen> {
       voted = true;
       nPlayersVoted++;
       message = "Giocatori che hanno votato: $nPlayersVoted/4";
-      points[players[id]] = (points[players[id]]! + 1)!;
+      tmpPoints[players[id]] = (tmpPoints[players[id]]! + 1)!;
     });
   }
 
   void showPoint() {
     setState(() {
-      point = points["Tu"]!;
+      point = tmpPoints["Tu"]!;
       time = 0;
       nPlayersVoted = 0;
       showLeaderboard = true;
@@ -387,6 +393,7 @@ class _GameScreenState extends State<GameScreen> {
     Future.delayed(const Duration(seconds: 8), () {
       setState(() {
         showLeaderboard = false;
+        points = Map<String, int>.from(tmpPoints);
       });
       if (turn > nTurn) {
         endGame();
@@ -459,41 +466,308 @@ class _GameScreenState extends State<GameScreen> {
           children: [
             Scaffold(
                 backgroundColor: bgColor,
-                body: Column(
-                  children: [
-                    Expanded(flex: 2, child: Container()),
-                    Expanded(
-                        flex: 5,
-                        child: Row(
-                          children: [
-                            Expanded(flex: 2, child: Container()),
+                body: Stack(children: [
+                  Positioned(top: 0, child: Image.asset('assets/background/game_bg.png')),
+                  Column(
+                    children: [
+                      Expanded(
+                          flex: 2,
+                          child: Column(children: [
+                            Expanded(
+                                flex: 7,
+                                child: Align(
+                                    alignment: Alignment.center,
+                                    child: Stack(children: [
+                                      Text(
+                                        message,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            fontFamily: "ElsieSwashCaps",
+                                            foreground: Paint()
+                                              ..style = PaintingStyle.stroke
+                                              ..strokeWidth = 2
+                                              ..color = primaryColor),
+                                      ),
+                                      Text(
+                                        message,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(fontSize: 24, fontFamily: "ElsieSwashCaps", color: Colors.white),
+                                      )
+                                    ]))),
+                            Expanded(
+                                flex: 2,
+                                child: (display)
+                                    ? Align(
+                                        alignment: Alignment.center,
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context).size.width * 0.4,
+                                          height: 40,
+                                          child: Stack(
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.center,
+                                                child: Container(
+                                                  width: MediaQuery.of(context).size.width * 0.35,
+                                                  height: 35,
+                                                  decoration: BoxDecoration(
+                                                    color: const Color(0xff9f5dd7),
+                                                    borderRadius: BorderRadius.circular(15),
+                                                  ),
+                                                  alignment: const AlignmentDirectional(0, 0),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 5, right: 5, top: 3),
+                                                    child: Text(
+                                                      players[2],
+                                                      style: const TextStyle(color: Colors.white, fontFamily: "ElsieSwashCaps"),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: const AlignmentDirectional(-1, 0),
+                                                child: Container(
+                                                    width: MediaQuery.of(context).size.width * 0.08,
+                                                    height: MediaQuery.of(context).size.width * 0.08,
+                                                    clipBehavior: Clip.antiAlias,
+                                                    decoration: const BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: AvatarImg(players[2], 80)),
+                                              ),
+                                              Align(
+                                                alignment: const AlignmentDirectional(1, 0),
+                                                child: Container(
+                                                    width: MediaQuery.of(context).size.width * 0.08,
+                                                    height: MediaQuery.of(context).size.width * 0.08,
+                                                    clipBehavior: Clip.antiAlias,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: const Color(0xffdd6db5),
+                                                      border: Border.all(width: 1.7, color: const Color(0xffe0b048)),
+                                                    ),
+                                                    child: Align(
+                                                        alignment: const AlignmentDirectional(0, 0),
+                                                        child: Text(points[players[2]].toString(),
+                                                            style: const TextStyle(color: Colors.white, fontFamily: "ElsieSwashCaps")))),
+                                              ),
+                                            ],
+                                          ),
+                                        ))
+                                    : const SizedBox())
+                          ])),
+                      Expanded(
+                          flex: 5,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: (display)
+                                      ? RotatedBox(
+                                          quarterTurns: 3,
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context).size.width * 0.4,
+                                            height: 40,
+                                            child: Stack(
+                                              children: [
+                                                Align(
+                                                  alignment: Alignment.center,
+                                                  child: Container(
+                                                    width: MediaQuery.of(context).size.width * 0.35,
+                                                    height: 35,
+                                                    decoration: BoxDecoration(
+                                                      color: const Color(0xff9f5dd7),
+                                                      borderRadius: BorderRadius.circular(15),
+                                                    ),
+                                                    alignment: const AlignmentDirectional(0, 0),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(left: 5, right: 5, top: 3),
+                                                      child: Text(
+                                                        players[0],
+                                                        style: const TextStyle(color: Colors.white, fontFamily: "ElsieSwashCaps"),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Align(
+                                                  alignment: const AlignmentDirectional(-1, 0),
+                                                  child: Container(
+                                                      width: MediaQuery.of(context).size.width * 0.08,
+                                                      height: MediaQuery.of(context).size.width * 0.08,
+                                                      clipBehavior: Clip.antiAlias,
+                                                      decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: AvatarImg(players[0], 80)),
+                                                ),
+                                                Align(
+                                                  alignment: const AlignmentDirectional(1, 0),
+                                                  child: Container(
+                                                      width: MediaQuery.of(context).size.width * 0.08,
+                                                      height: MediaQuery.of(context).size.width * 0.08,
+                                                      clipBehavior: Clip.antiAlias,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: const Color(0xffdd6db5),
+                                                        border: Border.all(width: 1.7, color: const Color(0xffe0b048)),
+                                                      ),
+                                                      child: Align(
+                                                          alignment: const AlignmentDirectional(0, 0),
+                                                          child: Text(points[players[0]].toString(),
+                                                              style: const TextStyle(color: Colors.white, fontFamily: "ElsieSwashCaps")))),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox()),
+                              Expanded(
+                                  flex: 5,
+                                  child: Stack(children: [
+                                    Center(
+                                        child: TableCardsScreen(
+                                            message: message, playerVoted: playerVoted, voted: voted, voting: gameStatus == GameStatus.startVote)),
+                                    notifyMessage(context),
+                                  ])),
+                              Expanded(
+                                  flex: 2,
+                                  child: (display)
+                                      ? RotatedBox(
+                                          quarterTurns: 1,
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context).size.width * 0.4,
+                                            height: 40,
+                                            child: Stack(
+                                              children: [
+                                                Align(
+                                                  alignment: Alignment.center,
+                                                  child: Container(
+                                                    width: MediaQuery.of(context).size.width * 0.35,
+                                                    height: 35,
+                                                    decoration: BoxDecoration(
+                                                      color: const Color(0xff9f5dd7),
+                                                      borderRadius: BorderRadius.circular(15),
+                                                    ),
+                                                    alignment: const AlignmentDirectional(0, 0),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(left: 5, right: 5, top: 3),
+                                                      child: Text(
+                                                        players[1],
+                                                        style: const TextStyle(color: Colors.white, fontFamily: "ElsieSwashCaps"),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Align(
+                                                  alignment: const AlignmentDirectional(-1, 0),
+                                                  child: Container(
+                                                      width: MediaQuery.of(context).size.width * 0.08,
+                                                      height: MediaQuery.of(context).size.width * 0.08,
+                                                      clipBehavior: Clip.antiAlias,
+                                                      decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: AvatarImg(players[1], 80)),
+                                                ),
+                                                Align(
+                                                  alignment: const AlignmentDirectional(1, 0),
+                                                  child: Container(
+                                                      width: MediaQuery.of(context).size.width * 0.08,
+                                                      height: MediaQuery.of(context).size.width * 0.08,
+                                                      clipBehavior: Clip.antiAlias,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: const Color(0xffdd6db5),
+                                                        border: Border.all(width: 1.7, color: const Color(0xffe0b048)),
+                                                      ),
+                                                      child: Align(
+                                                          alignment: const AlignmentDirectional(0, 0),
+                                                          child: Text(points[players[1]].toString(),
+                                                              style: const TextStyle(color: Colors.white, fontFamily: "ElsieSwashCaps")))),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox())
+                            ],
+                          )),
+                      Expanded(
+                          flex: 3,
+                          child: Column(children: [
+                            Expanded(
+                                flex: 1,
+                                child: Align(
+                                    alignment: Alignment.center,
+                                    child: (display)
+                                        ? SizedBox(
+                                            width: MediaQuery.of(context).size.width * 0.4,
+                                            height: 40,
+                                            child: Stack(
+                                              children: [
+                                                Align(
+                                                  alignment: Alignment.center,
+                                                  child: Container(
+                                                    width: MediaQuery.of(context).size.width * 0.35,
+                                                    height: 35,
+                                                    decoration: BoxDecoration(
+                                                      color: const Color(0xff9f5dd7),
+                                                      borderRadius: BorderRadius.circular(15),
+                                                    ),
+                                                    alignment: const AlignmentDirectional(0, 0),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(left: 5, right: 5, top: 3),
+                                                      child: Text(
+                                                        players[3],
+                                                        style: const TextStyle(color: Colors.white, fontFamily: "ElsieSwashCaps"),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Align(
+                                                  alignment: const AlignmentDirectional(-1, 0),
+                                                  child: Container(
+                                                      width: MediaQuery.of(context).size.width * 0.08,
+                                                      height: MediaQuery.of(context).size.width * 0.08,
+                                                      clipBehavior: Clip.antiAlias,
+                                                      decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: AvatarImg(image, 80)),
+                                                ),
+                                                Align(
+                                                  alignment: const AlignmentDirectional(1, 0),
+                                                  child: Container(
+                                                      width: MediaQuery.of(context).size.width * 0.08,
+                                                      height: MediaQuery.of(context).size.width * 0.08,
+                                                      clipBehavior: Clip.antiAlias,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: const Color(0xffdd6db5),
+                                                        border: Border.all(width: 1.7, color: const Color(0xffe0b048)),
+                                                      ),
+                                                      child: Align(
+                                                          alignment: const AlignmentDirectional(0, 0),
+                                                          child: Text(points[players[3]].toString(),
+                                                              style: const TextStyle(color: Colors.white, fontFamily: "ElsieSwashCaps")))),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : const SizedBox())),
                             Expanded(
                                 flex: 5,
-                                child: Stack(children: [
-                                  Center(
-                                      child: TableCardsScreen(
-                                          message: message, playerVoted: playerVoted, voted: voted, voting: gameStatus == GameStatus.startVote)),
-                                  notifyMessage(context),
-                                ])),
-                            Expanded(flex: 2, child: Container())
-                          ],
-                        )),
-                    Expanded(
-                        flex: 3,
-                        child: Column(children: [
-                          Expanded(
-                              flex: 6,
-                              child: UserCardsScreen(
-                                played: played,
-                                listCards: listCards,
-                                playerPlayed: playerPlayed,
-                                showCard: showCard,
-                              )),
-                          Expanded(flex: 3, child: InformationScreen(point: point, time: time))
-                        ]))
-                  ],
-                )),
-            Positioned(top: 0, child: Image.asset('assets/background/game_bg.png')),
+                                child: UserCardsScreen(
+                                  played: played,
+                                  listCards: listCards,
+                                  playerPlayed: playerPlayed,
+                                  showCard: showCard,
+                                )),
+                            Expanded(flex: 2, child: InformationScreen(time: time))
+                          ]))
+                    ],
+                  ),
+                ])),
             (gameStatus == GameStatus.choiceTheme && !themeSelected)
                 ? Material(
                     color: Colors.transparent,
@@ -595,7 +869,7 @@ class _GameScreenState extends State<GameScreen> {
                                         physics: const BouncingScrollPhysics(),
                                         itemCount: 4,
                                         itemBuilder: (BuildContext context, int index) {
-                                          final sort = Map.fromEntries(points.entries.toList()..sort((e1, e2) => e2.value.compareTo(e1.value)));
+                                          final sort = Map.fromEntries(tmpPoints.entries.toList()..sort((e1, e2) => e2.value.compareTo(e1.value)));
                                           List<String> playersSorted = sort.keys.toList();
                                           List<int> pointsSorted = sort.values.toList();
                                           return Container(
