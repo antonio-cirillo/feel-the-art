@@ -188,7 +188,7 @@ class _CardScreenState extends State<CardScreen> {
                           duration: const Duration(milliseconds: 300),
                           child: Container(
                             height: _height,
-                            margin: const EdgeInsets.only(bottom: 15),
+                            margin: const EdgeInsets.only(bottom: 5),
                             child: ClipRRect(
                               borderRadius: const BorderRadius.all(Radius.circular(17.0)),
                               child: Image.asset(
@@ -199,19 +199,25 @@ class _CardScreenState extends State<CardScreen> {
                           ),
                         ),
                       ),
-                      TextButton(
-                          onPressed: () {
-                            _back++;
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (contex) => ARSreen(
-                                  image: widget._cardInfo.image,
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: TextButton(
+                            onPressed: () {
+                              _back++;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (contex) => ARSreen(
+                                    image: widget._cardInfo.image,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          child: const Text("Visualizza in AR")),
+                              );
+                            },
+                            style: const ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(maizeColor),
+                            ),
+                            child: const Text("Visualizza in AR")),
+                      ),
                       Expanded(
                         child: ListView.separated(
                           shrinkWrap: true,

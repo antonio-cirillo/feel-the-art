@@ -11,7 +11,7 @@ import "package:feel_the_art/services/account_service.dart";
 import "package:feel_the_art/utils/request/obj_status.dart";
 import 'package:feel_the_art/components/general/background.dart';
 import "package:feel_the_art/screens/loading/loading_screen.dart";
-import 'package:feel_the_art/screens/quiz_screen/quizScreen.dart';
+import 'package:feel_the_art/screens/quiz/quizScreen.dart';
 
 import "account/account_screen.dart";
 import "home_page/home_page_screen.dart";

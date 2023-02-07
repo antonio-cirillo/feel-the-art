@@ -15,11 +15,11 @@ class AccountService with ChangeNotifier {
   final Map<String, dynamic> _localstorageVars = {};
   late final User _user;
 
-  ObjStatus status = ObjStatus.loading;
+  ObjStatus _status = ObjStatus.loading;
 
   AccountService() {
     _init();
-    if (status == ObjStatus.error) {
+    if (_status == ObjStatus.error) {
       throw Exception("Init Failed");
     }
   }
@@ -41,9 +41,9 @@ class AccountService with ChangeNotifier {
 
       _user = User.buildFromJson(_localstorageVars["on_board"], request);
 
-      status = ObjStatus.ready;
+      _status = ObjStatus.ready;
     } catch (e) {
-      status = ObjStatus.error;
+      _status = ObjStatus.error;
     } finally {
       notifyListeners();
     }
@@ -58,7 +58,7 @@ class AccountService with ChangeNotifier {
       var info = await deviceInfo.androidInfo;
       _userAuth["username"] = info.id.toString();
     } else {
-      _userAuth["username"] = "GIGI";
+      _userAuth["username"] = "GiGi";
     }
     _userAuth["password"] = await _localStorage.getBool("password") ?? "";
   }
@@ -85,13 +85,13 @@ class AccountService with ChangeNotifier {
   List<String> get allAvatar => _user.avatar.getAll;
 
   void generateNewAvatar() async {
-    status = ObjStatus.loading;
+    _status = ObjStatus.loading;
     try {
       var request = await WebRequest.generateAvatar();
       _user.avatar.lastGenerated = request["avatar_generated"];
-      status = ObjStatus.ready;
+      _status = ObjStatus.ready;
     } catch (e) {
-      status = ObjStatus.error;
+      _status = ObjStatus.error;
     } finally {
       notifyListeners();
     }
@@ -99,15 +99,15 @@ class AccountService with ChangeNotifier {
 
   void setAvatar(String el) async {
     if(_user.avatar.get != el ){
-      status = ObjStatus.loading;
+      _status = ObjStatus.loading;
       try {
         var request = await WebRequest.setAvatar(el);
         if (request["result"]) {
           _user.avatar.setAvatar(el);
-          status = ObjStatus.ready;
+          _status = ObjStatus.ready;
         }
       } catch (e) {
-        status = ObjStatus.error;
+        _status = ObjStatus.error;
       } finally {
         notifyListeners();
       }
@@ -115,15 +115,15 @@ class AccountService with ChangeNotifier {
   }
 
   void addAvatar() async {
-    status = ObjStatus.loading;
+    _status = ObjStatus.loading;
     try {
       var request = await WebRequest.saveGeneratedAvatar();
       if (request["result"]) {
         _user.avatar.addAvatar();
-        status = ObjStatus.ready;
+        _status = ObjStatus.ready;
       }
     } catch (e) {
-      status = ObjStatus.error;
+      _status = ObjStatus.error;
     } finally {
       notifyListeners();
     }
@@ -154,6 +154,8 @@ class AccountService with ChangeNotifier {
   int get totalGames => _user.statistics.tot;
 
   int get loseGames => _user.statistics.lose;
+
+  ObjStatus get status => _status;
 
   void addGame(int place) {
     _user.statistics.addGame(place);

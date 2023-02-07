@@ -1,5 +1,7 @@
 import "dart:convert";
+import 'dart:math';
 
+import 'package:feel_the_art/models/quiz/quiz.dart';
 import 'package:feel_the_art/services/leaderboard_service.dart';
 import "package:http/http.dart" as http;
 
@@ -68,6 +70,10 @@ class WebRequest {
     //Check if need update
     //Update if needed
     //Use
+  }
+
+  static Future<Map<String, dynamic>> getQuiz() async {
+    return Quiz.debugListJson();
   }
 
   static Future<Map<String, dynamic>> _call(String url, {WebMethod verb = WebMethod.get, Object? obj}) async {
