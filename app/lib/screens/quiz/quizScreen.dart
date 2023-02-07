@@ -50,8 +50,11 @@ class _QuizScreenState extends State<QuizScreen> {
           margin: EdgeInsets.symmetric(horizontal: 15, vertical: MediaQuery.of(context).padding.top + 40),
           decoration: const BoxDecoration(color: bgColor, borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Flex(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             direction: Axis.vertical,
             children: [
+              selectedAnswer == quiz!.correctAnswer ? Image.asset("assets/icons/win.png") : Image.asset("assets/icons/loose.png"),
               FittedBox(
                 fit: BoxFit.fitWidth,
                 child: Text(selectedAnswer == quiz!.correctAnswer ? "Risposta corretta" : "Risposta errata", style: Theme.of(context).textTheme.headlineMedium?.merge(titleStyle).merge(whiteText)),
