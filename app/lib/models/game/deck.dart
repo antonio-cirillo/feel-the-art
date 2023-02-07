@@ -76,15 +76,15 @@ class Deck {
               "description":
                   "Si tratta di un'opera della maturità di Klimt: le figure sono asciutte, sintetiche ed il decorativismo geometrico si materializza in forme che ricordano oro, sete raffinate e pietre preziose. Il tema è una rivisitazione, in chiave simbolica, delle tre fasi della vita femminile: l'infanzia, la maternità e l'inevitabile declino della vecchiaia. "
             },
-            {"id": 4, "title": "La battaglia dell'amore", "author": "Cezanne", "date": "1880", "museum": "Collezione privata", "description": ""},
-            {"id": 5, "title": "Love the sentinel", "author": "Fragonard", "date": "1773", "museum": "", "description": ""},
+            {"id": 4, "title": "La battaglia dell'amore", "author": "Cezanne", "date": "1880", "museum": "Collezione privata", "description": "Questo piccolo dipinto, un tempo appartenuto a Pierre-Auguste Renoir , è un tema dell'arte veneziana, forse per via di un artista poussinista, ma è concepito in un altro stato d'animo. I baccanali rinascimentali sono scene che combinano giochi d'amore, bevute e balli; sono immagini di allegria e gioiosa liberazione. "},
+            {"id": 5, "title": "Love the sentinel", "author": "Fragonard", "date": "1773", "museum": "Ground Floor - Gallery 12", "description": "Il dipinto raffigura una coppia di amanti che si baciano all'ombra di un albero in un giardino pieno di fiori. La figura maschile è rappresentata come una guardia o un sentinella, probabilmente a simboleggiare la protezione dell'amore. Il dipinto è caratterizzato da colori brillanti e dalla tecnica leggera e ariosa di Fragonard, che ha fatto di lui uno dei pittori più popolari della scuola rococò francese. "},
             {
               "id": 6,
               "title": "Chiamata degli apostoli Andrea e Pietro",
               "author": "Duccio da Boninsegna",
               "date": "1308-1311",
-              "museum": "",
-              "description": ""
+              "museum": "National Gallery of Art, Washington",
+              "description": "E' un dipinto tempera e oro su tavola. L'opera faceva parte della predella con Storie della vita pubblica di Cristo sul retro della Maestà del Duomo di Siena, destinata alla visione del clero."
             },
             {
               "id": 7,
@@ -101,7 +101,7 @@ class Deck {
               "author": "Bartolomeo Bulgarini",
               "date": "1337-1378",
               "museum": "Museo Nzionale di S.Matteo",
-              "description": ""
+              "description": "La postura della santa viene vivacizzata dall'espressione vitale dello sguardo che dona un effetto di spontaneità alla scena unita alla complicità della luce che, dall'alto, scende da destra."
             },
             {
               "id": 9,
@@ -112,18 +112,18 @@ class Deck {
               "description":
                   "L'angelo è abbigliato sontuosamente e tiene le braccia incrociate in segno di reverenza alla Vergine. Essa è seduta in un trono ed ha in mano il tradizionale attributo del libro, simbolo delle Scritture che si avverano. Con un gesto eloquente sembra accettare con remissione l'incarico affidatole dal Signore, mentre una luce divina le illumina la testa dal soffitto."
             },
-            {"id": 10, "title": "Anna e Gioacchino offrono cibo ai poveri", "author": "Andrea di Bartolo", "date": "", "museum": "", "description": ""},
+            {"id": 10, "title": "Anna e Gioacchino offrono cibo ai poveri", "author": "Andrea di Bartolo", "date": "1400-1405", "museum": "National Gallery of Art, Washington", "description": "Questo è un dipinto a tempera su pannello. Illustra la carità dei genitori di Maria, Anna e Gioacchino, prima della sua nascita. Secondo la legenda, essi tennero per se solo un terzo delle loro ricchezze, donandone un terzo ai poveri ed un terzo al tempio. "},
             {
               "id": 11,
               "title": "San Giorgio e il dragone",
               "author": "Rogier van der Weyden",
               "date": "1432-1435",
               "museum": "National Gallery of Art di Washington D.C.",
-              "description": ""
+              "description": "La speciale miscela di realtà, fantasia e virtuosismo tipica della prima pittura olandese non è mai più evidente che in questo squisito pannello. In un episodio della leggenda popolare, San Giorgio in armatura gotica nera inchioda a terra il drago con la sua lancia; a sinistra è inginocchiata la principessa Cleodolinda, vestita alla moda, che doveva essere sacrificata al drago. George era un soldato romano che viveva nella Cappadocia del III secolo, ma l'ambientazione qui è stata trasformata dall'antica Asia Minore alla contemporanea campagna belga. "
             },
-            {"id": 12, "title": "Sermone domenicano", "author": "Angolo degli Erri", "date": "", "museum": "", "description": ""},
-            {"id": 13, "title": "Adorazione dei magi", "author": "Sandro Botticelli", "date": "1475", "museum": "Uffizi di Firenze", "description": ""},
-            {"id": 14, "title": "Le nozze di Cana", "author": "The Master of the Catholic Kings", "date": "1495-1497", "museum": "", "description": ""},
+            {"id": 12, "title": "Sermone domenicano", "author": "Angolo degli Erri", "date": "1497", "museum": "Collezione privata", "description": "Commissionato c. 1470 per l'antica chiesa di San Domenico, Modena; chiesa demolita e ricostruita nel 1708, e le sue pitture forse disperse in quel periodo."},
+            {"id": 13, "title": "Adorazione dei magi", "author": "Sandro Botticelli", "date": "1475", "museum": "Uffizi di Firenze", "description": "Tempera su tavola che  introdusse una grande novità a livello formale nel frequentatissimo tema dell'Adorazione, ossia la visione frontale della scena, con le figure sacre al centro e gli altri personaggi disposti prospetticamente ai lati; prima di questa infatti, si usava svolgere la scena in maniera orizzontale, con la Sacra Famiglia a un'estremità e i Magi col proprio seguito che procedevano verso di essa dispiegandosi essenzialmente sul primo piano in una sorta di corteo, uno dietro l'altro, ricordando l'annuale rievocazione della cavalcata dei Magi, una rappresentazione sacra che si teneva per le vie fiorentine"},
+            {"id": 14, "title": "Le nozze di Cana", "author": "The Master of the Catholic Kings", "date": "1495-1497", "museum": " Edificio Ovest, Piano Nobile - Galleria 38", "description": "Tre uomini e due donne siedono o stanno in piedi lungo il lato opposto di un lungo tavolo, con più persone che guardano o si sono riunite in altre stanze dietro di loro in questo dipinto alto e verticale. Tutte le persone hanno la pelle pallida. Il lungo tavolo si estende quasi per la larghezza del dipinto. Vicino al bordo sinistro del dipinto, una donna che indossa una tunica blu verde acqua sopra un foulard bianco tiene le mani giunte davanti al petto in preghiera, e guarda in basso e alla nostra destra verso il piano del tavolo."},
             {
               "id": 15,
               "title": "San martino e il mendicante",
@@ -186,7 +186,7 @@ class Deck {
               "description":
                   "Trittico della vita è il titolo di un’opera decorativa progettata da Gustav Klimt e composta da tre pannelli. A partire da sinistra, uno dei pannelli esterni raffigura una danzatrice coperta dalle fronde e si intitola L’attesa. La donna porta vistosi gioielli e un abito lungo molto decorato. Il pannello centrale è invece interamente occupato dal tronco dell’albero che si dirama verso i pannelli laterali. Il pannello laterale destro ospita poi la scena di un abbraccio tra un uomo e una donna e si intitola Abbraccio o compimento."
             },
-            {"id": 22, "title": "Il bacio", "author": "Gustav Klimt", "date": "", "museum": "", "description": ""},
+            {"id": 22, "title": "Il bacio", "author": "Gustav Klimt", "date": "1907-1908", "museum": "Galerie Belvedere, Vienna", "description": "Olio su tela che raffigura un uomo e una donna si abbracciano al centro di uno spazio astratto. L’uomo avvolge il viso della donna con le sue mani teneramente e si china sul volto di lei dall’alto. La giovane ha il viso reclinato di lato e poggiato sulla sua spalla sinistra. Il suo braccio destro è sollevato e la mano poggia sul collo dell’uomo. Il braccio sinistro della donna invece è flesso contro la sua spalla. La mano è stringe quella dell’uomo. Il volto della donna è chiaro e arrossato leggermente sulle gote. Gli occhi sono chiusi e la sua espressione è serena ed estatica. Tra i capelli vi sono alcuni fiori che decorano la capigliatura."},
             {
               "id": 23,
               "title": "Morte e vita",
@@ -194,7 +194,7 @@ class Deck {
               "date": "1907-1908",
               "museum": "Österreichische Galerie Belvedere, Vienna ",
               "description":
-                  "n uomo e una donna si abbracciano al centro di uno spazio astratto. L’uomo avvolge il viso della donna con le sue mani teneramente e si china sul volto di lei dall’alto. La giovane ha il viso reclinato di lato e poggiato sulla sua spalla sinistra. Il suo braccio destro è sollevato e la mano poggia sul collo dell’uomo. Il braccio sinistro della donna invece è flesso contro la sua spalla. "
+                  "Un uomo e una donna si abbracciano al centro di uno spazio astratto. L’uomo avvolge il viso della donna con le sue mani teneramente e si china sul volto di lei dall’alto. La giovane ha il viso reclinato di lato e poggiato sulla sua spalla sinistra. Il suo braccio destro è sollevato e la mano poggia sul collo dell’uomo. Il braccio sinistro della donna invece è flesso contro la sua spalla. "
             },
             {
               "id": 24,
@@ -205,7 +205,7 @@ class Deck {
               "description":
                   "Nella grande opera realizzata da Keith Haring sono presenti 30 figure di omini e animali antropomorfi. A partire dall’alto a sinistra un personaggio sembra incastrarsi all’interno di altre forme. Verso destra si individua poi un altro omino che collega una sua gamba con un braccio passando dal centro del suo corpo. Un altro invece sostiene un delfino sulla spalla e delle forbici umane tagliano un serpente a metà. Tre omini sembrano nascere dalle reciproche teste."
             },
-            {"id": 25, "title": "Il bambino radioso", "author": "Keith Haring", "date": "", "museum": "", "description": ""},
+            {"id": 25, "title": "Il bambino radioso", "author": "Keith Haring", "date": "1984", "museum": "Collezione privata", "description": "Si dice che la persona nell'immagine sia un bambino, un innocente, uno che sta solo imparando a muoversi nel mondo. I bambini sono tradizionalmente usati nell'arte come simboli di purezza: l'umanità prima che le forze del mondo lavorino su di loro. Nei sogni, i bambini sono spesso presagi di qualcosa di nuovo, di nuovi inizi e del voltare pagina. I bambini sono visti come gentili, amorevoli, vulnerabili e meritevoli. Simboleggiano il potenziale del futuro: nuove idee e il potenziale per il futuro. "},
             {
               "id": 26,
               "title": "L'urlo",
@@ -229,8 +229,8 @@ class Deck {
               "title": "The Beautiful Bird Revealing the Unknown to a Pair of Lovers",
               "author": "Jean Mirò",
               "date": "1941",
-              "museum": "",
-              "description": ""
+              "museum": "Museum of Modern Art (MoMA), New York",
+              "description": "Guache, olio e carbone su carta. Uno dei 24 dipinti noti come la serie della Constellazione, creati durante un periodo di crisi generato dallla guerra civile spagnola e dalla seconda guerra mondiale. L'artista cerca di fuggire dalle tragedie rifugiandosi nella natura di queste opere. "
             },
             {
               "id": 29,
@@ -241,7 +241,7 @@ class Deck {
               "description":
                   "Un campo di papaveri a sinistra e un prato a destra. In mezzo una donna fende l’erba alta riparandosi con un parasole. La segue un bambino, abbigliato alla moda dell’epoca, che si vede appena tra l’erba alta. Più in alto, sulla sinistra, un’altra signora accompagnata anche lei da un bambino, osserva in basso. All’orizzonte, al sommo del pendio, una corona di alberi e cespugli incorona il verde del prato. In mezzo, poi, si intravede una abitazione di campagna. Il cielo è ampio e denso di nuvole che sembrano correre spinte dal vento. Sembra di percepire l’odore dell’erba calda e secca e il vento caldo estivo scorrere tra le fronde lontane."
             },
-            {"id": 30, "title": "Cervo in mezzo ai fiori", "author": "Franz Marc", "date": "", "museum": "", "description": ""},
+            {"id": 30, "title": "Cervo in mezzo ai fiori", "author": "Franz Marc", "date": "1913", "museum": "Galleria d'arte di Brema", "description": "Nella sua arte, Franz Marc ha cercato di avventurarsi nella sfera della natura spirituale delle cose e, così facendo, si è imbattuto nell'immagine dell'animale , che simboleggiava l'innocenza simile alla creatura che era stata persa per l'umanità. "},
             {
               "id": 31,
               "title": "Giuseppe Arcimboldo",
