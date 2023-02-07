@@ -84,7 +84,7 @@ class _QuizScreenState extends State<QuizScreen> {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: Text(
             text,
-            style: FlutterFlowTheme.of(context).subtitle1,
+            style: FlutterFlowTheme.of(context).subtitle2,
           ),
         ),
       ),
@@ -121,7 +121,7 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
               child: Text(
                 quiz!.question,
-                style: FlutterFlowTheme.of(context).bodyText1,
+                style: FlutterFlowTheme.of(context).subtitle1,
                 textAlign: TextAlign.start,
               ),
             ),
