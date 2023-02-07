@@ -56,7 +56,7 @@ class Deck {
               "author": "Claude Monet",
               "date": "1916",
               "museum": "The National Museum of Western Arts, Tokyo",
-              "description": ""
+              "description": "Olio su tela. Fa parte di una serie di c. 250 dipinti raffiguranti le ninfee del giardino di casa a Giverny, Francia. I dipinti, completati in circa 30 anni, sono conservati in molti musei del mondo."
             },
             {
               "id": 2,
@@ -76,7 +76,7 @@ class Deck {
               "description":
                   "Si tratta di un'opera della maturità di Klimt: le figure sono asciutte, sintetiche ed il decorativismo geometrico si materializza in forme che ricordano oro, sete raffinate e pietre preziose. Il tema è una rivisitazione, in chiave simbolica, delle tre fasi della vita femminile: l'infanzia, la maternità e l'inevitabile declino della vecchiaia. "
             },
-            {"id": 4, "title": "La battaglia dell'amore", "author": "Cezanne", "date": "1880", "museum": "", "description": ""},
+            {"id": 4, "title": "La battaglia dell'amore", "author": "Cezanne", "date": "1880", "museum": "Collezione privata", "description": ""},
             {"id": 5, "title": "Love the sentinel", "author": "Fragonard", "date": "1773", "museum": "", "description": ""},
             {
               "id": 6,
