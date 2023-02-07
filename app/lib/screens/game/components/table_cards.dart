@@ -267,6 +267,7 @@ class TableCardsScreen extends StatelessWidget {
                   child: (i < listCards.value.length)
                       ? FlipCard(
                           key: listKeys[i],
+                          flipOnTouch: false,
                           front: Image.asset('assets/decks/back.png'),
                           back: Image.asset('assets/cards/images/${listCards.value.elementAt(i)}_carta.png'))
                       : Container(
@@ -289,6 +290,7 @@ class TableCardsScreen extends StatelessWidget {
               child: (i < listCards.value.length)
                   ? FlipCard(
                       key: listKeys[i],
+                      flipOnTouch: false,
                       front: Image.asset('assets/decks/back.png'),
                       back: Image.asset('assets/cards/images/${listCards.value.elementAt(i)}_carta.png'))
                   : Container(

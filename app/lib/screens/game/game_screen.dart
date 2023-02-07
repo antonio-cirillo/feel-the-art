@@ -785,7 +785,7 @@ class _GameScreenState extends State<GameScreen> {
                                 ),
                                 child: Column(children: [
                                   Container(
-                                    margin: const EdgeInsets.symmetric(vertical: 20),
+                                    margin: const EdgeInsets.only(top: 20),
                                     child: FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: TextWithBorder(
@@ -852,7 +852,7 @@ class _GameScreenState extends State<GameScreen> {
                               ),
                               child: Column(children: [
                                 Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 20),
+                                  margin: const EdgeInsets.only(top: 20),
                                   child: FittedBox(
                                     fit: BoxFit.scaleDown,
                                     child: TextWithBorder(
