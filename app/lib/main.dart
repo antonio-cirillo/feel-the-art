@@ -20,13 +20,15 @@ void main() {
   runApp(
     // const FeelTheArt(),
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (context) => const FeelTheArt(),
     ),
   );
 }
 
 class FeelTheArt extends StatelessWidget {
+  static final navKey = GlobalKey<NavigatorState>();
+
   const FeelTheArt({super.key});
 
   static Route createRoute(Widget child) {
@@ -55,6 +57,7 @@ class FeelTheArt extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => decklist.DecksService()),
       ],
       child: MaterialApp(
+        navigatorKey: navKey,
         title: "Feel the ART",
         useInheritedMediaQuery: true,
         locale: DevicePreview.locale(context),

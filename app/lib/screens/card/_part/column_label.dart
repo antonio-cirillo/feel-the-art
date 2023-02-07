@@ -2,8 +2,6 @@ import "package:feel_the_art/theme/theme.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
 
-import "package:feel_the_art/theme/size_config.dart";
-
 class ColumnLabel extends StatelessWidget {
   final String icon;
   final String text;
@@ -22,10 +20,12 @@ class ColumnLabel extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: SvgPicture.asset(
-              icon,
-              height: 40,
-            ),
+            child: (icon.contains(".svg"))
+                ? SvgPicture.asset(
+                    icon,
+                    height: 40,
+                  )
+                : Image.asset(icon, height: 40),
           ),
           Container(
             margin: const EdgeInsets.only(right: 10),
