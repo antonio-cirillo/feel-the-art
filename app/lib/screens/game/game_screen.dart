@@ -382,7 +382,7 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  void showPoint() {
+  void showPoint(BuildContext context, AccountService accountService) {
     setState(() {
       point = tmpPoints["Tu"]!;
       time = 0;
@@ -396,18 +396,68 @@ class _GameScreenState extends State<GameScreen> {
         points = Map<String, int>.from(tmpPoints);
       });
       if (turn > nTurn) {
-        endGame();
+        endGame(context, accountService);
       } else {
         startNewTurn();
       }
     });
   }
 
-  void endGame() {
-    print("Partita finita!");
+  void endGame(BuildContext context, AccountService accountService) {
+    showGeneralDialog(
+        context: context,
+        pageBuilder: (context, _, __) => WillPopScope(
+            onWillPop: () {
+              return Future.value(false);
+            },
+            child: Material(
+                color: Colors.transparent,
+                child: Align(
+                    alignment: Alignment.center,
+                    child: InkWell(
+                        child: Container(
+                            width: MediaQuery.of(context).screenWidth * 0.9,
+                            height: MediaQuery.of(context).screenHeight * 0.4,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: primaryColor.withOpacity(0.8),
+                              boxShadow: [containerShadow],
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(children: [
+                              Container(
+                                margin: const EdgeInsets.symmetric(vertical: 20),
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: TextWithBorder(
+                                    "Fine partita",
+                                    Colors.white,
+                                    primaryColor,
+                                    style: Theme.of(context).textTheme.displayMedium?.merge(titleStyle),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child:
+                                    SingleChildScrollView(controller: ScrollController(), physics: const BouncingScrollPhysics(), child: Column(children: [
+                                      ColumnLabel(icon: "assets/icons/success.png", text: "Punti totali: $point"),
+                                      const SizedBox(height: 10),
+                                      ColumnLabel(icon: "assets/icons/experience.png", text: "Esperienza: ${point + 5} XP"),
+                                      const SizedBox(height: 10),
+                                      TextButton(
+                                          style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(princessPerfumeColor)),
+                                          onPressed: () {
+                                            accountService.addExp(point + 5);
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text("Torna indietro", style: TextStyle(color: Colors.white)))
+                                    ])),
+                              )
+                            ])))))));
   }
 
-  Widget notifyMessage(BuildContext context) {
+  Widget notifyMessage(BuildContext context, AccountService accountService) {
     Duration pauseDuration = const Duration(milliseconds: 50);
     Duration textDuration = const Duration(milliseconds: 1500);
     if (gameStatus == GameStatus.initGame) {
@@ -448,7 +498,7 @@ class _GameScreenState extends State<GameScreen> {
       return Center(
           child: DefaultTextStyle(
               style: const TextStyle(fontSize: 50, fontFamily: "ElsieSwashCaps"),
-              child: AnimatedTextKit(isRepeatingAnimation: false, pause: pauseDuration, onFinished: () => showPoint(), animatedTexts: [
+              child: AnimatedTextKit(isRepeatingAnimation: false, pause: pauseDuration, onFinished: () => showPoint(context, accountService), animatedTexts: [
                 ScaleAnimatedText('Fine turno', duration: textDuration * 2, textAlign: TextAlign.center),
               ])));
     } else {
@@ -458,7 +508,8 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    return SafeArea(
+      child: WillPopScope(
         onWillPop: () {
           return Future.value(false);
         },
@@ -627,7 +678,7 @@ class _GameScreenState extends State<GameScreen> {
                                     Center(
                                         child: TableCardsScreen(
                                             message: message, playerVoted: playerVoted, voted: voted, voting: gameStatus == GameStatus.startVote)),
-                                    notifyMessage(context),
+                                    notifyMessage(context, widget.accountService),
                                   ])),
                               Expanded(
                                   flex: 2,
@@ -785,7 +836,7 @@ class _GameScreenState extends State<GameScreen> {
                                 ),
                                 child: Column(children: [
                                   Container(
-                                    margin: const EdgeInsets.only(top: 20),
+                                    margin: const EdgeInsets.symmetric(vertical: 20),
                                     child: FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: TextWithBorder(
@@ -926,6 +977,6 @@ class _GameScreenState extends State<GameScreen> {
                         )))
                 : const SizedBox(),
           ],
-        ));
+        )));
   }
 }
