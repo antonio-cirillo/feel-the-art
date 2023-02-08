@@ -7,12 +7,12 @@ import "package:feel_the_art/utils/request/obj_status.dart";
 import "package:feel_the_art/utils/request/web_request.dart";
 
 class DecksService with ChangeNotifier {
-  ObjStatus status = ObjStatus.loading;
+  ObjStatus _status = ObjStatus.loading;
   final List<Deck> _decks = [];
 
   DecksService() {
     fetch();
-    if (status == ObjStatus.error) {
+    if (_status == ObjStatus.error) {
       throw Exception("Init Failed");
     }
   }
@@ -21,13 +21,16 @@ class DecksService with ChangeNotifier {
     try {
       var request = await WebRequest.getDecks();
       request["list"].forEach((el) => {_decks.add(Deck.buildFromJson(el))});
-      status = ObjStatus.ready;
+      _status = ObjStatus.ready;
     } catch (e) {
-      status = ObjStatus.error;
+      _status = ObjStatus.error;
     } finally {
       notifyListeners();
     }
   }
+
+
+  ObjStatus get status => _status;
 
   List<Deck> get decks => _decks;
 }

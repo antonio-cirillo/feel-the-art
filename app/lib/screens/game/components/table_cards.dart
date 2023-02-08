@@ -117,19 +117,14 @@ class TableCardsScreen extends StatelessWidget {
                                                               ColumnLabel(icon: "assets/icons/museum.svg", text: c.museum),
                                                               const SizedBox(height: 10),
                                                               (!voted && playerPlayed[i] != 3)
-                                                                  ? ElevatedButton(
-                                                                      style: ButtonStyle(
-                                                                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                                                                          backgroundColor: MaterialStateProperty.all<Color>(Colors.white.withOpacity(0.8)),
-                                                                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(const RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                                              side: BorderSide(color: primaryColor)))),
+                                                                  ? TextButton(
+                                                                      style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(princessPerfumeColor)),
                                                                       onPressed: () {
                                                                         Navigator.of(context).pop();
                                                                         GameScreen.counter--;
                                                                         playerVoted(i);
                                                                       },
-                                                                      child: Text("Vota", style: Theme.of(context).textTheme.titleMedium))
+                                                                      child: const Text("Vota", style: TextStyle(color: Colors.white)))
                                                                   : const SizedBox()
                                                             ])),
                                                       )
@@ -233,19 +228,14 @@ class TableCardsScreen extends StatelessWidget {
                                                               ColumnLabel(icon: "assets/icons/museum.svg", text: c.museum),
                                                               const SizedBox(height: 10),
                                                               (!voted && playerPlayed[i] != 3)
-                                                                  ? ElevatedButton(
-                                                                      style: ButtonStyle(
-                                                                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                                                                          backgroundColor: MaterialStateProperty.all<Color>(Colors.white.withOpacity(0.8)),
-                                                                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(const RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                                              side: BorderSide(color: primaryColor)))),
+                                                                  ? TextButton(
+                                                                      style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(princessPerfumeColor)),
                                                                       onPressed: () {
                                                                         GameScreen.counter--;
                                                                         Navigator.of(context).pop();
                                                                         playerVoted(i);
                                                                       },
-                                                                      child: Text("Vota", style: Theme.of(context).textTheme.titleMedium))
+                                                                      child: const Text("Vota", style: TextStyle(color: Colors.white)))
                                                                   : const SizedBox()
                                                             ])),
                                                       )

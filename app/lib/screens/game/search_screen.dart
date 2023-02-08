@@ -8,7 +8,8 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
+    return SafeArea(
+        child: Stack(children: [
       Container(
         decoration: const BoxDecoration(
           color: bgColor,
@@ -48,6 +49,6 @@ class SearchScreen extends StatelessWidget {
           ],
         ),
       ),
-    ]);
+    ]));
   }
 }
