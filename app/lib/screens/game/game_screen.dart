@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:dart_random_choice/dart_random_choice.dart';
 import "package:feel_the_art/models/game/card.dart" as game;
 import 'package:feel_the_art/screens/game/components/user_cards.dart';
 import 'package:feel_the_art/services/account_service.dart';
@@ -331,10 +332,17 @@ class _GameScreenState extends State<GameScreen> {
       message = "Giocatori che hanno votato: 0/4";
     });
     checkVote(context);
+    List<double> weights = [];
+    for (int i in TableCardsScreen.listCards.value) {
+      weights.add(cards[i]!.pesi(theme.toLowerCase())!);
+    }
     for (var i = 0; i < 3; i++) {
       int second = Random().nextInt(15);
       Future.delayed(Duration(seconds: 5 + second), () {
-        int idPlayerVoted = (Random().nextInt(3) + 1 + i) % 4;
+        List<double> tmpWeights = List<double>.from(weights);
+        int index = TableCardsScreen.playerPlayed.indexOf(i);
+        tmpWeights[index] = 0.0;
+        int idPlayerVoted = randomChoice(TableCardsScreen.playerPlayed, tmpWeights);
         setState(() {
           nPlayersVoted++;
           message = "Giocatori che hanno votato: $nPlayersVoted/4";

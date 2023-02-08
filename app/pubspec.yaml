@@ -41,6 +41,7 @@ dependencies:
   vector_math: ^2.0.8
   photo_view: ^0.14.0
   flip_card: ^0.7.0
+  dart_random_choice: ^0.2.0
 
 dev_dependencies:
   flutter_test:

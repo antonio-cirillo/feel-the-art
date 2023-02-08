@@ -122,7 +122,7 @@ class TableCardsScreen extends StatelessWidget {
                                                                       onPressed: () {
                                                                         Navigator.of(context).pop();
                                                                         GameScreen.counter--;
-                                                                        playerVoted(i);
+                                                                        playerVoted(playerPlayed[i]);
                                                                       },
                                                                       child: const Text("Vota", style: TextStyle(color: Colors.white)))
                                                                   : const SizedBox()
@@ -233,7 +233,7 @@ class TableCardsScreen extends StatelessWidget {
                                                                       onPressed: () {
                                                                         GameScreen.counter--;
                                                                         Navigator.of(context).pop();
-                                                                        playerVoted(i);
+                                                                        playerVoted(playerPlayed[i]);
                                                                       },
                                                                       child: const Text("Vota", style: TextStyle(color: Colors.white)))
                                                                   : const SizedBox()

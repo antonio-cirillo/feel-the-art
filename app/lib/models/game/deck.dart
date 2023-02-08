@@ -34,7 +34,7 @@ class Deck {
                 "paura":0.1,
                 "amore":0.5,
                 "religione":0.1,
-                "pace":1,
+                "pace":1.0,
                 "comunità":0.1
               }
             },
@@ -50,7 +50,7 @@ class Deck {
                 "amore":0.1,
                 "religione":0.1,
                 "pace":0.5,
-                "comunità":1
+                "comunità":1.0
               }
             },
             {
@@ -77,7 +77,7 @@ class Deck {
               "description":"Questo piccolo dipinto, un tempo appartenuto a Pierre-Auguste Renoir , è un tema dell'arte veneziana, forse per via di un artista poussinista, ma è concepito in un altro stato d'animo. I baccanali rinascimentali sono scene che combinano giochi d'amore, bevute e balli; sono immagini di allegria e gioiosa liberazione. ",
               "pesi":{
                 "paura":0.1,
-                "amore":1,
+                "amore":1.0,
                 "religione":0.1,
                 "pace":0.1,
                 "comunità":0.1
@@ -91,7 +91,7 @@ class Deck {
               "museum":"Ground Floor - Gallery 12",
               "description":"Il dipinto raffigura una coppia di amanti che si baciano all'ombra di un albero in un giardino pieno di fiori. La figura maschile è rappresentata come una guardia o un sentinella, probabilmente a simboleggiare la protezione dell'amore. Il dipinto è caratterizzato da colori brillanti e dalla tecnica leggera e ariosa di Fragonard, che ha fatto di lui uno dei pittori più popolari della scuola rococò francese. ",
               "pesi":{
-                "paura":1,
+                "paura":1.0,
                 "amore":0.1,
                 "religione":0.1,
                 "pace":0.1,
@@ -108,7 +108,7 @@ class Deck {
               "pesi":{
                 "paura":0.1,
                 "amore":0.5,
-                "religione":1,
+                "religione":1.0,
                 "pace":0.1,
                 "comunità":0.1
               }
@@ -123,7 +123,7 @@ class Deck {
               "pesi":{
                 "paura":0.1,
                 "amore":0.5,
-                "religione":1,
+                "religione":1.0,
                 "pace":0.1,
                 "comunità":0.1
               }
@@ -138,7 +138,7 @@ class Deck {
               "pesi":{
                 "paura":0.1,
                 "amore":0.1,
-                "religione":1,
+                "religione":1.0,
                 "pace":0.5,
                 "comunità":0.1
               }
@@ -153,7 +153,7 @@ class Deck {
               "pesi":{
                 "paura":0.1,
                 "amore":0.1,
-                "religione":1,
+                "religione":1.0,
                 "pace":0.5,
                 "comunità":0.1
               }
@@ -167,8 +167,8 @@ class Deck {
               "description":"Questo è un dipinto a tempera su pannello. Illustra la carità dei genitori di Maria, Anna e Gioacchino, prima della sua nascita. Secondo la legenda, essi tennero per se solo un terzo delle loro ricchezze, donandone un terzo ai poveri ed un terzo al tempio. ",
               "pesi":{
                 "paura":0.1,
-                "amore":1,
-                "religione":1,
+                "amore":1.0,
+                "religione":1.0,
                 "pace":0.1,
                 "comunità":0.1
               }
@@ -183,7 +183,7 @@ class Deck {
               "pesi":{
                 "paura":0.5,
                 "amore":0.1,
-                "religione":1,
+                "religione":1.0,
                 "pace":0.1,
                 "comunità":0.1
               }
@@ -198,9 +198,9 @@ class Deck {
               "pesi":{
                 "paura":0.1,
                 "amore":0.1,
-                "religione":1,
+                "religione":1.0,
                 "pace":0.5,
-                "comunità":1
+                "comunità":1.0
               }
             },
             {
@@ -215,7 +215,7 @@ class Deck {
                 "amore":0.1,
                 "religione":0.5,
                 "pace":0.5,
-                "comunità":1
+                "comunità":1.0
               }
             },
             {
@@ -227,10 +227,10 @@ class Deck {
               "description":"Tre uomini e due donne siedono o stanno in piedi lungo il lato opposto di un lungo tavolo, con più persone che guardano o si sono riunite in altre stanze dietro di loro in questo dipinto alto e verticale. Tutte le persone hanno la pelle pallida. Il lungo tavolo si estende quasi per la larghezza del dipinto. Vicino al bordo sinistro del dipinto, una donna che indossa una tunica blu verde acqua sopra un foulard bianco tiene le mani giunte davanti al petto in preghiera, e guarda in basso e alla nostra destra verso il piano del tavolo.",
               "pesi":{
                 "paura":0.1,
-                "amore":1,
-                "religione":1,
+                "amore":1.0,
+                "religione":1.0,
                 "pace":0.1,
-                "comunità":1
+                "comunità":1.0
               }
             },
             {
@@ -244,7 +244,7 @@ class Deck {
                 "paura":0.1,
                 "amore":0.1,
                 "religione":0.5,
-                "pace":1,
+                "pace":1.0,
                 "comunità":0.5
               }
             },
@@ -274,7 +274,7 @@ class Deck {
                 "paura":0.1,
                 "amore":0.1,
                 "religione":0.1,
-                "pace":1,
+                "pace":1.0,
                 "comunità":0.5
               }
             },
@@ -287,7 +287,7 @@ class Deck {
               "description":"Protagonista del dipinto una porzione di pochi rami rigogliosi di un mandorlo in fiore.",
               "pesi":{
                 "paura":0.1,
-                "amore":1,
+                "amore":1.0,
                 "religione":0.1,
                 "pace":0.5,
                 "comunità":0.1
@@ -301,7 +301,7 @@ class Deck {
               "museum":"Art Gallery dell'Università di Yale, New Haven",
               "description":"Il locale raffigurato è il Café de la Gare, un locale ubicato presso la place Lamartine di Arles dove van Gogh era solito pranzare o trascorrere le serate. La proprietaria di tale bar, madame Ginoux, fu ritratta in vari dipinti vangoghiani",
               "pesi":{
-                "paura":1,
+                "paura":1.0,
                 "amore":0.1,
                 "religione":0.1,
                 "pace":0.1,
@@ -320,7 +320,7 @@ class Deck {
                 "amore":0.1,
                 "religione":0.1,
                 "pace":0.1,
-                "comunità":1
+                "comunità":1.0
               }
             },
             {
@@ -332,7 +332,7 @@ class Deck {
               "description":"Trittico della vita è il titolo di un’opera decorativa progettata da Gustav Klimt e composta da tre pannelli. A partire da sinistra, uno dei pannelli esterni raffigura una danzatrice coperta dalle fronde e si intitola L’attesa. La donna porta vistosi gioielli e un abito lungo molto decorato. Il pannello centrale è invece interamente occupato dal tronco dell’albero che si dirama verso i pannelli laterali. Il pannello laterale destro ospita poi la scena di un abbraccio tra un uomo e una donna e si intitola Abbraccio o compimento.",
               "pesi":{
                 "paura":0.1,
-                "amore":1,
+                "amore":1.0,
                 "religione":0.1,
                 "pace":0.5,
                 "comunità":0.1
@@ -347,7 +347,7 @@ class Deck {
               "description":"Olio su tela che raffigura un uomo e una donna si abbracciano al centro di uno spazio astratto. L’uomo avvolge il viso della donna con le sue mani teneramente e si china sul volto di lei dall’alto. La giovane ha il viso reclinato di lato e poggiato sulla sua spalla sinistra. Il suo braccio destro è sollevato e la mano poggia sul collo dell’uomo. Il braccio sinistro della donna invece è flesso contro la sua spalla. La mano è stringe quella dell’uomo. Il volto della donna è chiaro e arrossato leggermente sulle gote. Gli occhi sono chiusi e la sua espressione è serena ed estatica. Tra i capelli vi sono alcuni fiori che decorano la capigliatura.",
               "pesi":{
                 "paura":0.1,
-                "amore":1,
+                "amore":1.0,
                 "religione":0.1,
                 "pace":0.5,
                 "comunità":0.1
@@ -361,7 +361,7 @@ class Deck {
               "museum":"Österreichische Galerie Belvedere, Vienna ",
               "description":"Un uomo e una donna si abbracciano al centro di uno spazio astratto. L’uomo avvolge il viso della donna con le sue mani teneramente e si china sul volto di lei dall’alto. La giovane ha il viso reclinato di lato e poggiato sulla sua spalla sinistra. Il suo braccio destro è sollevato e la mano poggia sul collo dell’uomo. Il braccio sinistro della donna invece è flesso contro la sua spalla. ",
               "pesi":{
-                "paura":1,
+                "paura":1.0,
                 "amore":0.1,
                 "religione":0.1,
                 "pace":0.1,
@@ -379,8 +379,8 @@ class Deck {
                 "paura":0.1,
                 "amore":0.5,
                 "religione":0.1,
-                "pace":1,
-                "comunità":1
+                "pace":1.0,
+                "comunità":1.0
               }
             },
             {
@@ -394,7 +394,7 @@ class Deck {
                 "paura":0.1,
                 "amore":0.5,
                 "religione":0.1,
-                "pace":1,
+                "pace":1.0,
                 "comunità":0.1
               }
             },
@@ -406,7 +406,7 @@ class Deck {
               "museum":"Galleria Nazionale di Oslo",
               "description":"L'urlo rappresenta un sentiero in salita sulla collina di Ekberg[11] sopra la città di Oslo, spesso confuso con un ponte, a causa del parapetto che taglia diagonalmente la composizione; su questo sentiero si sta consumando un urlo lancinante, acuto, che in quest'opera acquisisce un carattere indefinito e universale, elevando la scena a simbolo del dramma collettivo dell'angoscia, del dolore e della paura.",
               "pesi":{
-                "paura":1,
+                "paura":1.0,
                 "amore":0.1,
                 "religione":0.1,
                 "pace":0.1,
@@ -436,7 +436,7 @@ class Deck {
               "museum":"Museum of Modern Art (MoMA), New York",
               "description":"Guache, olio e carbone su carta. Uno dei 24 dipinti noti come la serie della Constellazione, creati durante un periodo di crisi generato dallla guerra civile spagnola e dalla seconda guerra mondiale. L'artista cerca di fuggire dalle tragedie rifugiandosi nella natura di queste opere. ",
               "pesi":{
-                "paura":1,
+                "paura":1.0,
                 "amore":0.1,
                 "religione":0.1,
                 "pace":0.1,
@@ -454,7 +454,7 @@ class Deck {
                 "paura":0.1,
                 "amore":0.1,
                 "religione":0.1,
-                "pace":1,
+                "pace":1.0,
                 "comunità":0.1
               }
             },
@@ -469,7 +469,7 @@ class Deck {
                 "paura":0.1,
                 "amore":0.1,
                 "religione":0.1,
-                "pace":1,
+                "pace":1.0,
                 "comunità":0.1
               }
             },
