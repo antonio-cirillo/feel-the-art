@@ -51,7 +51,7 @@ class MainScreenState extends State<MainScreen> {
     ),
     BottomNavigationBarItem(
       icon: Icon(CupertinoIcons.question_square),
-      label: "Debug",
+      label: "Quiz",
       tooltip: '',
     )
   ];
