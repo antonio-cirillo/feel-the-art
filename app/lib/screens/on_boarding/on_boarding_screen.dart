@@ -24,7 +24,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     final AccountService accountService = Provider.of<AccountService>(context);
 
     PageDecoration pageDecoration = PageDecoration(
-      titleTextStyle: Theme.of(context).textTheme.displaySmall?.merge(titleStyle) ?? const TextStyle(),
+      titleTextStyle: Theme.of(context).textTheme.displaySmall?.merge(titleStyle).merge(const TextStyle(color: Colors.white)) ?? const TextStyle(),
       bodyTextStyle: whiteText,
       imagePadding: const EdgeInsets.only(top: 40, left: 30),
     );

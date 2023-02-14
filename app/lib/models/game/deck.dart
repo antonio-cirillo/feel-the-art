@@ -21,7 +21,7 @@ class Deck {
     return {
       "list":[
         {
-          "name":"Deck 1",
+          "name":"Tavolo 1",
           "cards":[
             {
               "id":1,
@@ -492,7 +492,7 @@ class Deck {
           "unlock_level":0
         },
         {
-          "name":"Deck 2",
+          "name":"Tavolo 2",
           "cards":[
 
           ],
